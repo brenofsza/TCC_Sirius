@@ -6,7 +6,7 @@
   <title>Página Inicial</title>
 
  <link rel="stylesheet" href="css/navbar.css">
-  <link rel="stylesheet" href="https://cloudflare.com">
+ <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 </head>
 <body>
@@ -18,23 +18,23 @@
 
   <ul>
 		<li class="active">
-			<i><img src="img/casa.png" class="icon"></i>
+			<i class="bx bx-home-alt"></i>
 			<span class="tooltip">Inicio</span>
 		</li>
 		<li>
-			<i><img src="img/mais.png" class="icon"></i>
+			<i class="bx bx-plus"></i>
 			<span class="tooltip">Criar</span>
 		</li>
 		<li>
-			<i><img src="img/grupo.png" class="icon"></i>
+			<i class="bx bx-community"></i>
 			<span class="tooltip">Turmas</span>
 		</li>
 		<li>
-			<i><img src="img/nota.png" class="icon"></i>
+			<i class="bx bx-note"></i>
 			<span class="tooltip">Anotaçoes</span>
 		</li>
 		<li>
-			<i><img src="img/agenda.png" class="icon"></i>
+			<i class="bx bx-calendar-detail"></i>
 			<span class="tooltip">Agenda</span>
 		</li>
 	</ul>
