@@ -49,6 +49,6 @@
         </form>
     </div>
 
-    
+    <script src="js/cadUsu.js"></script>
 </body>
 </html>

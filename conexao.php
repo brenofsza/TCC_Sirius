@@ -3,7 +3,7 @@
 $host = "localhost";
 $usuario = "root";
 $senha = "";
-$banco = "BD_Sirius";
+$banco = "BD_SIRIUS";
 
 $conexao = new mysqli($host, $usuario, $senha, $banco, 3308);
 

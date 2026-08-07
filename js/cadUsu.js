@@ -1,7 +1,7 @@
 $(document).ready(function() {
     
     
- $('#formCadastro').on('submit', function(event) {
+ $('#cadastro_usu').on('submit', function(event) {
         event.preventDefault(); 
         
         var no = $('#nome').val().trim();
