@@ -11,7 +11,7 @@ if ($senha !== $confirmaSenha) {
     exit;
 }
 
-// Verifica se o e-mail já existe
+//confirma se existe o email cadastrado ou nao
 $sql = "SELECT ID_USU FROM USUARIO WHERE EMAIL_USU = ?";
 $stmt = $conexao->prepare($sql);
 $stmt->bind_param("s", $email);
@@ -23,7 +23,7 @@ if ($stmt->num_rows > 0) {
     exit;
 }
 
-// Insere o novo usuário
+// cad usuario
 $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
 $sql = "INSERT INTO USUARIO(NOME_USU, EMAIL_USU, SENHA_USU) VALUES (?,?,?)";

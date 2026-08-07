@@ -1,78 +1,98 @@
-$(document).ready(function() {
-    
-    
- $('#cadastro_usu').on('submit', function(event) {
-        event.preventDefault(); 
-        
-        var no = $('#nome').val().trim();
-        var em = $('#email').val().trim();
-        var se = $('#senha').val();
-        var co = $('#confirmaSenha').val();
-        
-        
-        var $msg = $('#mensagem');
-
-        
-        function exibirMensagem(texto, tempo = 2000) {
-            $msg.html(texto).fadeIn(300).delay(tempo).fadeOut(400);
-        }
-
-    
-        if (no === '') {
-            exibirMensagem("Nome inválido!");
-            return;
-        }
-
-        if (em === '') {
-            exibirMensagem("E-mail inválido!");
-            return;
-        }
-
-        if (se === '') {
-            exibirMensagem("Senha inválida!");
-            return;
-        }
-
-        if (co === '' || co !== se) {
-            exibirMensagem("Confirmação de senha inválida!");
-            return;
-        }
+$(document).ready(function(){
+	$('#usuario').click(function(){
+		if($(this).val()=="usuario"){
+			$(this).val('');
+	   }//fim do if
+	}//fim da funcao anonima
+	);//fim do click no objeto id=usuario
 
 
-        $.ajax({
-            url: 'cadUsuario.php',
-            type: 'POST',
-            data: {
-                nome: no,
-                email: em,
-                senha: se,
-                confirmaSenha: co
-            },
-            success: function(response) {
-                response = response.trim();
-                console.log("Resposta do servidor:", response);
+	$('#senha').click(function(){
+	  if($(this).val()=="senha"){
+			$(this).val('');
+		}//fim do if
+	}//fim da funcao anonima
+	);//fim do click no objeto id=senha
+
+
+
+$('#botaoCadastrar').click(function(){
+	
+  if($('#usuario').val()=='' || $('#usuario').val()=="usuario" 
+  || $('#senha').val()=='' || $('#senha').val()=="senha"){
+	
+	$('#mensagem').html("Usuário ou senha inválidos");
+	$('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+	return;
+
+   } 
+   let usuario = $('#usuario').val();
+   let senha = $('#senha').val();
+   let email = $('#email').val();
+   console.log(email);
+   
+   fetch("cadUsuario.php", {
+
+			method: "POST",
+			headers:{
+				"Content-Type":"application/x-www-form-urlencoded"
+			},
+
+			body: "uuario=" + usuario + "&senha=" + senha + "&email=" +email
+
+		})
+
+		.then(response => response.text())
+
+		.then(retorno => {
+
+			console.log(retorno);
                 
-                if (response === "OK!") {
-                    exibirMensagem("Cadastro realizado com sucesso!", 1000);
-                    
-                    setTimeout(function() {
-                        window.location.href = "cadastrar.php";
-                    }, 1200);
+			if(retorno == "OK!"){
 
-                } else if (response === "EMAIL_EXISTE") {
-                    exibirMensagem("Este e-mail já está cadastrado!");
-                    
-                } else if (response === "SENHA_ERRO") {
-                    exibirMensagem("As senhas não coincidem!");
-                    
-                } else {
-                    exibirMensagem("Erro ao cadastrar no servidor!");
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Erro na requisição: ", error);
-                exibirMensagem("Erro de conexão com o servidor!");
+				$('#mensagem').html("Cadastro realizado com sucesso");
+				$('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+				window.location.href = "cadastrar.php";
+
+
+			}else if(retorno == "SENHA_ERRO"){
+
+                $('#mensagem').html("As senhas são diferentes!");
+				$('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+                window.location.href = "cadastrar.php";
             }
-        });
-    });
+
+            else if(retorno=="EMAIL_EXISTE"){
+
+                $('#mensagem').html("Esse email ja está cadastrado!");
+				$('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+                window.location.href = "cadastrar.php";
+
+            }
+                
+			else{
+
+				$('#mensagem').html("Não foi possível cadastro");
+				$('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+                
+			}
+
+		})
+
+		.catch(function(erro){
+
+			console.log(erro);
+
+			$('#mensagem').html("Erro ao conectar");
+			$('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+
+		});
+
+	});
+
+
+
+
 });
+
+

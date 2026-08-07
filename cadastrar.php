@@ -9,7 +9,9 @@
 <body>
     <div class="wrapper">
    
-        <form  id="cadastro_usu">
+        <div class="" role="alert" id="mensagem" style="display:none;"> Mensagem  </div>
+
+        <form action="cadUsuario.php" method="POST">
             <h1>Crie uma conta</h1>
 
             <div class="">
@@ -44,11 +46,13 @@
 
             <div class="btn-container">
                 <button type="button" class="">Voltar</button>
-                <button type="submit" class="" id="">Criar</button>
+                <button type="submit" class="" id="botaoCadastrar">Criar</button>
             </div>
         </form>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="js/cadUsu.js"></script>
+
 </body>
 </html>
