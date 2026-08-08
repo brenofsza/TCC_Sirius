@@ -9,11 +9,12 @@
 <body>
     <div class="wrapper">
    
-        <div class="" role="alert" id="mensagem" style="display:none;"> Mensagem  </div>
 
         <form action="cadUsuario.php" method="POST">
             <h1>Crie uma conta</h1>
 
+            <div id="mensagem" style="display: none; text-align: center; margin-bottom: 15px; color: #ff3333; font-weight: bold;"></div>
+           
             <div class="">
                 <input type="text" placeholder="Nome" id="nome" name="nome"
                 required>
@@ -38,17 +39,18 @@
                 <i class='bx bxs-lock-alt'></i>
             </div>
 
-            <div id="mensagem" style="display: none; text-align: center; margin-bottom: 15px; color: #ff3333; font-weight: bold;"></div>
+            
 
             <div class="remember-forgot">
                 <label><input type="checkbox"> Lembrar</label>
             </div>
 
             <div class="btn-container">
-                <button type="button" class="">Voltar</button>
+                
                 <button type="submit" class="" id="botaoCadastrar">Criar</button>
             </div>
         </form>
+        <a href="index.php"><button>Voltar</button></a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
