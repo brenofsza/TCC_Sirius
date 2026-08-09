@@ -17,11 +17,11 @@
     </div>	
 	
 <?php
-if($_SESSION["nome"] == ''){
-	echo "<a href='logar.php'>Entrar</a>";
+if(empty($_SESSION['nome'])){
+	echo "<a href='front/logar.php'>Entrar</a>";
 }else{
 	echo "<p>Bem-vindo, " . $_SESSION['nome'] . "!";
-	echo "<a href='logout.php'>Sair</a>";
+	echo "<a href='php/logout.php'>Sair</a>";
 
 }
 ?>
