@@ -30,9 +30,10 @@ $sql = "INSERT INTO USUARIO(NOME_USU, EMAIL_USU, SENHA_USU) VALUES (?,?,?)";
 $stmt = $conexao->prepare($sql);
 $stmt->bind_param("sss", $nome, $email, $senhaHash); 
 
+
 if ($stmt->execute()) {
     echo "OK!";
 } else {
-    echo "erro";
+    echo "ERRO: " . $stmt->error;
 }
 ?>

@@ -41,7 +41,7 @@ $(document).ready(function(){
 		let confirmaSenha = $('#confirmaSenha').val(); 
         console.log(email);
         
-        fetch("cadUsuario.php", {
+        fetch("../php/cadUsuario.php", {
     	method: "POST",
     	headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -64,7 +64,7 @@ $(document).ready(function(){
                 
                 
                 setTimeout(() => {
-                    window.location.href = "cadastrar.php";
+                    window.location.href = "../front/cadastrar.php";
                 }, 2500);
 
             } else if(resposta == "SENHA_ERRO"){
