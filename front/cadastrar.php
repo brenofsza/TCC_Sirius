@@ -41,11 +41,11 @@
 
             
 
-            <div class="remember-forgot">
+            <div class="">
                 <label><input type="checkbox"> Lembrar</label>
             </div>
 
-            <div class="btn-container">
+            <div class="">
                 
                 <button type="submit" class="" id="botaoCadastrar">Criar</button>
             </div>

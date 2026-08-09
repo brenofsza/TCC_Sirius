@@ -10,35 +10,25 @@
 
 </head>
 <body>
+	<?php session_start(); ?>
+
 	<div class="logo">
         <img src="img/logo.png">
     </div>	
 	
-  <nav class="sidebar-navigation">
+<?php
+if($_SESSION["nome"] == ''){
+	echo "<a href='logar.php'>Entrar</a>";
+}else{
+	echo "<p>Bem-vindo, " . $_SESSION['nome'] . "!";
+	echo "<a href='logout.php'>Sair</a>";
 
-  <ul>
-		<li class="active">
-			<i class="bx bx-home-alt"></i>
-			<span class="tooltip">Inicio</span>
-		</li>
-		<li>
-			<i class="bx bx-plus"></i>
-			<span class="tooltip">Criar</span>
-		</li>
-		<li>
-			<i class="bx bx-community"></i>
-			<span class="tooltip">Turmas</span>
-		</li>
-		<li>
-			<i class="bx bx-note"></i>
-			<span class="tooltip">Anotaçoes</span>
-		</li>
-		<li>
-			<i class="bx bx-calendar-detail"></i>
-			<span class="tooltip">Agenda</span>
-		</li>
-	</ul>
-</nav>
+}
+?>
+
+
+
+
 <script src="js/navbar.js"></script>
 </body>
 </html>

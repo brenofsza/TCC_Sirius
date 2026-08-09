@@ -1,13 +1,12 @@
 /* Basics */
 .logo{
  display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
     padding: 20px 0;
-	background-color: white;
 }
 .logo img {
-    width: 100px; /* ajuste conforme necessário */
+    width: 100px;
     height: auto;
 }
 .icon{
