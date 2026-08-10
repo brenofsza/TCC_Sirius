@@ -22,6 +22,12 @@
             </div>
 
             <div class="">
+                <input type="text" placeholder="Username" id="username" name="username"
+                required>
+                <i class='bx bxs-user'></i>
+            </div>
+
+            <div class="">
                 <input type="email" placeholder="Email" id="email" name="email"
                 required>
                 <i class='bx bx-envelope'></i>
@@ -43,6 +49,10 @@
 
             <div class="">
                 <label><input type="checkbox"> Lembrar</label>
+            </div>
+
+            <div class="">
+                <label><input type="checkbox" id="mostrar"> Mostrar Senha</label>
             </div>
 
             <div class="">

@@ -15,12 +15,18 @@
 	<div class="logo">
         <img src="img/logo.png">
     </div>	
+
+	<form action="/pesquisa" method="get">
+  		<input type="search" name="q" placeholder="Pesquisar..." required>
+  			<button type="submit">Buscar</button>
+		</form>
+
 	
 <?php
 if(empty($_SESSION['nome'])){
 	echo "<a href='front/logar.php'>Entrar</a>";
 }else{
-	echo "<p>Bem-vindo, " . $_SESSION['nome'] . "!";
+	echo "<p>Olá, " . $_SESSION['nome'] . "!";
 	echo "<a href='php/logout.php'>Sair</a>";
 
 }

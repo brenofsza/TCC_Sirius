@@ -15,7 +15,18 @@ $(document).ready(function(){
 	);//fim do click no objeto id=senha
 
 
-    
+    const mostrar = document.getElementById('mostrar');
+	const senha = document.getElementById('senha');
+	const confirmaSenha = document.getElementById('confirmaSenha');
+
+	mostrar.addEventListener('change', function() {
+        
+        const tipo = this.checked ? 'text' : 'password';
+        
+        senha.type = tipo;
+        confirmaSenha.type = tipo;
+    });
+
     $('#botaoCadastrar').click(function(e){
         
         
@@ -25,6 +36,13 @@ $(document).ready(function(){
         || $('#senha').val()=='' || $('#senha').val()=="senha"){
         
             $('#mensagem').html("Usuário ou senha inválidos");
+            $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+            return;
+        } 
+
+		if($('#username').val()=='' || $('#username').val()=="username"){
+        
+            $('#mensagem').html("Complete totalmente os dados");
             $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
             return;
         } 
@@ -39,6 +57,7 @@ $(document).ready(function(){
         let senha = $('#senha').val();
         let email = $('#email').val().trim();
 		let confirmaSenha = $('#confirmaSenha').val(); 
+		let username = $('#username').val().trim();
         console.log(email);
         
         fetch("../php/cadUsuario.php", {
@@ -48,8 +67,9 @@ $(document).ready(function(){
     },
     
     body: "nome=" + encodeURIComponent(nome) + 
-          "&email=" + encodeURIComponent(email) + 
+     	  "&email=" + encodeURIComponent(email) + 
           "&senha=" + encodeURIComponent(senha) + 
+          "&username=" + encodeURIComponent(username) +
           "&confirmaSenha=" + encodeURIComponent(confirmaSenha)
 })
         .then(response => response.text())
@@ -76,7 +96,11 @@ $(document).ready(function(){
                 $('#mensagem').html("Esse email ja está cadastrado!");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
                 
-            } else {
+            }else if(resposta == "USER_EXISTE"){
+                $('#mensagem').html("Esse username ja está sendo usado!");
+                $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+				
+				}else {
                 $('#mensagem').html("Não foi possível cadastro");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
             }
