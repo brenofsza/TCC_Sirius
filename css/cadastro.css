@@ -1,0 +1,157 @@
+:root {
+  --roxo: #5b2a86;
+  --roxo-escuro: #3b185f;
+  --amarelo: #ffc928;
+  --branco: #ffffff;
+  --texto: #34223f;
+  --fundo: #faf7ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", Arial, sans-serif;
+  color: var(--texto);
+  background: var(--branco);
+}
+
+/* lado branco que contém o formulário. */
+.pagina-cadastro {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Metade ilustrativa */
+.painel-ilustracao {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(59, 24, 95, .82), rgba(91, 42, 134, .5)),
+    url("https://img.magnific.com/fotos-gratis/parabens-fez-muito-bem-o-teste_637285-8618.jpg?semt=ais_test_b&w=740&q=80") center/cover;
+}
+
+.painel-ilustracao:before {
+  content: "Banco de Exercícios";
+  position: absolute;
+  left: 9%;
+  bottom: 10%;
+  max-width: 360px;
+  color: var(--branco);
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.12;
+}
+
+.painel-ilustracao:after {
+  content: "Organize atividades, acompanhe turmas e facilite o ensino.";
+  position: absolute;
+  left: 9%;
+  bottom: 5%;
+  max-width: 310px;
+  color: #fff8de;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.painel-cadastro {
+  display: grid;
+  place-items: center;
+  padding: 3rem 1.5rem;
+  background: var(--branco);
+}
+
+/* caixa flutuante do formulário com sombra e borda amarela no topo. */
+.box-cadastro {
+  width: min(100%, 460px);
+  padding: 2.5rem;
+  border-radius: 24px;
+  background: var(--branco);
+  box-shadow: 0 18px 55px rgba(91, 42, 134, .18);
+  border-top: 6px solid var(--amarelo);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  color: var(--roxo);
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.logo span {
+  display: grid;
+  place-items: center;
+  width: 31px;
+  height: 31px;
+  border-radius: 9px;
+  color: var(--roxo-escuro);
+  background: var(--amarelo);
+}
+
+/* faz parte das bordas do formulário */
+.box-cadastro h1 { margin: 1.6rem 0 .35rem; color: var(--roxo-escuro); font-size: 1.8rem; }
+.box-cadastro > p { margin: 0 0 1.7rem; color: #786b82; }
+
+.campo { display: grid; gap: .45rem; margin-bottom: 1.1rem; }
+.campo label { color: var(--roxo-escuro); font-size: .9rem; font-weight: 700; }
+
+/* Define a aparência dos campos*/
+.campo input,
+.campo select {
+  width: 100%;
+  padding: .9rem 1rem;
+  border: 1px solid #ded3e6;
+  border-radius: 10px;
+  outline: none;
+  color: var(--texto);
+  font: inherit;
+  transition: .2s ease;
+}
+
+/*Define principalmente as bordas dos campos(cores)*/
+.campo input:focus,
+.campo select:focus { border-color: var(--roxo); box-shadow: 0 0 0 4px rgba(91, 42, 134, .12); }
+
+.linha-campos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.aceite { display: flex; align-items: flex-start; gap: .6rem; margin: 1.2rem 0; font-size: .82rem; line-height: 1.4; }
+.aceite input { accent-color: var(--roxo); margin-top: .15rem; }
+.aceite a, .login-link a { color: var(--roxo); font-weight: 700; }
+
+
+/*caracteristicas do botão cadastrar*/
+.botao-cadastrar {
+  width: 100%;
+  padding: .95rem 1rem;
+  border: 0;
+  border-radius: 10px;
+  color: var(--roxo-escuro);
+  background: var(--amarelo);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  transition: transform .2s, background .2s;
+}
+/*//////////////////////////////////////////*/
+
+.botao-cadastrar:hover { background: #ffd84e; transform: translateY(-2px); }
+.login-link { margin: 1.3rem 0 0; text-align: center; color: #786b82; font-size: .88rem; }
+
+/*Responsividade para celulares*/
+@media (max-width: 800px) {
+  .pagina-cadastro { grid-template-columns: 1fr; }
+  .painel-ilustracao { min-height: 250px; }
+  .painel-ilustracao::before { bottom: 26%; }
+  .painel-cadastro { padding: 2rem 1rem; }
+}
+
+
+@media (max-width: 440px) {
+  .box-cadastro { padding: 2rem 1.35rem; }
+  .linha-campos { grid-template-columns: 1fr; gap: 0; }
+}

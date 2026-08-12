@@ -84,8 +84,8 @@ $(document).ready(function(){
                 
                 
                 setTimeout(() => {
-                    window.location.href = "../front/cadastrar.php";
-                }, 2500);
+                    window.location.href = "../front/logar.php";
+                });
 
             } else if(resposta == "SENHA_ERRO"){
                 $('#mensagem').html("As senhas são diferentes!");
