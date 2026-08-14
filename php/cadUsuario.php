@@ -46,7 +46,9 @@ $stmt->bind_param("ssss", $nome, $email, $senhaHash, $username);
 
 if ($stmt->execute()) {
     echo "OK!";
+    return;
 } else {
     echo "ERRO: " . $stmt->error;
+    return;
 }
 ?>
