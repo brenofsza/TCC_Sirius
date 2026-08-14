@@ -4,22 +4,21 @@ session_start();
 
 include("conexao.php");
 
+
 $usuario = $_POST["email"]; 
 $senha = $_POST["senha"];
+
 
 $sql = "SELECT * FROM USUARIO WHERE EMAIL_USU = ? OR USERNAME = ?";
 
 $stmt = $conexao->prepare($sql);
+
 
 $stmt->bind_param("ss", $usuario, $usuario);
 
 $stmt->execute();
 
 $resultado = $stmt->get_result();
-
-$dados = $resultado->fetch_all(MYSQLI_ASSOC);
-
-// echo json_encode($dados);
 
 if($resultado->num_rows > 0){
 
@@ -39,4 +38,5 @@ if($resultado->num_rows > 0){
 }else{
     echo "erro";
 }
+
 ?>

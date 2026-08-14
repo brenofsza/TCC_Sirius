@@ -58,48 +58,51 @@ $(document).ready(function(){
         let email = $('#email').val().trim();
 		let confirmaSenha = $('#confirmaSenha').val(); 
 		let username = $('#username').val().trim();
+        console.log(email);
         
         fetch("../php/cadUsuario.php", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: "nome=" + encodeURIComponent(nome) + 
-                "&email=" + encodeURIComponent(email) + 
-                "&senha=" + encodeURIComponent(senha) + 
-                "&username=" + encodeURIComponent(username) +
-                "&confirmaSenha=" + encodeURIComponent(confirmaSenha)
-        })
+    	method: "POST",
+    	headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    
+    body: "nome=" + encodeURIComponent(nome) + 
+     	  "&email=" + encodeURIComponent(email) + 
+          "&senha=" + encodeURIComponent(senha) + 
+          "&username=" + encodeURIComponent(username) +
+          "&confirmaSenha=" + encodeURIComponent(confirmaSenha)
+})
         .then(response => response.text())
-        .then((retorno) => {
+        .then(retorno => {
             
-            let resposta = retorno.trim()
-            console.log(resposta)
+            let resposta = retorno.trim();
+            console.log(resposta);
+                    
+            if(resposta == "OK!"){
+                $('#mensagem').html("Cadastro realizado com sucesso");
+                $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+                
+                
+                setTimeout(() => {
+                    window.location.href = "../front/logar.php";
+                });
 
-            switch (resposta) {
-                case "OK!":
-                    $('#mensagem').html("Cadastro realizado com sucesso");
-                    $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-                    setTimeout(() => {
-                        window.location.href = "../front/logar.php";
-                    });
-                    break;
-                case "SENHA_ERRO":
-                    $('#mensagem').html("As senhas são diferentes!");
-                    $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-                    break;
-                case "EMAIL_EXISTE":
-                    $('#mensagem').html("Esse email ja está cadastrado!");
-                    $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-                    break;
-                case "USER_EXISTE":
-                    $('#mensagem').html("Esse username ja está sendo usado!");
-                    $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-                    break;
-                default:
-                    $('#mensagem').html("Não foi possível cadastro");
-                    $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-                    break;
+            } else if(resposta == "SENHA_ERRO"){
+                $('#mensagem').html("As senhas são diferentes!");
+                $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+               
+
+            } else if(resposta == "EMAIL_EXISTE"){
+                $('#mensagem').html("Esse email ja está cadastrado!");
+                $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+                
+            }else if(resposta == "USER_EXISTE"){
+                $('#mensagem').html("Esse username ja está sendo usado!");
+                $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+				
+				}else {
+                $('#mensagem').html("Não foi possível cadastro");
+                $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
             }
         })
         .catch(function(erro){
