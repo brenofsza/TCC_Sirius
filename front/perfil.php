@@ -6,6 +6,12 @@ $id = $_SESSION['id_usuario'];
 $result = mysqli_query($conexao, "SELECT * FROM USUARIO
   WHERE ID_USU=$id");
 $row = mysqli_fetch_assoc($result);
+
+if($_SESSION['foto_usuario'] === ''){
+    $foto = "../img/user.webp";
+}else{
+    $foto = $_SESSION['foto_usuario'];
+}
 ?>
 
 <!DOCTYPE html>

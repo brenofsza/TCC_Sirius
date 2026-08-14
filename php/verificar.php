@@ -29,6 +29,7 @@ if($resultado->num_rows > 0){
         $_SESSION["nome"] = $dados["NOME_USU"];
         $_SESSION["id_usuario"] = $dados["ID_USU"];
         $_SESSION["username"] = $dados["USERNAME"];
+        $SESSION["foto_usuario"] = $dados["FOTO_USU"];
 
         echo "ok";
 
