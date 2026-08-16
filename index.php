@@ -81,7 +81,6 @@ if(empty($_SESSION['nome'])){
 		$foto = $_SESSION['foto_usuario']; 
 	}
 	echo "<p>Olá, " . $_SESSION['nome'] . "!</p><img src='$foto' class='fotoPerfil'>";
-	echo "<a href='php/logout.php'>Sair</a>";
 }
 ?>
 

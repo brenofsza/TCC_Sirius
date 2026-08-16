@@ -27,21 +27,21 @@ if (empty($_SESSION['foto_usuario'])) {
 
   <ul>
 		<li>
-			<a href="index.php">
+			<a href="../index.php">
 				<i class="bx bx-home-alt"></i>
 				<span class="tooltip">Inicio</span>
 			</a>
 		</li>
 
 		<li>
-			<a href="front/criar.php">
+			<a href="/criar.php">
 				<i class="bx bx-plus"></i>
 				<span class="tooltip">Criar</span>
 			</a>
 		</li>
 
 		<li>
-			<a href="front/pesquisar.php">
+			<a href="/pesquisar.php">
 				<i class="bx bx-search-alt"></i>
 				<span class="tooltip">Pesquisar</span>
 			</a>
@@ -72,8 +72,11 @@ if (empty($_SESSION['foto_usuario'])) {
 
     <button id="editPerfil">Editar Perfil</button>
 
+<!--Modal de edicao do perfil-->
     <dialog id="ModalPerfil">
         <h2>Editar Perfil</h2>
+
+        <form action="../php/edtUsuario.php" method="POST">
         <input type="hidden" name="id" value="<?php echo $row['ID_USU']; ?>"><br>
         
         <div>
@@ -90,9 +93,13 @@ if (empty($_SESSION['foto_usuario'])) {
         </div>
         <br>
         <button id="editInfo">Editar</button>
+
+        </form>
+
         <button id="fechaEditPer">Fechar</button>
         <button>Redefinir Senha</button>
     </dialog>
+<!--Fim do Modal-->
 
         <button>Ver materiais salvos</button>
         <a href="../php/logout.php">Sair da conta</a>
