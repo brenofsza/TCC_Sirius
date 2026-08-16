@@ -1,68 +1,104 @@
-<?php session_start(); ?>
-<?php
-include "../php/conexao.php";
+<?php 
+session_start(); 
+include '../php/conexao.php';
 
 $id = $_SESSION['id_usuario'];
-$result = mysqli_query($conexao, "SELECT * FROM USUARIO
-  WHERE ID_USU=$id");
+$result = mysqli_query($conexao, "SELECT * FROM USUARIO WHERE ID_USU = $id");
 $row = mysqli_fetch_assoc($result);
 
-if($_SESSION['foto_usuario'] === ''){
-    $foto = "../img/user.webp";
-}else{
-    $foto = $_SESSION['foto_usuario'];
+if (empty($_SESSION['foto_usuario'])) { 
+    $foto = '../img/user.webp'; 
+} else { 
+    $foto = $_SESSION['foto_usuario']; 
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <img src="" alt="">
-    <?php echo $_SESSION['nome'];
-          echo "<br>";
-          echo $_SESSION['username']; ?>
+
+    <nav class="sidebar-navigation">
+
+  <ul>
+		<li>
+			<a href="index.php">
+				<i class="bx bx-home-alt"></i>
+				<span class="tooltip">Inicio</span>
+			</a>
+		</li>
+
+		<li>
+			<a href="front/criar.php">
+				<i class="bx bx-plus"></i>
+				<span class="tooltip">Criar</span>
+			</a>
+		</li>
+
+		<li>
+			<a href="front/pesquisar.php">
+				<i class="bx bx-search-alt"></i>
+				<span class="tooltip">Pesquisar</span>
+			</a>
+		</li>
+
+		<li>
+			<a href="front/planejamento.php">
+				<i class="bx bx-calendar-event"></i>
+				<span class="tooltip">Planejamento</span>
+			</a>
+		</li>
+
+		<li class="active">
+			<a href="front/perfil.php">
+				<i class="bx bx-user"></i>
+				<span class="tooltip">Perfil</span>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+    <img src="<?php echo $foto; ?>" alt="Foto de perfil">
+    
+    <?php 
+    echo $_SESSION['nome'] . "<br>"; 
+    echo $_SESSION['username']; 
+    ?>
 
     <button id="editPerfil">Editar Perfil</button>
 
     <dialog id="ModalPerfil">
         <h2>Editar Perfil</h2>
-
-        <input type="hidden" name="id"
-        value="<?php echo $row['ID_USU'];?>"><br>
-
-        <div class="">
-            Nome: <input type="text" name="nome" id="nome"
-            value="<?php echo $row['NOME_USU'];?>" required><br>
-                <i class='bx bxs-user'></i>
-            </div>
-
-            <div class="">
-                Username: <input type="text" name="username" id="username"
-                value="<?php echo $row['USERNAME'];?>" required><br>
-                <i class='bx bxs-user'></i>
-            </div>
-
-            <div class="">
-                Email: <input type="text" name="email" id="email"
-                value="<?php echo $row['EMAIL_USU'];?>" required><br>
-                <i class='bx bx-envelope'></i>
-                
-            </div>
-
-                
-<br>
+        <input type="hidden" name="id" value="<?php echo $row['ID_USU']; ?>"><br>
+        
+        <div>
+            Nome: <input type="text" name="nome" id="nome" value="<?php echo $row['NOME_USU']; ?>" required><br>
+            <i class="bx bxs-user"></i>
+        </div>
+        <div>
+            Username: <input type="text" name="username" id="username" value="<?php echo $row['USERNAME']; ?>" required><br>
+            <i class="bx bxs-user"></i>
+        </div>
+        <div>
+            Email: <input type="text" name="email" id="email" value="<?php echo $row['EMAIL_USU']; ?>" required><br>
+            <i class="bx bx-envelope"></i>
+        </div>
+        <br>
         <button id="editInfo">Editar</button>
         <button id="fechaEditPer">Fechar</button>
-        
+        <button>Redefinir Senha</button>
     </dialog>
 
+        <button>Ver materiais salvos</button>
+        <a href="../php/logout.php">Sair da conta</a>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/navbar.js"></script>
     <script src="../js/editUsu.js"></script>
 </body>
-
 </html>

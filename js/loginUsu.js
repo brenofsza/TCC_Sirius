@@ -27,7 +27,7 @@ $(document).ready(function(){
             if(retorno.trim() == "ok"){
                 window.location.href = "../index.php";
             } else {
-                $('#mensagem').html("Email ou senha inválidos");
+                $('#mensagem').html("Email/Usuário ou senha inválidos");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
             }
         })

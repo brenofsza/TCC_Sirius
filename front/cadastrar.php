@@ -21,12 +21,12 @@
                     <div id="mensagem" style="display: none; text-align: center; margin-bottom: 15px; color: #ff3333; font-weight: bold;"></div>
 
                     <div class="campo">
-                        <label for="nome">Nome completo</label>
-                        <input type="text" placeholder="Seu nome" id="nome" name="nome" required>
+                        <label for="nome">Nome</label>
+                        <input type="text" placeholder="Ex.: João" id="nome" name="nome" required>
                     </div>
                     <div class="campo">
                         <label for="username">Nome de usuário</label>
-                        <input type="text" placeholder="Seu usuário" id="username" name="username" required>
+                        <input type="text" placeholder="Ex.: joaopereira2" id="username" name="username" required>
                     </div>
                     <div class="campo">
                         <label for="email">E-mail</label>
