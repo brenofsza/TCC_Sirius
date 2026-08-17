@@ -30,7 +30,7 @@ if($resultado->num_rows > 0){
         $_SESSION["id_usuario"] = $dados["ID_USU"];
         $_SESSION["username"] = $dados["USERNAME"];
         $_SESSION["foto_usuario"] = $dados["FOTO_USU"];
-        $_SESSION["email"] = $dados["EMAIL_USU"]
+        $_SESSION["email"] = $dados["EMAIL_USU"];
 
         echo "ok";
 

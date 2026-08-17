@@ -17,7 +17,7 @@
                     <h1>Entre em sua conta</h1>
                     <p>Acesse seu banco de exercícios.</p>
 
-                    <div id="mensagem" style="display: none; text-align: center; margin-bottom: 15px; color: #ff3333; font-weight: bold;"></div>
+                    <div id="mensagem" style="display:none; font-weight:bold; margin:10px 0;"></div>
 
                     <div class="campo">
                         <label for="username">Email ou nome de Usuário</label>

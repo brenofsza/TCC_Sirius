@@ -29,29 +29,28 @@ $(document).ready(function(){
 
     $('#botaoCadastrar').click(function(e){
         
-        
         e.preventDefault(); 
         
         if($('#nome').val()=='' || $('#nome').val()=="nome" 
         || $('#senha').val()=='' || $('#senha').val()=="senha"){
         
-            $('#mensagem').html("Usuário ou senha inválidos");
+            $('#mensagem').html("Usuário ou senha inválidos").css("color", "red");
             $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
             return;
         } 
 
 		if($('#username').val()=='' || $('#username').val()=="username"){
         
-            $('#mensagem').html("Complete totalmente os dados");
+            $('#mensagem').html("Complete totalmente os dados").css("color", "red");
             $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
             return;
         } 
 
     	if($('#email').val().indexOf('@') === -1 ) {
-       	 $('#mensagem').html("Insira um endereço de e-mail válido.");
-       	 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-        return;
-    }
+       	 	$('#mensagem').html("Insira um endereço de e-mail válido.").css("color", "red");
+       	 	$('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
+        	return;
+    	}
         
         let nome = $('#nome').val().trim();
         let senha = $('#senha').val();
@@ -61,17 +60,16 @@ $(document).ready(function(){
         console.log(email);
         
         fetch("../php/cadUsuario.php", {
-    	method: "POST",
-    	headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-    },
-    
-    body: "nome=" + encodeURIComponent(nome) + 
-     	  "&email=" + encodeURIComponent(email) + 
-          "&senha=" + encodeURIComponent(senha) + 
-          "&username=" + encodeURIComponent(username) +
-          "&confirmaSenha=" + encodeURIComponent(confirmaSenha)
-})
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: "nome=" + encodeURIComponent(nome) + 
+				  "&email=" + encodeURIComponent(email) + 
+				  "&senha=" + encodeURIComponent(senha) + 
+				  "&username=" + encodeURIComponent(username) +
+				  "&confirmaSenha=" + encodeURIComponent(confirmaSenha)
+		})
         .then(response => response.text())
         .then(retorno => {
             
@@ -79,35 +77,33 @@ $(document).ready(function(){
             console.log(resposta);
                     
             if(resposta == "OK!"){
-                $('#mensagem').html("Cadastro realizado com sucesso");
+                $('#mensagem').html("Cadastro realizado com sucesso").css("color", "green");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-                
                 
                 setTimeout(() => {
                     window.location.href = "../front/logar.php";
-                });
+                }, 2000);
 
             } else if(resposta == "SENHA_ERRO"){
-                $('#mensagem').html("As senhas são diferentes!");
+                $('#mensagem').html("As senhas são diferentes!").css("color", "red");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
-               
 
             } else if(resposta == "EMAIL_EXISTE"){
-                $('#mensagem').html("Esse email ja está cadastrado!");
+                $('#mensagem').html("Esse email ja está cadastrado!").css("color", "red");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
                 
-            }else if(resposta == "USER_EXISTE"){
-                $('#mensagem').html("Esse username ja está sendo usado!");
+            } else if(resposta == "USER_EXISTE"){
+                $('#mensagem').html("Esse username ja está sendo usado!").css("color", "red");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
 				
-				}else {
-                $('#mensagem').html("Não foi possível cadastro");
+			} else {
+                $('#mensagem').html("Não foi possível cadastro").css("color", "red");
                 $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
             }
         })
         .catch(function(erro){
             console.log(erro);
-            $('#mensagem').html("Erro ao conectar");
+            $('#mensagem').html("Erro ao conectar").css("color", "red");
             $('#mensagem').fadeIn(300).delay(2000).fadeOut(400);
         });
     });

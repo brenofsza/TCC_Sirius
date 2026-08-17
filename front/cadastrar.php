@@ -18,7 +18,7 @@
                     <h1>Crie uma conta</h1>
                     <p>Cadastre-se para acessar o banco de exercícios.</p>
 
-                    <div id="mensagem" style="display: none; text-align: center; margin-bottom: 15px; color: #ff3333; font-weight: bold;"></div>
+                    <div id="mensagem" style="display:none; font-weight:bold; margin:10px 0;"></div>
 
                     <div class="campo">
                         <label for="nome">Nome</label>
