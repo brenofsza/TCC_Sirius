@@ -70,8 +70,8 @@
 
 <?php
 if(empty($_SESSION['nome'])){
-	$foto = '../img/user.webp';	
-	echo "<img src='$foto'>";
+	$foto = 'img/user.webp';	
+	echo "<a href='front/perfil.php'><img src='$foto' class='fotoPerfil'></a>";
 	echo "<a href='front/logar.php'>Entrar</a>";
 	
 }else{
@@ -80,7 +80,7 @@ if(empty($_SESSION['nome'])){
 	} else { 
 		$foto = $_SESSION['foto_usuario']; 
 	}
-	echo "<p>Olá, " . $_SESSION['nome'] . "!</p><img src='$foto' class='fotoPerfil'>";
+	echo "<p>Olá, " . $_SESSION['nome'] . "!</p><a href='front/perfil.php'>'<img src='$foto' class='fotoPerfil'></a>";
 }
 ?>
 
