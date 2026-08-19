@@ -5,7 +5,7 @@ $usuario = "root";
 $senha = "";
 $banco = "BD_SIRIUS";
 
-$conexao = new mysqli($host, $usuario, $senha, $banco, 3306);
+$conexao = new mysqli($host, $usuario, $senha, $banco, 3308);
 
 
 if($conexao->connect_error){

@@ -19,7 +19,7 @@ if (empty($row['FOTO_USU'])) {
 
 ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="PT-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +40,7 @@ if (empty($row['FOTO_USU'])) {
 			</a>
 		</li>
 		<li>
-			<a href="/criar.php">
+			<a href="criar.php">
 				<i class="bx bx-plus"></i>
 				<span class="tooltip">Criar</span>
 			</a>
@@ -52,13 +52,13 @@ if (empty($row['FOTO_USU'])) {
 			</a>
 		</li>
 		<li>
-			<a href="front/planejamento.php">
+			<a href="planejamento.php">
 				<i class="bx bx-calendar-event"></i>
 				<span class="tooltip">Planejamento</span>
 			</a>
 		</li>
 		<li class="active">
-			<a href="front/perfil.php">
+			<a href="perfil.php">
 				<i class="bx bx-user"></i>
 				<span class="tooltip">Perfil</span>
 			</a>

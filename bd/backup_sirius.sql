@@ -19,20 +19,19 @@
 CREATE DATABASE IF NOT EXISTS `bd_sirius` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
 USE `bd_sirius`;
 
+
 -- Copiando estrutura para tabela bd_sirius.conteudo
 CREATE TABLE IF NOT EXISTS `conteudo` (
   `ID_CONTEUDO` int(11) NOT NULL AUTO_INCREMENT,
   `COD_DISCI` int(11) NOT NULL,
-  `COD_SERIES` int(11) NOT NULL,
   `NOME_CONTEUDO` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`ID_CONTEUDO`),
   KEY `COD_DISCI` (`COD_DISCI`),
-  KEY `COD_SERIES` (`COD_SERIES`),
-  CONSTRAINT `conteudo_ibfk_1` FOREIGN KEY (`COD_DISCI`) REFERENCES `disciplina` (`ID_DISCI`),
-  CONSTRAINT `conteudo_ibfk_2` FOREIGN KEY (`COD_SERIES`) REFERENCES `series` (`ID_SERIES`)
+  CONSTRAINT `conteudo_ibfk_1` FOREIGN KEY (`COD_DISCI`) REFERENCES `disciplina` (`ID_DISCI`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- Copiando dados para a tabela bd_sirius.conteudo: ~0 rows (aproximadamente)
+
 
 -- Copiando estrutura para tabela bd_sirius.disciplina
 CREATE TABLE IF NOT EXISTS `disciplina` (
@@ -43,11 +42,20 @@ CREATE TABLE IF NOT EXISTS `disciplina` (
 
 -- Copiando dados para a tabela bd_sirius.disciplina: ~0 rows (aproximadamente)
 
+
+-- Copiando estrutura para tabela bd_sirius.nivel_ensino
+CREATE TABLE IF NOT EXISTS `nivel_ensino` (
+  `ID_NIVEL` int(11) NOT NULL AUTO_INCREMENT,
+  `NOME_NIVEL` varchar(30) NOT NULL,
+  PRIMARY KEY (`ID_NIVEL`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
 -- Copiando estrutura para tabela bd_sirius.material
 CREATE TABLE IF NOT EXISTS `material` (
   `ID_MATERIAL` int(11) NOT NULL AUTO_INCREMENT,
   `COD_USU` int(11) NOT NULL,
   `COD_CONTEUDO` int(11) NOT NULL,
+  `COD_NIVEL` int(11) NOT NULL,
   `TITULO_MATERIA` varchar(50) NOT NULL,
   `CAMINHO_ARQUIVO` varchar(255) NOT NULL,
   `NOME_ARQUIVO` varchar(255) NOT NULL,
@@ -56,11 +64,14 @@ CREATE TABLE IF NOT EXISTS `material` (
   PRIMARY KEY (`ID_MATERIAL`),
   KEY `COD_USU` (`COD_USU`),
   KEY `COD_CONTEUDO` (`COD_CONTEUDO`),
+  KEY `COD_NIVEL` (`COD_NIVEL`),
   CONSTRAINT `material_ibfk_1` FOREIGN KEY (`COD_USU`) REFERENCES `usuario` (`ID_USU`),
-  CONSTRAINT `material_ibfk_2` FOREIGN KEY (`COD_CONTEUDO`) REFERENCES `conteudo` (`ID_CONTEUDO`)
+  CONSTRAINT `material_ibfk_2` FOREIGN KEY (`COD_CONTEUDO`) REFERENCES `conteudo` (`ID_CONTEUDO`),
+  CONSTRAINT `material_ibfk_3` FOREIGN KEY (`COD_NIVEL`) REFERENCES `nivel_ensino` (`ID_NIVEL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- Copiando dados para a tabela bd_sirius.material: ~0 rows (aproximadamente)
+
 
 -- Copiando estrutura para tabela bd_sirius.planejamento
 CREATE TABLE IF NOT EXISTS `planejamento` (
@@ -74,14 +85,6 @@ CREATE TABLE IF NOT EXISTS `planejamento` (
 
 -- Copiando dados para a tabela bd_sirius.planejamento: ~0 rows (aproximadamente)
 
--- Copiando estrutura para tabela bd_sirius.series
-CREATE TABLE IF NOT EXISTS `series` (
-  `ID_SERIES` int(11) NOT NULL AUTO_INCREMENT,
-  `NOME_SERIE` varchar(30) NOT NULL,
-  PRIMARY KEY (`ID_SERIES`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- Copiando dados para a tabela bd_sirius.series: ~0 rows (aproximadamente)
 
 -- Copiando estrutura para tabela bd_sirius.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -100,6 +103,7 @@ INSERT INTO `usuario` (`ID_USU`, `NOME_USU`, `EMAIL_USU`, `SENHA_USU`, `USERNAME
 	(1, 'Breno Souza', 'rick@gmail.com', '$2y$10$6EX6f8eWSCs8PbOHuxmue.AGHsFnSCyYJ5baay2U82LGnBINI7pbu', 'brenofsouza', NULL, NULL),
 	(2, 'Bruno', 'rick@gmail', '$2y$10$4T03zCC8575rtyp/pMS75.JDU2aOyaTAR0Gb.q61ZwReK1fucXe5O', 'brunohenrique', NULL, NULL),
 	(3, 'Pedro', 'ped@gmail', '$2y$10$9UqdMh4lef3q9ypWzgo7Uu3wKKbnOxx6tzTAm0OJNxV5mt9WPO4QS', 'pedrinho', NULL, 'uploads/fotos_usu/usu_6a826aa5a43ff1.52132756.jpg');
+
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
