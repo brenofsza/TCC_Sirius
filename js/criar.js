@@ -1,573 +1,384 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
+    const modalDisciplina = document.getElementById('modalDisci');
+    const abrirDisciplina = document.getElementById('abrirDisci');
+    const fecharDisciplina = document.getElementById('fecharDisci');
 
-    // ==========================================
-    // MODAL DISCIPLINA
-    // ==========================================
-
-    const modalDisciplina = document.getElementById('modalDisciplina');
-    const abrirDisciplina = document.getElementById('abrirDisciplina');
-    const fecharDisciplina = document.getElementById('fecharDisciplina');
-
-
-    abrirDisciplina.addEventListener('click', function(){
-
+    // abre modal disci
+    abrirDisciplina.addEventListener('click', function() {
         modalDisciplina.showModal();
-
     });
 
-
-    fecharDisciplina.addEventListener('click', function(){
-
+    // fecha o modal disci
+    fecharDisciplina.addEventListener('click', function() {
         modalDisciplina.close();
-
     });
 
+    const modalConteudo = document.getElementById('modalCont');
+    const abrirConteudo = document.getElementById('abrirCont');
+    const fecharConteudo = document.getElementById('fecharCont');
 
-
-    // ==========================================
-    // MODAL CONTEÚDO
-    // ==========================================
-
-    const modalConteudo = document.getElementById('modalConteudo');
-    const abrirConteudo = document.getElementById('abrirConteudo');
-    const fecharConteudo = document.getElementById('fecharConteudo');
-
-
-    abrirConteudo.addEventListener('click', function(){
-
-        if($('#id_disciplina').val() == ''){
-
+    // abre o modal cont
+    abrirConteudo.addEventListener('click', function() {
+        if ($('#id_disci').val() == '') {
             alert("Selecione uma disciplina primeiro.");
-
             return;
-
         }
 
         modalConteudo.showModal();
-
     });
 
-
-    fecharConteudo.addEventListener('click', function(){
-
+    // fecha o modal cont
+    fecharConteudo.addEventListener('click', function() {
         modalConteudo.close();
-
     });
 
+    // typeahead da disciplina
+    $('#disci').typeahead({
+        source: function(query, process) {
 
+            fetch("../php/buscarDisci.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "nome=" + encodeURIComponent(query)
+            })
+            .then(response => response.json())
+            .then(dados => {
 
-    // ==========================================
-    // BUSCAR DISCIPLINAS
-    // ==========================================
+                process(dados.map(function(disci) {
+                    return disci.nome;
+                }));
 
-    $('#disciplina').on('input', function(){
+                $('#disci').data('disciplinas', dados);
+            })
+            .catch(function(erro) {
+                console.log(erro);
+            });
+        },
 
-        let nome = $(this).val().trim();
+        minLength: 1,
+        items: 8,
 
+        updater: function(nome) {
 
-        // Se começou a digitar novamente,
-        // o ID anterior deixa de ser válido.
+            let disciplinas = $('#disci').data('disciplinas') || [];
 
-        $('#id_disciplina').val('');
+            let disciplina = disciplinas.find(function(disci) {
+                return disci.nome == nome;
+            });
 
+            if (disciplina) {
 
-        if(nome == ''){
+                $('#id_disci').val(disciplina.id);
 
-            $('#resultadoDisciplinas').html('');
+                $('#cont').val('');
+                $('#id_cont').val('');
+            }
 
-            return;
-
+            return nome;
         }
-
-
-        fetch("../php/buscarDisciplinas.php", {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type":
-                "application/x-www-form-urlencoded"
-
-            },
-
-            body:
-                "nome=" +
-                encodeURIComponent(nome)
-
-        })
-
-        .then(response => response.text())
-
-        .then(retorno => {
-
-            let resposta = retorno.trim();
-
-            console.log(resposta);
-
-            $('#resultadoDisciplinas').html(resposta);
-
-        })
-
-        .catch(function(erro){
-
-            console.log(erro);
-
-        });
-
     });
 
+    // limpa o ID qnd alterar a disciplina
+    $('#disci').on('input', function() {
 
+        $('#id_disci').val('');
 
-    // ==========================================
-    // SELECIONAR DISCIPLINA
-    // ==========================================
-
-    $(document).on('click', '.item-disciplina', function(){
-
-        let id = $(this).data('id');
-
-        let nome = $(this).text().trim();
-
-
-        $('#disciplina').val(nome);
-
-        $('#id_disciplina').val(id);
-
-
-        $('#resultadoDisciplinas').html('');
-
-
-        // Ao trocar de disciplina,
-        // limpa o conteúdo selecionado.
-
-        $('#conteudo').val('');
-
-        $('#id_conteudo').val('');
-
-        $('#resultadoConteudos').html('');
-
+        $('#cont').val('');
+        $('#id_cont').val('');
     });
 
+    // typeahead do conteúdo
+    $('#cont').typeahead({
+        source: function(query, process) {
 
+            let disci = $('#id_disci').val();
 
-    // ==========================================
-    // BUSCAR CONTEÚDOS
-    // ==========================================
+            if (disci == '') {
+                return;
+            }
 
-    $('#conteudo').on('input', function(){
+            fetch("../php/buscarCont.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "nome=" + encodeURIComponent(query) +
+                    "&disci=" + encodeURIComponent(disci)
+            })
+            .then(response => response.json())
+            .then(dados => {
 
-        let nome = $(this).val().trim();
+                process(dados.map(function(cont) {
+                    return cont.nome;
+                }));
 
-        let disciplina = $('#id_disciplina').val();
+                $('#cont').data('conteudos', dados);
+            })
+            .catch(function(erro) {
+                console.log(erro);
+            });
+        },
 
+        minLength: 1,
+        items: 8,
 
-        $('#id_conteudo').val('');
+        updater: function(nome) {
 
+            let conteudos = $('#cont').data('conteudos') || [];
 
-        if(disciplina == ''){
+            let conteudo = conteudos.find(function(cont) {
+                return cont.nome == nome;
+            });
 
-            $('#resultadoConteudos').html('');
+            if (conteudo) {
+                $('#id_cont').val(conteudo.id);
+            }
 
-            return;
-
+            return nome;
         }
-
-
-        if(nome == ''){
-
-            $('#resultadoConteudos').html('');
-
-            return;
-
-        }
-
-
-        fetch("../php/buscarConteudos.php", {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type":
-                "application/x-www-form-urlencoded"
-
-            },
-
-            body:
-                "nome=" +
-                encodeURIComponent(nome) +
-
-                "&disciplina=" +
-                encodeURIComponent(disciplina)
-
-        })
-
-        .then(response => response.text())
-
-        .then(retorno => {
-
-            let resposta = retorno.trim();
-
-            console.log(resposta);
-
-            $('#resultadoConteudos').html(resposta);
-
-        })
-
-        .catch(function(erro){
-
-            console.log(erro);
-
-        });
-
     });
 
+    // limpa o ID qnd alterar o conteúdo
+    $('#cont').on('input', function() {
 
-
-    // ==========================================
-    // SELECIONAR CONTEÚDO
-    // ==========================================
-
-    $(document).on('click', '.item-conteudo', function(){
-
-        let id = $(this).data('id');
-
-        let nome = $(this).text().trim();
-
-
-        $('#conteudo').val(nome);
-
-        $('#id_conteudo').val(id);
-
-
-        $('#resultadoConteudos').html('');
-
+        $('#id_cont').val('');
     });
 
-
-
-    // ==========================================
-    // CRIAR DISCIPLINA
-    // ==========================================
-
-    $('#formDisciplina').on('submit', function(e){
+    // cria uma nova disci
+    $('#formDisci').on('submit', function(e) {
 
         e.preventDefault();
 
+        let nome = $('#novaDisci').val().trim();
 
-        let nome =
-            $('#novaDisciplina').val().trim();
-
-
-        if(nome == ''){
-
+        if (nome == '') {
             alert("Digite o nome da disciplina.");
-
             return;
-
         }
 
-
-        fetch("../php/criarDisciplina.php", {
-
+        fetch("../php/criarDisci.php", {
             method: "POST",
-
             headers: {
-
-                "Content-Type":
-                "application/x-www-form-urlencoded"
-
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-
-            body:
-                "nome=" +
-                encodeURIComponent(nome)
-
+            body: "nome=" + encodeURIComponent(nome)
         })
-
         .then(response => response.text())
-
         .then(retorno => {
 
             let resposta = retorno.trim();
 
             console.log(resposta);
 
+            if (resposta == "OK!") {
 
-            if(resposta == "OK!"){
-
-                /*
-                 * Depois de criar, fazemos uma nova busca
-                 * para pegar o ID da disciplina.
-                 */
-
-                fetch("../php/buscarDisciplinas.php", {
-
+                fetch("../php/buscarDisci.php", {
                     method: "POST",
-
                     headers: {
-
-                        "Content-Type":
-                        "application/x-www-form-urlencoded"
-
+                        "Content-Type": "application/x-www-form-urlencoded"
                     },
-
-                    body:
-                        "nome=" +
-                        encodeURIComponent(nome)
-
+                    body: "nome=" + encodeURIComponent(nome)
                 })
+                .then(response => response.json())
+                .then(dados => {
 
-                .then(response => response.text())
+                    let disciplina = dados.find(function(disci) {
+                        return disci.nome == nome;
+                    });
 
-                .then(retorno => {
-
-                    $('#resultadoDisciplinas')
-                        .html(retorno);
-
-
-                    /*
-                     * Seleciona automaticamente
-                     * a disciplina criada.
-                     */
-
-                    $('.item-disciplina')
-                        .first()
-                        .click();
-
+                    if (disciplina) {
+                        $('#disci').val(disciplina.nome);
+                        $('#id_disci').val(disciplina.id);
+                    }
                 });
 
-
-                $('#novaDisciplina').val('');
-
+                $('#novaDisci').val('');
                 modalDisciplina.close();
 
+            } else if (resposta == "EXISTE") {
+
+                alert("Essa disciplina já existe.");
+
+            } else {
+
+                alert("Não foi possível criar a disciplina.");
             }
-
-
-            else if(resposta == "EXISTE"){
-
-                alert(
-                    "Essa disciplina já existe."
-                );
-
-            }
-
-
-            else{
-
-                alert(
-                    "Não foi possível criar a disciplina."
-                );
-
-            }
-
         })
-
-        .catch(function(erro){
+        .catch(function(erro) {
 
             console.log(erro);
-
-            alert(
-                "Erro ao conectar."
-            );
-
+            alert("Erro ao conectar.");
         });
-
     });
 
-
-
-    // ==========================================
-    // CRIAR CONTEÚDO
-    // ==========================================
-
-    $('#formConteudo').on('submit', function(e){
+    // cria um novo cont
+    $('#formCont').on('submit', function(e) {
 
         e.preventDefault();
 
+        let nome = $('#novoCont').val().trim();
+        let disci = $('#id_disci').val();
 
-        let nome =
-            $('#novoConteudo').val().trim();
-
-
-        let disciplina =
-            $('#id_disciplina').val();
-
-
-        if(nome == ''){
-
-            alert(
-                "Digite o nome do conteúdo."
-            );
-
+        if (nome == '') {
+            alert("Digite o nome do conteúdo.");
             return;
-
         }
 
-
-        if(disciplina == ''){
-
-            alert(
-                "Selecione uma disciplina."
-            );
-
+        if (disci == '') {
+            alert("Selecione uma disciplina.");
             return;
-
         }
 
-
-        fetch("../php/criarConteudo.php", {
-
+        fetch("../php/criarCont.php", {
             method: "POST",
-
             headers: {
-
-                "Content-Type":
-                "application/x-www-form-urlencoded"
-
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-
-            body:
-                "nome=" +
-                encodeURIComponent(nome) +
-
-                "&disciplina=" +
-                encodeURIComponent(disciplina)
-
+            body: "nome=" + encodeURIComponent(nome) +
+                "&disci=" + encodeURIComponent(disci)
         })
-
         .then(response => response.text())
-
         .then(retorno => {
 
             let resposta = retorno.trim();
 
             console.log(resposta);
 
+            if (resposta == "OK!") {
 
-            if(resposta == "OK!"){
-
-                /*
-                 * Busca o conteúdo recém-criado
-                 * para pegar seu ID.
-                 */
-
-                fetch("../php/buscarConteudos.php", {
-
+                fetch("../php/buscarCont.php", {
                     method: "POST",
-
                     headers: {
-
-                        "Content-Type":
-                        "application/x-www-form-urlencoded"
-
+                        "Content-Type": "application/x-www-form-urlencoded"
                     },
-
-                    body:
-                        "nome=" +
-                        encodeURIComponent(nome) +
-
-                        "&disciplina=" +
-                        encodeURIComponent(disciplina)
-
+                    body: "nome=" + encodeURIComponent(nome) +
+                        "&disci=" + encodeURIComponent(disci)
                 })
+                .then(response => response.json())
+                .then(dados => {
 
-                .then(response => response.text())
+                    let conteudo = dados.find(function(cont) {
+                        return cont.nome == nome;
+                    });
 
-                .then(retorno => {
-
-                    $('#resultadoConteudos')
-                        .html(retorno);
-
-
-                    /*
-                     * Seleciona automaticamente
-                     * o conteúdo criado.
-                     */
-
-                    $('.item-conteudo')
-                        .first()
-                        .click();
-
+                    if (conteudo) {
+                        $('#cont').val(conteudo.nome);
+                        $('#id_cont').val(conteudo.id);
+                    }
                 });
 
-
-                $('#novoConteudo').val('');
-
+                $('#novoCont').val('');
                 modalConteudo.close();
 
+            } else if (resposta == "EXISTE") {
+
+                alert("Esse conteúdo já existe.");
+
+            } else {
+
+                alert("Não foi possível criar o conteúdo.");
             }
-
-
-            else if(resposta == "EXISTE"){
-
-                alert(
-                    "Esse conteúdo já existe."
-                );
-
-            }
-
-
-            else{
-
-                alert(
-                    "Não foi possível criar o conteúdo."
-                );
-
-            }
-
         })
-
-        .catch(function(erro){
+        .catch(function(erro) {
 
             console.log(erro);
-
-            alert(
-                "Erro ao conectar."
-            );
-
+            alert("Erro ao conectar.");
         });
-
     });
 
+    // cadastra o material
+    $('#criaMaterial').on('submit', function(e) {
 
+        e.preventDefault();
 
-    // ==========================================
-    // VALIDAR FORMULÁRIO PRINCIPAL
-    // ==========================================
-
-    $('#criaMaterial').on('submit', function(e){
-
-
-        if($('#id_disciplina').val() == ''){
-
-            e.preventDefault();
-
-            alert(
-                "Selecione uma disciplina."
-            );
-
+        if ($('#titulo').val().trim() == '') {
+            alert("Digite o título do material.");
             return;
-
         }
 
-
-        if($('#id_conteudo').val() == ''){
-
-            e.preventDefault();
-
-            alert(
-                "Selecione um conteúdo."
-            );
-
+        if ($('#id_disci').val() == '') {
+            alert("Selecione uma disciplina.");
             return;
-
         }
 
+        if ($('#id_cont').val() == '') {
+            alert("Selecione um conteúdo.");
+            return;
+        }
 
+        if ($('#nivel').val() == '') {
+            alert("Selecione o nível de ensino.");
+            return;
+        }
+
+        if (!$('input[name="status"]:checked').val()) {
+            alert("Selecione o status do material.");
+            return;
+        }
+
+        if ($('#arquivo')[0].files.length == 0) {
+            alert("Selecione um arquivo.");
+            return;
+        }
+
+        let formData = new FormData(this);
+
+        fetch("../php/cadMaterial.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(retorno => {
+
+            let resposta = retorno.trim();
+
+            console.log(resposta);
+
+            if (resposta == "OK!") {
+
+                alert("Material cadastrado com sucesso!");
+
+                $('#criaMaterial')[0].reset();
+                $('#id_disci').val('');
+                $('#id_cont').val('');
+
+            } else if (resposta == "campos_vazios") {
+
+                alert("Preencha todos os campos.");
+
+            } else if (resposta == "erro_arquivo") {
+
+                alert("Selecione um arquivo válido.");
+
+            } else if (resposta == "erro_tamanho") {
+
+                alert("O arquivo deve ter no máximo 10 MB.");
+
+            } else if (resposta == "erro_extensao") {
+
+                alert("Esse tipo de arquivo não é permitido.");
+
+            } else if (resposta == "erro_upload") {
+
+                alert("Não foi possível enviar o arquivo.");
+
+            } else if (resposta == "erro_banco") {
+
+                alert("Não foi possível cadastrar o material.");
+
+            } else {
+
+                alert("Ocorreu um erro ao cadastrar o material.");
+            }
+        })
+        .catch(function(erro) {
+
+            console.log(erro);
+            alert("Erro ao conectar.");
+        });
     });
 
 });

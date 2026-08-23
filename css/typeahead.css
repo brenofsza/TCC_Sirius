@@ -1,0 +1,66 @@
+/* ===================================================
+   CSS mínimo para o bootstrap3-typeahead.js
+   Não depende do Bootstrap — só as classes que o
+   plugin realmente cria no DOM.
+=================================================== */
+
+/* O dropdown é position:absolute, então o pai precisa
+   ser position:relative para ele se ancorar corretamente */
+.campo-busca {
+    position: relative;
+}
+
+/* O <ul> que o plugin injeta logo após o <input> */
+.typeahead.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    display: none;          /* escondido por padrão */
+    margin: 4px 0 0;
+    padding: 4px 0;
+
+    list-style: none;
+
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+/* Classe que o plugin adiciona/remove para mostrar a lista */
+.typeahead.dropdown-menu.open {
+    display: block;
+}
+
+/* Cada item da lista */
+.typeahead.dropdown-menu > li > a {
+    display: block;
+    padding: 8px 14px;
+
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Item destacado (mouse em cima ou navegação por teclado) */
+.typeahead.dropdown-menu > li.active > a,
+.typeahead.dropdown-menu > li > a:hover {
+    background-color: #f2f2f2;
+    color: #111;
+}
+
+/* Caso a lista venha vazia, evita ficar uma caixa fantasma */
+.typeahead.dropdown-menu:empty {
+    display: none !important;
+}
