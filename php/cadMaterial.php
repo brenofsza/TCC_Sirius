@@ -10,6 +10,7 @@ $titulo = trim($_POST["titulo"]);
 $conteudo = $_POST["id_cont"];
 $nivel = $_POST["nivel"];
 $status = $_POST["status"];
+$descricao = trim($_POST["descricao"]);
 
 if($titulo == '' || $conteudo == '' || $nivel == '' || $status == ''){
     echo "campos_vazios";
@@ -59,23 +60,24 @@ if (move_uploaded_file($arquivo['tmp_name'], "../" . $caminhoCompleto)) {
     $data = date("Y-m-d");
 
     $sql = "INSERT INTO MATERIAL
-            (COD_USU, COD_CONTEUDO, COD_NIVEL, TITULO_MATERIA,
-            CAMINHO_ARQUIVO, NOME_ARQUIVO, DATA_CAD, STATUS_MATERIA)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        (COD_USU, COD_CONTEUDO, COD_NIVEL, TITULO_MATERIA, DESCRICAO_MATERIA,
+        CAMINHO_ARQUIVO, NOME_ARQUIVO, DATA_CAD, STATUS_MATERIA)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    $stmt = $conexao->prepare($sql);
+$stmt = $conexao->prepare($sql);
 
-    $stmt->bind_param(
-        "iiisssss",
-        $id_usuario,
-        $conteudo,
-        $nivel,
-        $titulo,
-        $caminhoCompleto,
-        $nomeArquivo,
-        $data,
-        $status
-    );
+$stmt->bind_param(
+    "iisssssss",
+    $id_usuario,
+    $conteudo,
+    $nivel,
+    $titulo,
+    $descricao,
+    $caminhoCompleto,
+    $nomeArquivo,
+    $data,
+    $status
+);
 
     if ($stmt->execute()) {
 

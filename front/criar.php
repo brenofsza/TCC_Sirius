@@ -5,7 +5,7 @@ include '../php/conexao.php';
 if (!isset($_SESSION['id_usuario'])) {
     header("Location: logar.php");
     exit;
-}
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -29,15 +29,17 @@ if (!isset($_SESSION['id_usuario'])) {
             Adicione um novo material ao SIRIUS.
         </p>
 
+        <!-- Área onde as mensagens serão exibidas -->
+        <div id="mensagem" style="display: none;"></div>
+
         <form action="../php/cadMaterial.php" method="POST" id="criaMaterial" enctype="multipart/form-data">
 
             <div class="campo">
-    <label for="titulo">Título do material</label>
+                <label for="titulo">Título do material</label>
 
-    <input type="text" id="titulo" name="titulo"
-        placeholder="Digite o título do material" required>
-</div>
-
+                <input type="text" id="titulo" name="titulo"
+                    placeholder="Digite o título do material" required>
+            </div>
 
             <div class="campo">
                 <label for="disci">Disciplina</label>
@@ -86,25 +88,29 @@ if (!isset($_SESSION['id_usuario'])) {
             <div class="campo">
                 <label for="arquivo">Arquivo</label>
                 <input type="file" id="arquivo" name="arquivo" required>
-            </div>
+            </div>        
 
-            <div class="campo">
-             <label>Status do material</label>
+                <div class="campo">
+                    <label>Status do material</label>
 
-           <div class="campo">
-            <label>Status do material</label>
+                    <label>
+                        <input type="radio" name="status" value="PUBLICO">
+                        Público
+                    </label>
 
-            <label>
-                <input type="radio" name="status" value="PUBLICO">
-                Público
-            </label>
+                    <label>
+                        <input type="radio" name="status" value="PRIVADO">
+                        Privado
+                    </label>
+                </div>
 
-            <label>
-                <input type="radio" name="status" value="PRIVADO">
-                Privado
-            </label>
-        </div>
-        </div>
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+
+                    <textarea id="descricao" name="descricao"
+                        placeholder="Descreva brevemente o conteúdo do material..."
+                        maxlength="500" rows="3"></textarea>
+                </div>
 
             <button type="submit" class="btn-cadastrar">
                 Cadastrar material

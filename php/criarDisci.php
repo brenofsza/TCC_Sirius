@@ -1,5 +1,4 @@
 <?php
-
 include("conexao.php");
 
 $nome = trim($_POST["nome"]);

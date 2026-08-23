@@ -21,7 +21,7 @@ $(document).ready(function() {
     // abre o modal cont
     abrirConteudo.addEventListener('click', function() {
         if ($('#id_disci').val() == '') {
-            alert("Selecione uma disciplina primeiro.");
+            $('#mensagem').html("Selecione uma disciplina primeiro.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
@@ -155,7 +155,7 @@ $(document).ready(function() {
         let nome = $('#novaDisci').val().trim();
 
         if (nome == '') {
-            alert("Digite o nome da disciplina.");
+            $('#mensagem').html("Digite o nome da disciplina.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
@@ -198,19 +198,21 @@ $(document).ready(function() {
                 $('#novaDisci').val('');
                 modalDisciplina.close();
 
+                $('#mensagem').html("Disciplina criada com sucesso!").css("color", "green").fadeIn(300).delay(2000).fadeOut(400);
+
             } else if (resposta == "EXISTE") {
 
-                alert("Essa disciplina já existe.");
+                $('#mensagem').html("Essa disciplina já existe.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else {
 
-                alert("Não foi possível criar a disciplina.");
+                $('#mensagem').html("Não foi possível criar a disciplina.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             }
         })
         .catch(function(erro) {
 
             console.log(erro);
-            alert("Erro ao conectar.");
+            $('#mensagem').html("Erro ao conectar.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
         });
     });
 
@@ -223,12 +225,12 @@ $(document).ready(function() {
         let disci = $('#id_disci').val();
 
         if (nome == '') {
-            alert("Digite o nome do conteúdo.");
+            $('#mensagem').html("Digite o nome do conteúdo.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
         if (disci == '') {
-            alert("Selecione uma disciplina.");
+            $('#mensagem').html("Selecione uma disciplina.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
@@ -273,19 +275,21 @@ $(document).ready(function() {
                 $('#novoCont').val('');
                 modalConteudo.close();
 
+                $('#mensagem').html("Conteúdo criado com sucesso!").css("color", "green").fadeIn(300).delay(2000).fadeOut(400);
+
             } else if (resposta == "EXISTE") {
 
-                alert("Esse conteúdo já existe.");
+                $('#mensagem').html("Esse conteúdo já existe.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else {
 
-                alert("Não foi possível criar o conteúdo.");
+                $('#mensagem').html("Não foi possível criar o conteúdo.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             }
         })
         .catch(function(erro) {
 
             console.log(erro);
-            alert("Erro ao conectar.");
+            $('#mensagem').html("Erro ao conectar.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
         });
     });
 
@@ -295,32 +299,32 @@ $(document).ready(function() {
         e.preventDefault();
 
         if ($('#titulo').val().trim() == '') {
-            alert("Digite o título do material.");
+            $('#mensagem').html("Digite o título do material.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
         if ($('#id_disci').val() == '') {
-            alert("Selecione uma disciplina.");
+            $('#mensagem').html("Selecione uma disciplina.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
         if ($('#id_cont').val() == '') {
-            alert("Selecione um conteúdo.");
+            $('#mensagem').html("Selecione um conteúdo.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
         if ($('#nivel').val() == '') {
-            alert("Selecione o nível de ensino.");
+            $('#mensagem').html("Selecione o nível de ensino.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
         if (!$('input[name="status"]:checked').val()) {
-            alert("Selecione o status do material.");
+            $('#mensagem').html("Selecione o status do material.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
         if ($('#arquivo')[0].files.length == 0) {
-            alert("Selecione um arquivo.");
+            $('#mensagem').html("Selecione um arquivo.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
@@ -339,7 +343,7 @@ $(document).ready(function() {
 
             if (resposta == "OK!") {
 
-                alert("Material cadastrado com sucesso!");
+                $('#mensagem').html("Material cadastrado com sucesso!").css("color", "green").fadeIn(300).delay(2000).fadeOut(400);
 
                 $('#criaMaterial')[0].reset();
                 $('#id_disci').val('');
@@ -347,37 +351,37 @@ $(document).ready(function() {
 
             } else if (resposta == "campos_vazios") {
 
-                alert("Preencha todos os campos.");
+                $('#mensagem').html("Preencha todos os campos.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else if (resposta == "erro_arquivo") {
 
-                alert("Selecione um arquivo válido.");
+                $('#mensagem').html("Selecione um arquivo válido.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else if (resposta == "erro_tamanho") {
 
-                alert("O arquivo deve ter no máximo 10 MB.");
+                $('#mensagem').html("O arquivo deve ter no máximo 10 MB.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else if (resposta == "erro_extensao") {
 
-                alert("Esse tipo de arquivo não é permitido.");
+                $('#mensagem').html("Esse tipo de arquivo não é permitido.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else if (resposta == "erro_upload") {
 
-                alert("Não foi possível enviar o arquivo.");
+                $('#mensagem').html("Não foi possível enviar o arquivo.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else if (resposta == "erro_banco") {
 
-                alert("Não foi possível cadastrar o material.");
+                $('#mensagem').html("Não foi possível cadastrar o material.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 
             } else {
 
-                alert("Ocorreu um erro ao cadastrar o material.");
+                $('#mensagem').html("Ocorreu um erro ao cadastrar o material.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             }
         })
         .catch(function(erro) {
 
             console.log(erro);
-            alert("Erro ao conectar.");
+            $('#mensagem').html("Erro ao conectar.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
         });
     });
 
