@@ -46,7 +46,7 @@ if (empty($row['FOTO_USU'])) {
 			</a>
 		</li>
 		<li>
-			<a href="/pesquisar.php">
+			<a href="pesquisar.php">
 				<i class="bx bx-search-alt"></i>
 				<span class="tooltip">Pesquisar</span>
 			</a>

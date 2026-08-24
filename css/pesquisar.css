@@ -1,0 +1,109 @@
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 0 25px;
+    background-color: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+/*Logo*/
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 100px;
+    width: auto;
+}
+
+/*Pesquisar*/
+.search-bar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.search-bar input[type="search"] {
+    width: 500px;
+    height: 35px;
+    padding: 0 16px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background-color: #f7f7fb;
+    font-size: 14px;
+}
+
+.search-bar button {
+    height: 35px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #7141bb;
+    color: white;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+}
+
+.search-bar button:hover {
+    background-color: #8f5cd6; 
+}
+
+/*Perfil*/
+.fotoPerfil {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    vertical-align: middle;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto; 
+    white-space: nowrap;
+}
+
+.user p {
+    font-size: 16px;
+    color: #000000;
+}
+
+.user a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #7141bb;
+    font-weight: bold;
+    font-size: 14px;
+}
+/*Fim do cabeçalho*/
+
+/*.icon {
+    height: 70px;
+    width: 70px;
+    
+}*/
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: 'Lato', sans-serif;
+    line-height: 1;
+}
+
+body {
+    background-color: #F5F6F8;
+}

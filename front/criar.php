@@ -170,7 +170,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </a>
             </li>
 
-            <li>
+            <li class="active">
                 <a href="criar.php">
                     <i class="bx bx-plus"></i>
                     <span class="tooltip">Criar</span>
@@ -178,7 +178,7 @@ if (!isset($_SESSION['id_usuario'])) {
             </li>
 
             <li>
-                <a href="/pesquisar.php">
+                <a href="pesquisar.php">
                     <i class="bx bx-search-alt"></i>
                     <span class="tooltip">Pesquisar</span>
                 </a>
@@ -191,7 +191,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </a>
             </li>
 
-            <li class="active">
+            <li>
                 <a href="perfil.php">
                     <i class="bx bx-user"></i>
                     <span class="tooltip">Perfil</span>
