@@ -8,7 +8,7 @@ $nome = $_POST['nome'];
 $email = $_POST['email'];
 $username = $_POST['username'];
 
-// Confirma se existe o email cadastrado
+// ve se tem email cadastrado
 if($_SESSION['email'] != $email){
     $sql = "SELECT ID_USU FROM USUARIO WHERE EMAIL_USU = ?";
     $stmt = $conexao->prepare($sql);
@@ -23,7 +23,7 @@ if($_SESSION['email'] != $email){
     $stmt->close();
 }
 
-// Confirma se existe o user cadastrado
+// ve se tem o user cadastrado
 if($_SESSION['username'] != $username){
     $sql2 = "SELECT ID_USU FROM USUARIO WHERE USERNAME = ?";
     $stmt2 = $conexao->prepare($sql2);

@@ -19,7 +19,7 @@
 			<img src="img/logo.png" alt="Logo">
 		</div>
 
-		<form class="search-bar" action="/pesquisa" method="get">
+		<form class="search-bar" action="php/pesqMaterial.php" method="get">
 			<input type="search" name="q" placeholder="Buscar usuários, conteúdos ou materiais..." required>
 			<button type="submit">Buscar</button>
 		</form>

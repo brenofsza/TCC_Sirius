@@ -29,7 +29,7 @@ if (!isset($_SESSION['id_usuario'])) {
             Adicione um novo material ao SIRIUS.
         </p>
 
-        <!-- Área onde as mensagens serão exibidas -->
+       
         <div id="mensagem" style="display: none;"></div>
 
         <form action="../php/cadMaterial.php" method="POST" id="criaMaterial" enctype="multipart/form-data">

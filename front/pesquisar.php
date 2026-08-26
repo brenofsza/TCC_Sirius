@@ -6,6 +6,8 @@ if (!isset($_SESSION['id_usuario'])) {
     header("Location: logar.php");
     exit;
 }
+
+$pesquisa = $_GET['q'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -34,17 +36,20 @@ if (!isset($_SESSION['id_usuario'])) {
             <img src="../img/logo.png" alt="Logo">
         </div>
 
-        <form class="search-bar" action="/pesquisa" method="get">
-            <input type="search" name="q" placeholder="Buscar usuários, conteúdos ou materiais..." required>
+        <form class="search-bar" id="formPesquisa">
+
+            <input 
+                type="search" 
+                id="pesquisa"
+                name="q"
+                placeholder="Buscar materiais ou usuários..."
+                value="<?php echo htmlspecialchars($pesquisa); ?>"
+                required
+            >
 
             <button type="submit">
                 Buscar
             </button>
-
-            Filtrar por:
-
-            Disciplina <input type="checkbox">
-            Conteudo <input type="checkbox">
 
         </form>
 
@@ -90,12 +95,44 @@ if (!isset($_SESSION['id_usuario'])) {
                 </a>
             </li>
         </ul>
+
     </nav>
+
+
+    <main class="area-pesquisa">
+
+        <div class="tipos-pesquisa">
+
+            <button class="tipoPesquisa ativo" data-tipo="materiais">
+                Materiais
+            </button>
+
+            <button class="tipoPesquisa" data-tipo="usuarios">
+                Usuários
+            </button>
+
+        </div>
+
+
+        <div id="filtros">
+
+            
+
+        </div>
+
+
+        <div id="resultadoPesquisa">
+
+           
+
+        </div>
+
+    </main>
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/pesquisar.js"></script>
-    <script src="../js/bootstrap3-typeahead.js"></script>
 
 </body>
 
