@@ -12,8 +12,6 @@ $tipo = $_POST['tipo'] ?? 'materiais';
 
 if($pesquisa == ''){
 
-	echo "<p>Digite algo para pesquisar.</p>";
-
 	exit;
 }
 

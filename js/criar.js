@@ -230,7 +230,7 @@ $(document).ready(function() {
         }
 
         if (disci == '') {
-            $('#mensagem').html("Selecione uma disciplina.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
+            $('#mensagem').html("Selecione uma disciplina válida.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
             return;
         }
 
