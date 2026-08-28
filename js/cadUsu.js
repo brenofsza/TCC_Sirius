@@ -82,7 +82,7 @@ $(document).ready(function(){
                 
                 setTimeout(() => {
                     window.location.href = "../front/logar.php";
-                }, 2000);
+                }, 100);
 
             } else if(resposta == "SENHA_ERRO"){
                 $('#mensagem').html("As senhas são diferentes!").css("color", "red");

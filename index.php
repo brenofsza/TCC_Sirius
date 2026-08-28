@@ -83,14 +83,14 @@
 		</ul>
 	</nav>
 
-
-
-	<div>
-		<h3>Explore novas possibilidades para suas aulas.</h3>
-		<h1>Organize seu conhecimento de forma inteligente.</h1>
-		<h3>Crie, organize e compartilhe questões e materiais em um só lugar.
-			Sirius conecta você a conteúdos de outros professores.</h3>
-	</div>
+	<main class="banner">
+		<div class="banner-content">
+			<h3>Explore novas possibilidades para suas aulas.</h3>
+			<h1>Organize seu conhecimento de forma inteligente.</h1>
+			<h3>Crie, organize e compartilhe questões e materiais em um só lugar. Sirius conecta você a conteúdos de outros professores.</h3>
+			<a class="btn-banner" href="front/criar.php">Começar →</a>
+		</div>
+	</main>
 
 
 

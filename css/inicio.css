@@ -1,3 +1,6 @@
+body {
+    background-color: #fff;
+}
 
 .topbar {
     position: fixed;
@@ -104,9 +107,7 @@
     line-height: 1;
 }
 
-body {
-    background-color: #F5F6F8;
-}
+
 
 /* Navbar */
 .sidebar-navigation {
@@ -183,4 +184,89 @@ body {
 
 .sidebar-navigation ul li.active i {
     color: #98D7EC;
+}
+
+/* Banner */
+.banner {
+    position: fixed;
+    /* centraliza verticalmente na viewport */
+    top: 50%;
+    left: 75px; /* direita da sidebar */
+    right: 0;
+    transform: translateY(-50%);
+    min-height: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 60px 40px;
+    z-index: 1;
+}
+
+.banner-content {
+    background: linear-gradient(180deg, #6c2fb5 0%, #5a27a0 100%);
+    border-radius: 14px;
+    padding: 48px 64px;
+    max-width: 1100px;
+    width: calc(100% - 160px);
+    text-align: left;
+    box-shadow: 0 18px 50px rgba(23, 7, 56, 0.18);
+}
+
+.banner-content h1 {
+    font-size: 30px;
+    margin: 8px 0 14px;
+    color: #fff;
+}
+
+.banner-content h3 {
+    font-size: 20px;
+    color: #f0eefe;
+    margin: 6px 0;
+}
+
+.btn-banner {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 12px 26px;
+    background-color: #ffc928;
+    color: #000000;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 780;
+}
+
+.btn-banner:hover {
+    background-color: #ffd75a;
+}
+
+/* Mobile adjustments */
+@media (max-width: 800px) {
+    .search-bar input[type="search"] { width: 280px; }
+    .search-bar { position: static; left: initial; transform: none; margin: 8px 0; }
+    .banner-content { padding: 24px; }
+    .banner-content h1 { font-size: 26px; }
+    /* esconder sidebar em telas menores e usar layout de fluxo */
+    .sidebar-navigation { display: none; }
+    .banner {
+        left: 0;
+        padding: 24px 12px;
+        min-height: auto;
+        top: initial;
+        transform: none;
+        position: relative;
+        margin-top: 80px; /* afasta do topbar fixo */
+    }
+    .topbar .logo img { height: 40px; }
+    .banner-content { max-width: 100%; width: calc(100% - 32px); box-shadow: none; border-radius: 10px; }
+}
+
+@media (max-width: 500px) {
+    .sidebar-navigation { width: 60px; }
+    .banner { left: 0; padding: 16px; }
+    .banner-content { max-width: 100%; padding: 16px; width: 100%; }
+    .banner-content h1 { font-size: 22px; }
+    .banner-content h3 { font-size: 16px; }
+    .btn-banner { padding: 10px 18px; font-size: 14px; }
+    .search-bar input[type="search"] { width: 100%; }
 }
