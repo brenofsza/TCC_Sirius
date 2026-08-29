@@ -6,6 +6,8 @@ $(document).ready(function(){
 	function pesquisar(){
 
 		let pesquisa = $('#pesquisa').val().trim();
+		let disciplina = $('#filtroDisci').val();
+		let conteudo = $('#filtroCont').val();
 
 		if(pesquisa == ''){
 			return;
@@ -17,7 +19,9 @@ $(document).ready(function(){
 				"Content-Type": "application/x-www-form-urlencoded"
 			},
 			body: "pesquisa=" + encodeURIComponent(pesquisa) +
-				  "&tipo=" + encodeURIComponent(tipoPesquisa)
+				  "&tipo=" + encodeURIComponent(tipoPesquisa) +
+				  "&disciplina=" + encodeURIComponent(disciplina) +
+				  "&conteudo=" + encodeURIComponent(conteudo)
 		})
 		.then(response => response.text())
 		.then(retorno => {
@@ -55,6 +59,63 @@ $(document).ready(function(){
 
 		tipoPesquisa = $(this).data('tipo');
 
+		if(tipoPesquisa == "materiais"){
+			$('#filtros').show();
+		} else {
+			$('#filtros').hide();
+		}
+
+		pesquisar();
+
+	});
+
+
+	$('#filtroDisci').change(function(){
+
+		let disciplina = $(this).val();
+
+		$('#filtroCont').html('<option value="">Todos os conteúdos</option>');
+
+		if(disciplina == ''){
+			$('#filtroCont').prop('disabled', true);
+			pesquisar();
+			return;
+		}
+
+		fetch("../php/buscarCont.php", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: "nome=&disci=" + encodeURIComponent(disciplina)
+		})
+		.then(response => response.json())
+		.then(retorno => {
+
+			retorno.forEach(function(conteudo){
+
+				$('#filtroCont').append(
+					'<option value="' + conteudo.id + '">' + conteudo.nome + '</option>'
+				);
+
+			});
+
+			$('#filtroCont').prop('disabled', false);
+
+			pesquisar();
+
+		})
+		.catch(function(erro){
+
+			console.log(erro);
+
+		});
+
+	});
+
+
+	$('#filtroCont').change(function(){
+
 		pesquisar();
 
 	});
@@ -70,5 +131,34 @@ $(document).ready(function(){
 		pesquisar();
 
 	}
+
+
+	$('#filtros').show();
+
+
+	fetch("../php/buscarDisci.php", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/x-www-form-urlencoded"
+		},
+		body: "nome="
+	})
+	.then(response => response.json())
+	.then(retorno => {
+
+		retorno.forEach(function(disciplina){
+
+			$('#filtroDisci').append(
+				'<option value="' + disciplina.id + '">' + disciplina.nome + '</option>'
+			);
+
+		});
+
+	})
+	.catch(function(erro){
+
+		console.log(erro);
+
+	});
 
 });

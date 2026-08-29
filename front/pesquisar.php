@@ -38,14 +38,7 @@ $pesquisa = $_GET['q'] ?? '';
 
         <form class="search-bar" id="formPesquisa">
 
-            <input 
-                type="search" 
-                id="pesquisa"
-                name="q"
-                placeholder="Buscar materiais ou usuários..."
-                value="<?php echo htmlspecialchars($pesquisa); ?>"
-                required
-            >
+            <input type="search" id="pesquisa" name="q" placeholder="Buscar materiais ou usuários..." value="<?php echo htmlspecialchars($pesquisa); ?>" required>
 
             <button type="submit">
                 Buscar
@@ -116,7 +109,19 @@ $pesquisa = $_GET['q'] ?? '';
 
         <div id="filtros">
 
-            
+            <div class="filtro">
+                <label for="filtroDisci">Disciplina</label>
+                <select id="filtroDisci">
+                    <option value="">Todas as disciplinas</option>
+                </select>
+            </div>
+
+            <div class="filtro">
+                <label for="filtroCont">Conteúdo</label>
+                <select id="filtroCont" disabled>
+                    <option value="">Todos os conteúdos</option>
+                </select>
+            </div>
 
         </div>
 

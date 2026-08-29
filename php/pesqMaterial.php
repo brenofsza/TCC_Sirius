@@ -9,6 +9,9 @@ $pesquisa = trim($_POST['pesquisa'] ?? '');
 
 $tipo = $_POST['tipo'] ?? 'materiais';
 
+$disci = $_POST['disciplina'] ?? '';
+$cont = $_POST['conteudo'] ?? '';
+
 
 if($pesquisa == ''){
 
@@ -18,7 +21,7 @@ if($pesquisa == ''){
 
 $busca = "%" . $pesquisa . "%";
 
-// pesquia materiaiss
+// pesq materiais
 if($tipo == "materiais"){
 
 	$sql = "SELECT  MATERIAL.*, CONTEUDO.NOME_CONTEUDO, DISCIPLINA.NOME_DISCI,
@@ -29,22 +32,83 @@ if($tipo == "materiais"){
             INNER JOIN NIVEL_ENSINO ON MATERIAL.COD_NIVEL = NIVEL_ENSINO.ID_NIVEL
 			INNER JOIN USUARIO ON MATERIAL.COD_USU = USUARIO.ID_USU		
 			WHERE
-				MATERIAL.TITULO_MATERIA LIKE ?
+				(MATERIAL.TITULO_MATERIA LIKE ?
 				OR MATERIAL.DESCRICAO_MATERIA LIKE ?
 				OR CONTEUDO.NOME_CONTEUDO LIKE ?
-				OR DISCIPLINA.NOME_DISCI LIKE ?
-			ORDER BY MATERIAL.DATA_CAD DESC";
+				OR DISCIPLINA.NOME_DISCI LIKE ?)";
+
+
+	// filtro disci
+	if($disci != ''){
+
+		$sql .= " AND DISCIPLINA.ID_DISCI = ?";
+
+	}
+
+
+	// filtro cont
+	if($cont != ''){
+
+		$sql .= " AND CONTEUDO.ID_CONTEUDO = ?";
+
+	}
+
+
+	$sql .= " ORDER BY MATERIAL.DATA_CAD DESC";
 
 
 	$stmt = $conexao->prepare($sql);
 
-	$stmt->bind_param(
-		"ssss",
-		$busca,
-		$busca,
-		$busca,
-		$busca
-	);
+
+	// define os parametros de acordo com os filtros, aqui os 2 filtros estao atiados
+	if($disci != '' && $cont != ''){
+
+		$stmt->bind_param(
+			"ssssii",
+			$busca,
+			$busca,
+			$busca,
+			$busca,
+			$disci,
+			$cont
+		);
+
+	//
+	} else if($disci != ''){
+
+		$stmt->bind_param(
+			"ssssi",
+			$busca,
+			$busca,
+			$busca,
+			$busca,
+			$disci
+		);
+
+	} else if($cont != ''){
+
+		$stmt->bind_param(
+			"sssssi",
+			$busca,
+			$busca,
+			$busca,
+			$busca,
+			$cont
+		);
+
+	} else {
+
+	//nenhum filtro ativado
+		$stmt->bind_param(
+			"ssss",
+			$busca,
+			$busca,
+			$busca,
+			$busca
+		);
+
+	}
+
 
 	$stmt->execute();
 
@@ -55,7 +119,7 @@ if($tipo == "materiais"){
 
 		while($material = $resultado->fetch_assoc()){
 
-			echo "<div class='card-material'>";
+			echo "<a href='../front/material.php?id=" . $material['ID_MATERIAL'] . "' class='card-material'>";
 
 			echo "<h3>" . 
 				htmlspecialchars($material['TITULO_MATERIA']) . 
@@ -79,7 +143,7 @@ if($tipo == "materiais"){
 
 			}
 
-			echo "</div>";
+			echo "</a>";
 
 		}
 
@@ -91,7 +155,7 @@ if($tipo == "materiais"){
 
 	$stmt->close();
 
-//Pesquisa os usuarioss
+// pesq usuarios
 } else if($tipo == "usuarios"){
 
 	$sql = "SELECT  ID_USU, NOME_USU, USERNAME, DESCRICAO_USU, FOTO_USU
