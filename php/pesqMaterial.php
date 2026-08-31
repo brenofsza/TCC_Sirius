@@ -189,7 +189,7 @@ if($tipo == "materiais"){
 			}
 
 
-			echo "<div class='card-usuario'>";
+			echo "<a href='../front/perfilUsuario.php?id=" . $usuario['ID_USU'] . "' class='card-usuario'>";
 			echo "<img src='" . htmlspecialchars($foto) . "' class='foto-usuario'>";
 			echo "<div class='info-usuario'>";
 			echo "<h3>" . htmlspecialchars($usuario['NOME_USU']) . "</h3>";
@@ -204,7 +204,7 @@ if($tipo == "materiais"){
 			}
 
 			echo "</div>
-                    </div>";}
+                    </a>";}
         } else {
 		echo "<p>Nenhum usuário encontrado.</p>";
 	}

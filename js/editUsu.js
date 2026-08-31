@@ -13,6 +13,7 @@ $(document).ready(function(){
         const nome = $('#nome').val();
         const email = $('#email').val();
         const username = $('#username').val();
+        const descricao = $('#descricao').val();
 
         fetch("../php/edtUsuario.php", {
             method: "POST",
@@ -21,7 +22,8 @@ $(document).ready(function(){
             },
             body: "nome=" + encodeURIComponent(nome) + 
                   "&email=" + encodeURIComponent(email) + 
-                  "&username=" + encodeURIComponent(username)
+                  "&username=" + encodeURIComponent(username) +
+                  "&descricao=" + encodeURIComponent(descricao)
         })
         .then(response => response.text())
         .then(retorno => {

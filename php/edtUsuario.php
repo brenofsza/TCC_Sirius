@@ -7,6 +7,7 @@ $id = $_SESSION['id_usuario'];
 $nome = $_POST['nome'];
 $email = $_POST['email'];
 $username = $_POST['username'];
+$descricao = trim($_POST['descricao']);
 
 // ve se tem email cadastrado
 if($_SESSION['email'] != $email){
@@ -39,15 +40,17 @@ if($_SESSION['username'] != $username){
 }
 
 
-$sql3 = "UPDATE USUARIO SET EMAIL_USU = ?, NOME_USU = ?, USERNAME = ? WHERE ID_USU = ?";
+$sql3 = "UPDATE USUARIO SET EMAIL_USU = ?, NOME_USU = ?, USERNAME = ?, DESCRICAO_USU = ? WHERE ID_USU = ?";
 $stmt3 = $conexao->prepare($sql3);
-$stmt3->bind_param("sssi", $email, $nome, $username, $id);
+$stmt3->bind_param("ssssi", $email, $nome, $username, $descricao, $id);
 
 if ($stmt3->execute()) {
     
     $_SESSION['nome'] = $nome;
     $_SESSION['email'] = $email;
     $_SESSION['username'] = $username;
+    $_SESSION['descricao'] = $descricao;
+    
     echo "OK!";
 } else {
     echo "ERRO_SALVAR";

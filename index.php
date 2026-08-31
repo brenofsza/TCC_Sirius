@@ -25,6 +25,10 @@
 			<button type="submit">Buscar</button>
 		</form>
 
+		<button type="button" id="btnNotificacao">
+			<i class="bx bx-bell"></i>
+		</button>
+
 		<div class="user">
 			<?php
 			if (empty($_SESSION['nome'])) {
@@ -84,6 +88,7 @@
 		</ul>
 	</nav>
 
+
 	<main class="banner">
 		<div class="banner-content">
 			<h3>Explore novas possibilidades para suas aulas.</h3>
@@ -94,8 +99,27 @@
 	</main>
 
 
+	<dialog id="modalNotificacao">
 
+		<div class="modal-notificacao">
+
+			<button type="button" id="fecharNotificacao">
+				<i class="bx bx-x"></i>
+			</button>
+
+			<h2>Notificações</h2>
+
+			<div id="notificacoes">
+			</div>
+
+		</div>
+
+	</dialog>
+
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="js/navbar.js"></script>
+	<script src="js/notificacao.js"></script>
 </body>
 
 </html>

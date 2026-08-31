@@ -43,6 +43,15 @@ if($resultado->num_rows == 0){
 $material = $resultado->fetch_assoc();
 
 $stmt->close();
+
+
+// verifica quem pode ver o material
+if($material['STATUS_MATERIA'] == 'PRIVADO' && $material['COD_USU'] != $_SESSION['id_usuario']){
+
+    header("Location: pesquisar.php");
+    exit;
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -178,37 +187,40 @@ $stmt->close();
 
             <?php } ?>
 
+<div class="autor-material">
 
-           <div class="autor-material">
+    <?php
 
-            <?php
+    if(empty($material['FOTO_USU'])){
 
-            if(empty($material['FOTO_USU'])){
+        $fotoAutor = '../img/user.webp';
 
-                $fotoAutor = '../img/user.webp';
+    } else {
 
-            } else {
+        $fotoAutor = '../' . $material['FOTO_USU'];
 
-                $fotoAutor = '../' . $material['FOTO_USU'];
+    }
 
-            }
+    ?>
 
-            ?>
+    <a href="perfilUsuario.php?id=<?php echo $material['COD_USU']; ?>">
 
-            <img src="<?php echo htmlspecialchars($fotoAutor); ?>" class="fotoPerfil">
+        <img src="<?php echo htmlspecialchars($fotoAutor); ?>" class="fotoPerfil">
 
-            <div>
-                <p>
-                    Publicado por:
-                </p>
+        <div>
+            <p>
+                Publicado por:
+            </p>
 
-                <p>
-                    <?php echo htmlspecialchars($material['NOME_USU']); ?>
-                    (@<?php echo htmlspecialchars($material['USERNAME']); ?>)
-                </p>
-            </div>
-
+            <p>
+                <?php echo htmlspecialchars($material['NOME_USU']); ?>
+                (@<?php echo htmlspecialchars($material['USERNAME']); ?>)
+            </p>
         </div>
+
+    </a>
+
+</div>
 
 
             <p>
@@ -226,6 +238,11 @@ $stmt->close();
             <a href="../<?php echo htmlspecialchars($material['CAMINHO_ARQUIVO']); ?>" target="_blank">
                 Abrir arquivo
             </a>
+
+            <a href="../<?php echo htmlspecialchars($material['CAMINHO_ARQUIVO']); ?>" 
+                download="<?php echo htmlspecialchars($material['NOME_ARQUIVO']); ?>">
+                Baixar arquivo
+</a>
 
         </div>
 
