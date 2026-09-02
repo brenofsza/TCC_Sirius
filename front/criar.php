@@ -13,6 +13,7 @@ if (!isset($_SESSION['id_usuario'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/criar.css">
     <title>Criar Materiais</title>
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -87,7 +88,11 @@ if (!isset($_SESSION['id_usuario'])) {
 
             <div class="campo">
                 <label for="arquivo">Arquivo</label>
-                <input type="file" id="arquivo" name="arquivo" required>
+                <div class="arquivo-personalizado">
+                    <input type="file" id="arquivo" name="arquivo" required>
+                    <label for="arquivo" class="botao-arquivo">Selecionar arquivo</label>
+                    <span class="nome-arquivo" id="nomeArquivo">Nenhum arquivo selecionado</span>
+                </div>
             </div>        
 
                 <div class="campo">
@@ -204,6 +209,16 @@ if (!isset($_SESSION['id_usuario'])) {
     <script src="../js/navbar.js"></script>
     <script src="../js/criar.js"></script>
     <script src="../js/bootstrap3-typeahead.js"></script>
+    <script>
+        const campoArquivo = document.getElementById('arquivo');
+        const nomeArquivo = document.getElementById('nomeArquivo');
+
+        campoArquivo.addEventListener('change', function () {
+            nomeArquivo.textContent = this.files.length
+                ? this.files[0].name
+                : 'Nenhum arquivo selecionado';
+        });
+    </script>
 
 </body>
 

@@ -1,0 +1,174 @@
+/* Estilos apenas para o seletor de arquivo personalizado */
+:root {
+    --roxo: #7141bb;
+    --roxo-escuro: #331761;
+    --borda: #e4ddec;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Área central da página Criar */
+.container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    color: #2f243b;
+    background: #f5f6f8;
+    font-family: 'Lato', Arial, sans-serif;
+}
+
+.container h1,
+.subtitulo,
+#criaMaterial {
+    width: min(100%, 700px);
+}
+
+.container h1 {
+    margin: 0 0 7px;
+    color: var(--roxo-escuro);
+    font-size: 2rem;
+}
+
+.subtitulo {
+    margin: 0 0 20px;
+    color: #766b82;
+}
+
+/* Cartão que reúne todos os dados do material */
+#criaMaterial {
+    max-height: calc(100vh - 165px);
+    padding: 26px 34px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border: 1px solid #ece7f1;
+    border-top: 5px solid var(--amarelo, #ffc928);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 14px 36px rgba(51, 23, 97, .12);
+}
+
+#criaMaterial::-webkit-scrollbar {
+    display: none;
+}
+
+.campo {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 16px;
+}
+
+.campo > label {
+    color: var(--roxo-escuro);
+    font-size: .92rem;
+    font-weight: 700;
+}
+
+.campo input[type='text'],
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    outline: none;
+    color: #2f243b;
+    background: #fff;
+    font: inherit;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: var(--roxo);
+    box-shadow: 0 0 0 4px rgba(113, 65, 187, .14);
+}
+
+.campo textarea {
+    resize: vertical;
+}
+
+.criar-link {
+    justify-self: start;
+    padding: 0;
+    border: 0;
+    color: var(--roxo);
+    background: transparent;
+    font: inherit;
+    font-size: .86rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-cadastrar {
+    width: 100%;
+    padding: 13px;
+    border: 0;
+    border-radius: 9px;
+    color: #251238;
+    background: var(--amarelo, #ffc928);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.btn-cadastrar:hover {
+    background: #ffd75a;
+}
+
+.arquivo-personalizado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 48px;
+    padding: 7px;
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    background: #fff;
+}
+
+.arquivo-personalizado input[type='file'] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.botao-arquivo {
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--roxo);
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.botao-arquivo:hover {
+    background: var(--roxo-escuro);
+}
+
+.nome-arquivo {
+    overflow: hidden;
+    color: #6f637a;
+    font-family: 'Lato', Arial, sans-serif;
+    font-size: .92rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

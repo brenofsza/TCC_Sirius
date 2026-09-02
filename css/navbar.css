@@ -36,15 +36,20 @@ body {
     background-color: #F5F6F8;
 }
 
-/* Navbar */
+/* Navbar NÃO MEXER PELO AMOR DE DEUS, OBRIGADO*/
 
 .sidebar-navigation {
-    margin-top: 50px;
-    display: inline-block;
-    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    height: 100vh;
+    min-height: 0;
     width: 75px;
     background-color: #7141bb;
     float: none;
+    z-index: 10;
 }
 
 .sidebar-navigation ul {
