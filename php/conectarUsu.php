@@ -21,15 +21,17 @@ if($id_destino == ''){
 // verifica se ja existe uma ligacao
 $sql = "SELECT ID_LIGACAO, STATUS_LIGACAO
         FROM LIGACAO
-        WHERE COD_USU = ?
-        AND COD_USU_DESTINO = ?";
+        WHERE (COD_USU = ? AND COD_USU_DESTINO = ?)
+        OR (COD_USU = ? AND COD_USU_DESTINO = ?)";
 
 $stmt = $conexao->prepare($sql);
 
 $stmt->bind_param(
-    "ii",
+    "iiii",
     $id_usuario,
-    $id_destino
+    $id_destino,
+    $id_destino,
+    $id_usuario
 );
 
 $stmt->execute();
