@@ -63,24 +63,35 @@ body {
 
 /*Perfil*/
 .fotoPerfil {
-    width: 45px;
-    height: 45px;
+    /* Mantém a imagem com proporção quadrada para formar um avatar circular. */
+    width: 44px;
+    height: 44px;
+    /* Cria uma moldura roxa ao redor da foto de perfil. */
+    border: 2px solid #7141bb;
+    /* Separa a moldura roxa da imagem com um pequeno aro branco. */
+    outline: 2px solid #fff;
     border-radius: 50%;
     object-fit: cover;
     vertical-align: middle;
+    /* Destaca levemente o avatar do fundo branco do cabeçalho. */
+    box-shadow: 0 3px 10px rgba(51, 23, 97, .16);
 }
 
 .user {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 13px;
     margin-left: auto; 
     white-space: nowrap;
 }
 
 .user p {
-    font-size: 16px;
-    color: #000000;
+    /* Usa uma fonte de interface mais suave para a saudação. */
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .1px;
+    color: #331761;
 }
 
 .user a {
@@ -269,4 +280,209 @@ body {
     .banner-content h3 { font-size: 16px; }
     .btn-banner { padding: 10px 18px; font-size: 14px; }
     .search-bar input[type="search"] { width: 100%; }
+}
+
+#btnNotificacao {
+    position: relative;
+    /* Define largura e altura iguais para o botão ficar redondo. */
+    width: 42px;
+    height: 42px;
+
+    /* Centraliza o ícone da notificação dentro do botão. */
+    display: grid;
+    place-items: center;
+
+    /* Cria uma borda lilás bem clara ao redor do botão. */
+    border: 1px solid #e4ddec;
+
+    /* Transforma o botão em um círculo. */
+    border-radius: 50%;
+
+    /* Define o roxo como cor padrão do ícone. */
+    color: #7141bb;
+
+    /* Aplica um fundo lilás claro. */
+    background: #f1edf6;
+
+    /* Mostra a mão ao passar o mouse, indicando que é clicável. */
+    cursor: pointer;
+
+    /* Deixa suaves as mudanças de cor e posição no hover. */
+    transition: .2s;
+}
+
+#btnNotificacao:hover{
+      /* Deixa o ícone branco ao passar o mouse. */
+    color: white;
+
+    /* Troca o fundo para o roxo principal. */
+    background: #7141bb;
+
+    /* Move o botão levemente para cima. */
+    transform: translateY(-2px);
+}
+
+#btnNotificacao:after{
+     /* Cria um elemento visual sem precisar adicionar HTML. */
+    content: "";
+
+    /* Define o tamanho da bolinha de aviso. */
+    width: 9px;
+    height: 9px;
+
+    /* Posiciona a bolinha no canto do botão. */
+    position: absolute;
+    top: 7px;
+    right: 7px;
+
+    /* Cria uma pequena borda branca para destacá-la. */
+    border: 2px solid white;
+
+    /* Deixa a bolinha totalmente redonda. */
+    border-radius: 50%;
+
+    /* Usa amarelo para chamar atenção para a notificação nova. */
+    background: #ffc928;
+}
+
+/* Modal de notificações: mesmo padrão visual das caixas de criação. */
+#modalNotificacao {
+    /* Mantém o modal responsivo, sem ficar largo demais no computador. */
+    width: min(92vw, 520px);
+    margin: auto;
+    padding: 0;
+    /* Remove a borda padrão do elemento dialog e cria a faixa amarela superior. */
+    border: 0;
+    border-top: 5px solid #ffc928;
+    border-radius: 16px;
+    /* Cria o card branco com uma sombra suave. */
+    color: #2f243b;
+    background: #fff;
+    box-shadow: 0 18px 48px rgba(51, 23, 97, .24);
+}
+
+#modalNotificacao::backdrop {
+    /* Escurece e desfoca levemente a página enquanto o modal estiver aberto. */
+    background: rgba(38, 22, 59, .48);
+    backdrop-filter: blur(3px);
+}
+
+.modal-notificacao {
+    /* Cria espaço interno e serve de referência para o botão de fechar. */
+    position: relative;
+    padding: 30px;
+}
+
+.modal-notificacao h2 {
+    /* Usa o roxo escuro nos títulos, como na página de criação. */
+    margin: 0 42px 22px 0;
+    color: #331761;
+    font-size: 1.5rem;
+}
+
+#fecharNotificacao {
+    /* Posiciona o X em um botão circular no canto superior direito. */
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    color: #331761;
+    background: #f1edf6;
+    font-size: 1.45rem;
+    cursor: pointer;
+}
+
+#fecharNotificacao:hover {
+    color: #fff;
+    background: #7141bb;
+}
+
+/* Lista carregada pelo PHP com as solicitações de conexão. */
+#notificacoes {
+    display: grid;
+    gap: 12px;
+}
+
+#notificacoes > p {
+    margin: 0;
+    color: #766b82;
+}
+
+.solicitacao {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 14px;
+    border: 1px solid #e4ddec;
+    border-radius: 11px;
+    background: #fdfcff;
+}
+
+.foto-usuario {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info-solicitacao {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px 10px;
+}
+
+.info-solicitacao h3,
+.info-solicitacao p {
+    margin: 0;
+}
+
+.info-solicitacao h3 {
+    color: #331761;
+    font-size: .98rem;
+}
+
+.info-solicitacao p {
+    width: 100%;
+    color: #766b82;
+    font-size: .88rem;
+}
+
+.aceitarConexao,
+.recusarConexao {
+    padding: 8px 11px;
+    border: 0;
+    border-radius: 7px;
+    font: inherit;
+    font-size: .84rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.aceitarConexao {
+    color: #251238;
+    background: #ffc928;
+}
+
+.recusarConexao {
+    color: #331761;
+    background: #eee8f7;
+}
+
+@media (max-width: 500px) {
+    .modal-notificacao {
+        padding: 24px;
+    }
+
+    .solicitacao {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
 }

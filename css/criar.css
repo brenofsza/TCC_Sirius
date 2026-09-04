@@ -172,3 +172,152 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/*Janelas para criar disciplina e conteúdo */
+.modal {
+    /* Limita a largura do modal: 92% da tela em celulares e até 460px no desktop. */
+    width: min(92vw, 460px);
+    /* Permite ao navegador centralizar a janela aberta. */
+    margin: auto;
+    /* Remove o espaçamento padrão do elemento <dialog>. */
+    padding: 0;
+    /* Remove a borda padrão do navegador. */
+    border: 0;
+    /* Cria a faixa amarela no topo, igual ao card do formulário principal. */
+    border-top: 5px solid var(--amarelo, #ffc928);
+    /* Arredonda os cantos da janela. */
+    border-radius: 16px;
+    /* Define a cor padrão dos textos internos. */
+    color: #2f243b;
+    /* Define o fundo branco do modal. */
+    background: #fff;
+    /* Cria a sombra para destacar a janela sobre a página. */
+    box-shadow: 0 18px 48px rgba(51, 23, 97, .24);
+}
+
+.modal::backdrop {
+    /* Escurece a página enquanto o modal estiver aberto. */
+    background: rgba(38, 22, 59, .48);
+    /* Aplica um leve desfoque no conteúdo atrás da janela. */
+    backdrop-filter: blur(3px);
+}
+
+.modal-conteudo {
+    /* Serve de referência para posicionar o botão de fechar. */
+    position: relative;
+    /* Cria espaço entre as bordas do modal e os campos. */
+    padding: 30px;
+}
+
+.modal h2 {
+    /* Remove margens laterais e cria espaço abaixo do título. */
+    margin: 0 36px 20px 0;
+    /* Usa o roxo escuro nos títulos. */
+    color: var(--roxo-escuro);
+    /* Define o tamanho do título. */
+    font-size: 1.5rem;
+}
+
+.modal form {
+    /* Organiza label, campo e botão em uma única coluna. */
+    display: grid;
+    /* Define o espaço entre cada elemento do formulário. */
+    gap: 9px;
+}
+
+.modal form label {
+    /* Usa a cor principal dos rótulos. */
+    color: var(--roxo-escuro);
+    /* Mantém o rótulo em tamanho menor que o título. */
+    font-size: .92rem;
+    /* Deixa o texto do rótulo em negrito. */
+    font-weight: 700;
+}
+
+.modal form input {
+    /* Faz o campo ocupar toda a largura disponível. */
+    width: 100%;
+    /* Inclui padding e borda no cálculo da largura total. */
+    box-sizing: border-box;
+    /* Cria área interna para o texto digitado. */
+    padding: 11px 13px;
+    /* Aplica uma borda discreta em lilás claro. */
+    border: 1px solid var(--borda);
+    /* Arredonda os cantos do campo. */
+    border-radius: 9px;
+    /* Remove o contorno padrão do navegador; o foco é definido abaixo. */
+    outline: none;
+    /* Define a cor do texto digitado. */
+    color: #2f243b;
+    /* Mantém a mesma fonte usada na página. */
+    background: #fff;
+    font: inherit;
+}
+
+.modal form input:focus {
+    /* Destaca a borda quando o usuário clica ou navega até o campo. */
+    border-color: var(--roxo);
+    /* Adiciona um halo suave para tornar o foco mais visível. */
+    box-shadow: 0 0 0 4px rgba(113, 65, 187, .14);
+}
+
+.modal form button[type='submit'] {
+    /* Separa visualmente o botão do campo de texto. */
+    margin-top: 8px;
+    /* Define a área clicável interna do botão. */
+    padding: 12px;
+    /* Remove a borda padrão e arredonda o botão. */
+    border: 0;
+    border-radius: 9px;
+    /* Define a cor do texto e o fundo amarelo da ação principal. */
+    color: #251238;
+    background: var(--amarelo, #ffc928);
+    /* Mantém a fonte do restante da página e reforça o texto. */
+    font: inherit;
+    font-weight: 800;
+    /* Mostra a mão ao passar sobre o botão. */
+    cursor: pointer;
+    /* Suaviza a mudança de cor e o pequeno movimento no hover. */
+    transition: background .2s ease, transform .2s ease;
+}
+
+.modal form button[type='submit']:hover {
+    /* Clareia o amarelo e levanta o botão ao passar o mouse. */
+    background: #ffd75a;
+    transform: translateY(-1px);
+}
+
+.fechar {
+    /* Posiciona o botão no canto superior direito do modal. */
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    /* Centraliza o ícone "X" dentro do círculo. */
+    display: grid;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    place-items: center;
+    /* Cria o botão circular sem borda. */
+    border: 0;
+    border-radius: 50%;
+    /* Define as cores iniciais do botão. */
+    color: var(--roxo-escuro);
+    background: #f1edf6;
+    /* Aumenta o ícone, indica que é clicável e mantém a interação. */
+    font-size: 1.45rem;
+    cursor: pointer;
+}
+
+.fechar:hover {
+    /* Inverte as cores ao passar o mouse para dar feedback visual. */
+    color: #fff;
+    background: var(--roxo);
+}
+
+@media (max-width: 600px) {
+    .modal-conteudo {
+        /* Reduz o espaçamento interno para o modal caber melhor em telas pequenas. */
+        padding: 24px;
+    }
+}

@@ -1,0 +1,412 @@
+:root {
+    --roxo: #7141bb;
+    --roxo-escuro: #331761;
+    --amarelo: #ffc928;
+    --fundo: #f5f6f8;
+    --texto: #2f243b;
+    --texto-suave: #766b82;
+    --borda: #e4ddec;
+    --branco: #fff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-columns: minmax(250px, .85fr) minmax(0, 2.35fr);
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: 22px 48px;
+    min-height: 100vh;
+    margin: 0;
+    padding: 42px clamp(28px, 5vw, 88px) 34px calc(75px + clamp(28px, 5vw, 88px));
+    color: var(--texto);
+    background: var(--fundo);
+    font-family: 'Lato', Arial, sans-serif;
+}
+
+#formFoto {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#formFoto label {
+    display: inline-block !important;
+    padding: 5px;
+    border: 3px solid var(--amarelo);
+    border-radius: 50%;
+    background: var(--branco);
+    box-shadow: 0 8px 22px rgba(51, 23, 97, .12);
+}
+
+#imgPerfil {
+    display: block;
+    width: 124px !important;
+    height: 124px !important;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#mensagemF,
+#mensagem {
+    color: var(--roxo-escuro);
+}
+
+/* Informações principais do usuário. */
+.info-perfil {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+}
+
+.info-perfil h2 {
+    margin: 0 0 7px;
+    color: var(--roxo-escuro);
+    font-size: clamp(1.65rem, 2.2vw, 2.25rem);
+}
+
+.info-perfil p {
+    margin: 0 0 13px;
+    color: var(--texto-suave);
+    line-height: 1.5;
+}
+
+.info-perfil p:not(#qtdConexoes) + br,
+.info-perfil br {
+    display: none;
+}
+
+#qtdConexoes {
+    display: inline-flex;
+    margin-top: 10px;
+    padding: 9px 13px;
+    border-radius: 999px;
+    color: var(--roxo-escuro);
+    background: #eee8f7;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+}
+
+#qtdConexoes:hover {
+    color: var(--branco);
+    background: var(--roxo);
+}
+
+/* Botões de ação posicionados abaixo do resumo do perfil. */
+button {
+    border: 0;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#editPerfil {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    width: fit-content;
+    padding: 12px 18px;
+    border-radius: 9px;
+    color: var(--branco);
+    background: var(--roxo);
+    transition: background .2s ease, transform .2s ease;
+}
+
+#editPerfil:hover {
+    background: var(--roxo-escuro);
+    transform: translateY(-2px);
+}
+
+/* Área que ocupa a maior parte da página para os materiais do usuário. */
+.materiais-perfil {
+    grid-column: 2;
+    grid-row: 1 / span 5;
+    min-height: calc(100vh - 76px);
+    padding: clamp(24px, 3vw, 38px);
+    border: 1px solid #ece7f1;
+    border-top: 5px solid var(--amarelo);
+    border-radius: 16px;
+    background: var(--branco);
+    box-shadow: 0 14px 36px rgba(51, 23, 97, .12);
+}
+
+.materiais-perfil h2 {
+    margin: 0 0 22px;
+    color: var(--roxo-escuro);
+    font-size: clamp(1.45rem, 2vw, 1.9rem);
+}
+
+.abas-materiais {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.abaMaterial {
+    padding: 10px 14px;
+    border-bottom: 3px solid transparent;
+    color: var(--texto-suave);
+    background: transparent;
+}
+
+.abaMaterial:hover,
+.abaMaterial.ativa {
+    border-bottom-color: var(--amarelo);
+    color: var(--roxo-escuro);
+}
+
+/* A resposta PHP cria links .card-material; a grade aproveita a largura disponível. */
+#materiaisPublicos,
+#materiaisPrivados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+#materiaisPublicos > p,
+#materiaisPrivados > p {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--texto-suave);
+}
+
+.card-material {
+    display: flex;
+    flex-direction: column;
+    min-height: 168px;
+    padding: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    color: inherit;
+    background: #fdfcff;
+    text-decoration: none;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.card-material:hover {
+    border-color: var(--roxo);
+    box-shadow: 0 10px 22px rgba(51, 23, 97, .12);
+    transform: translateY(-3px);
+}
+
+.card-material h3 {
+    margin: 0 0 12px;
+    color: var(--roxo-escuro);
+    font-size: 1.08rem;
+    line-height: 1.3;
+}
+
+.card-material p {
+    margin: 0 0 8px;
+    color: var(--texto-suave);
+    font-size: .9rem;
+    line-height: 1.4;
+}
+
+.card-material p:last-child {
+    margin-top: auto;
+    margin-bottom: 0;
+    color: var(--roxo);
+    font-size: .82rem;
+    font-weight: 700;
+}
+
+/* Links inferiores: materiais salvos e saída da conta. */
+body > button:not(#editPerfil) {
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: start;
+    padding: 0;
+    color: var(--roxo);
+    background: transparent;
+}
+
+body > a[href*='logout'] {
+    grid-column: 1;
+    /* Fica abaixo do link de materiais salvos, sem sobrepor o texto. */
+    grid-row: 5;
+    align-self: start;
+    justify-self: start;
+    color: #a33c52;
+    font-size: .9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body > a[href*='logout']:hover,
+body > button:not(#editPerfil):hover {
+    text-decoration: underline;
+}
+
+/* Modais de edição e de conexões. */
+dialog {
+    width: min(92vw, 560px);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-top: 5px solid var(--amarelo);
+    border-radius: 16px;
+    color: var(--texto);
+    background: var(--branco);
+    box-shadow: 0 18px 48px rgba(51, 23, 97, .24);
+}
+
+dialog::backdrop {
+    background: rgba(38, 22, 59, .48);
+    backdrop-filter: blur(3px);
+}
+
+#ModalPerfil,
+#modalConexoes {
+    padding: 30px;
+}
+
+dialog h2 {
+    margin: 0 0 22px;
+    color: var(--roxo-escuro);
+}
+
+#formEditarPerfil {
+    display: grid;
+    gap: 14px;
+}
+
+#formEditarPerfil > div {
+    display: grid;
+    gap: 7px;
+    color: var(--roxo-escuro);
+    font-size: .92rem;
+    font-weight: 700;
+}
+
+#formEditarPerfil br,
+#formEditarPerfil i {
+    display: none;
+}
+
+#formEditarPerfil input,
+#formEditarPerfil textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    outline: none;
+    color: var(--texto);
+    font: inherit;
+}
+
+#formEditarPerfil textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+#formEditarPerfil input:focus,
+#formEditarPerfil textarea:focus {
+    border-color: var(--roxo);
+    box-shadow: 0 0 0 4px rgba(113, 65, 187, .14);
+}
+
+#editInfo,
+#ModalPerfil > button {
+    padding: 12px;
+    border-radius: 9px;
+    margin-top: 12px;
+    color: var(--texto);
+    background: var(--amarelo);
+}
+
+#fechaEditPer,
+#fecharConexoes {
+    padding: 12px;
+    border-radius: 9px;
+    color: var(--roxo-escuro);
+    background: #eee8f7;
+}
+
+#modalConexoes {
+    position: fixed;
+}
+
+#fecharConexoes {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+#listaConexoes {
+    display: grid;
+    gap: 10px;
+}
+
+.item-conexao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px;
+    border-radius: 10px;
+    color: var(--texto);
+    text-decoration: none;
+}
+
+.item-conexao:hover {
+    background: #f4f0f9;
+}
+
+.item-conexao img {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.item-conexao p {
+    margin: 4px 0 0;
+    color: var(--texto-suave);
+    font-size: .9rem;
+}
+
+@media (max-width: 850px) {
+    body {
+        display: block;
+        padding: 30px 24px 30px 99px;
+    }
+
+    #formFoto,
+    .info-perfil,
+    #editPerfil,
+    .materiais-perfil,
+    body > button:not(#editPerfil),
+    body > a[href*='logout'] {
+        display: block;
+        margin-bottom: 22px;
+    }
+
+    .materiais-perfil {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 540px) {
+    body {
+        padding: 24px 18px 24px 93px;
+    }
+
+    .materiais-perfil,
+    #ModalPerfil,
+    #modalConexoes {
+        padding: 22px;
+    }
+
+    #materiaisPublicos,
+    #materiaisPrivados {
+        grid-template-columns: 1fr;
+    }
+}
