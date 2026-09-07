@@ -360,9 +360,9 @@ if (empty($row['FOTO_USU'])) {
 </div>
 
 
-<button>
-    Ver materiais salvos
-</button>
+<a href="materiaisSalvos.php">
+     Ver materiais salvos 
+    </a>
 
 
 <a href="../php/logout.php">
@@ -378,13 +378,9 @@ if (empty($row['FOTO_USU'])) {
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 <script src="../js/navbar.js"></script>
-
 <script src="../js/editUsu.js"></script>
-
 <script src="../js/fotoUsu.js"></script>
-
 <script src="../js/perfil.js"></script>
 
 

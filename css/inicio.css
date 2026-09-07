@@ -2,6 +2,7 @@ body {
     background-color: #fff;
 }
 
+
 .topbar {
     position: fixed;
     top: 0;
@@ -302,7 +303,7 @@ body {
     color: #7141bb;
 
     /* Aplica um fundo lilás claro. */
-    background: #f1edf6;
+    background: #ffffff;
 
     /* Mostra a mão ao passar o mouse, indicando que é clicável. */
     cursor: pointer;
@@ -322,27 +323,26 @@ body {
     transform: translateY(-2px);
 }
 
-#btnNotificacao:after{
-     /* Cria um elemento visual sem precisar adicionar HTML. */
-    content: "";
 
-    /* Define o tamanho da bolinha de aviso. */
+#contadorNotificacao {
+    content: "";
+    display: none;
+
     width: 9px;
     height: 9px;
 
-    /* Posiciona a bolinha no canto do botão. */
     position: absolute;
     top: 7px;
     right: 7px;
 
-    /* Cria uma pequena borda branca para destacá-la. */
     border: 2px solid white;
-
-    /* Deixa a bolinha totalmente redonda. */
     border-radius: 50%;
 
-    /* Usa amarelo para chamar atenção para a notificação nova. */
     background: #ffc928;
+}
+
+#contadorNotificacao.ativo {
+    display: block;
 }
 
 /* Modal de notificações: mesmo padrão visual das caixas de criação. */

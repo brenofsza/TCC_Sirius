@@ -25,8 +25,9 @@
 			<button type="submit">Buscar</button>
 		</form>
 
-		<button type="button" id="btnNotificacao">
-			<i class="bx bx-bell"></i>
+		<button type="button" id="btnNotificacao" data-logado="<?php echo empty($_SESSION['id_usuario']) ? 'nao' : 'sim'; ?>"> 
+			<i class="bx bx-bell" id="sino"></i> 
+			<span id="contadorNotificacao"></span> 
 		</button>
 
 		<div class="user">

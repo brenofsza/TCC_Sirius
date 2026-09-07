@@ -1,11 +1,9 @@
 <?php 
+
 session_start(); 
+
 include '../php/conexao.php';
 
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: logar.php");
-    exit;
-}
 
 $id_material = $_GET['id'] ?? '';
 
@@ -46,41 +44,156 @@ $stmt->close();
 
 
 // verifica quem pode ver o material
-if($material['STATUS_MATERIA'] == 'PRIVADO' && $material['COD_USU'] != $_SESSION['id_usuario']){
 
-    header("Location: pesquisar.php");
-    exit;
+if($material['STATUS_MATERIA'] == 'PRIVADO'){
+
+    // se não estiver logado, não pode acessar
+    if(!isset($_SESSION['id_usuario'])){
+        header("Location: logar.php");
+        exit;
+    }
+
+    // se estiver logado, mas não for o dono, não pode acessar
+    if($material['COD_USU'] != $_SESSION['id_usuario']){
+        header("Location: pesquisar.php");
+        exit;
+    }
 
 }
+
+
+// verifica se o material pertence ao usuário logado
+
+$ehDono = false;
+
+if(isset($_SESSION['id_usuario'])){
+
+    if($material['COD_USU'] == $_SESSION['id_usuario']){
+
+        $ehDono = true;
+
+    }
+
+}
+
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/navbar.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <title><?php echo htmlspecialchars($material['TITULO_MATERIA']); ?></title>
 
-    <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
-
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/material.css">
 </head>
+
 
 <body>
 
-    <div class="topbar">
 
-        <div class="logo">
-            <img src="../img/logo.png" alt="Logo">
-        </div>
+<nav class="sidebar-navigation">
 
-        <div class="user">
-            <?php
+    <ul>
+
+        <li>
+
+            <a href="../index.php">
+
+                <i class="bx bx-home-alt"></i>
+
+                <span class="tooltip">Inicio</span>
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="criar.php">
+
+                <i class="bx bx-plus"></i>
+
+                <span class="tooltip">Criar</span>
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="pesquisar.php">
+
+                <i class="bx bx-search-alt"></i>
+
+                <span class="tooltip">Pesquisar</span>
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="planejamento.php">
+
+                <i class="bx bx-calendar-event"></i>
+
+                <span class="tooltip">Planejamento</span>
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="perfil.php">
+
+                <i class="bx bx-user"></i>
+
+                <span class="tooltip">Perfil</span>
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<div class="topbar">
+
+    <div class="logo">
+
+        <img src="../img/logo.png" alt="Logo">
+
+    </div>
+
+
+    <div class="user">
+
+        <?php
+
+        if(empty($_SESSION['id_usuario'])){
+
+            $foto = '../img/user.webp';
+
+            echo "<a href='logar.php'><img src='$foto' class='fotoPerfil'></a>";
+
+            echo "<a href='logar.php'>Entrar</a>";
+
+        } else {
 
             if(empty($_SESSION['foto_usuario'])){
 
@@ -93,162 +206,236 @@ if($material['STATUS_MATERIA'] == 'PRIVADO' && $material['COD_USU'] != $_SESSION
             }
 
             echo "<p>Olá, " . htmlspecialchars($_SESSION['nome']) . "!</p>";
+
             echo "<a href='perfil.php'><img src='$foto' class='fotoPerfil'></a>";
 
-            ?>
-        </div>
+        }
+
+        ?>
 
     </div>
-
-
-    <nav class="sidebar-navigation">
-
-        <ul>
-
-            <li>
-                <a href="../index.php">
-                    <i class="bx bx-home-alt"></i>
-                    <span class="tooltip">Inicio</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="criar.php">
-                    <i class="bx bx-plus"></i>
-                    <span class="tooltip">Criar</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="pesquisar.php">
-                    <i class="bx bx-search-alt"></i>
-                    <span class="tooltip">Pesquisar</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="planejamento.php">
-                    <i class="bx bx-calendar-event"></i>
-                    <span class="tooltip">Planejamento</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="perfil.php">
-                    <i class="bx bx-user"></i>
-                    <span class="tooltip">Perfil</span>
-                </a>
-            </li>
-
-        </ul>
-
-    </nav>
-
-
-    <main class="area-material">
-
-        <a href="javascript:history.back()" class="voltar">
-            <i class="bx bx-arrow-back"></i>
-            Voltar
-        </a>
-
-
-        <div class="material">
-
-            <h1>
-                <?php echo htmlspecialchars($material['TITULO_MATERIA']); ?>
-            </h1>
-
-
-            <p>
-                <strong>Disciplina:</strong>
-                <?php echo htmlspecialchars($material['NOME_DISCI']); ?>
-            </p>
-
-
-            <p>
-                <strong>Conteúdo:</strong>
-                <?php echo htmlspecialchars($material['NOME_CONTEUDO']); ?>
-            </p>
-
-
-            <p>
-                <strong>Nível:</strong>
-                <?php echo htmlspecialchars($material['NOME_NIVEL']); ?>
-            </p>
-
-
-            <?php if(!empty($material['DESCRICAO_MATERIA'])){ ?>
-
-                <p>
-                    <strong>Descrição:</strong>
-                    <?php echo htmlspecialchars($material['DESCRICAO_MATERIA']); ?>
-                </p>
-
-            <?php } ?>
-
-<div class="autor-material">
-
-    <?php
-
-    if(empty($material['FOTO_USU'])){
-
-        $fotoAutor = '../img/user.webp';
-
-    } else {
-
-        $fotoAutor = '../' . $material['FOTO_USU'];
-
-    }
-
-    ?>
-
-    <a href="perfilUsuario.php?id=<?php echo $material['COD_USU']; ?>">
-
-        <img src="<?php echo htmlspecialchars($fotoAutor); ?>" class="fotoPerfil">
-
-        <div>
-            <p>
-                Publicado por:
-            </p>
-
-            <p>
-                <?php echo htmlspecialchars($material['NOME_USU']); ?>
-                (@<?php echo htmlspecialchars($material['USERNAME']); ?>)
-            </p>
-        </div>
-
-    </a>
 
 </div>
 
 
+<main class="area-material">
+
+
+    <a href="javascript:history.back()" class="voltar">
+
+        <i class="bx bx-arrow-back"></i> Voltar
+
+    </a>
+
+
+    <div class="material">
+
+
+        <h1>
+
+            <?php echo htmlspecialchars($material['TITULO_MATERIA']); ?>
+
+        </h1>
+
+
+        <p>
+
+            <strong>Disciplina:</strong>
+
+            <?php echo htmlspecialchars($material['NOME_DISCI']); ?>
+
+        </p>
+
+
+        <p>
+
+            <strong>Conteúdo:</strong>
+
+            <?php echo htmlspecialchars($material['NOME_CONTEUDO']); ?>
+
+        </p>
+
+
+        <p>
+
+            <strong>Nível:</strong>
+
+            <?php echo htmlspecialchars($material['NOME_NIVEL']); ?>
+
+        </p>
+
+
+        <?php if(!empty($material['DESCRICAO_MATERIA'])){ ?>
+
             <p>
-                <strong>Data:</strong>
-                <?php echo date("d/m/Y", strtotime($material['DATA_CAD'])); ?>
+
+                <strong>Descrição:</strong>
+
+                <?php echo htmlspecialchars($material['DESCRICAO_MATERIA']); ?>
+
             </p>
 
-
-            <p>
-                <strong>Arquivo:</strong>
-                <?php echo htmlspecialchars($material['NOME_ARQUIVO']); ?>
-            </p>
+        <?php } ?>
 
 
-            <a href="../<?php echo htmlspecialchars($material['CAMINHO_ARQUIVO']); ?>" target="_blank">
-                Abrir arquivo
+        <div class="autor-material">
+
+            <?php
+
+            if(empty($material['FOTO_USU'])){
+
+                $fotoAutor = '../img/user.webp';
+
+            } else {
+
+                $fotoAutor = '../' . $material['FOTO_USU'];
+
+            }
+
+            ?>
+
+
+            <a href="perfilUsuario.php?id=<?php echo $material['COD_USU']; ?>">
+
+                <img 
+                    src="<?php echo htmlspecialchars($fotoAutor); ?>" 
+                    class="fotoPerfil"
+                >
+
+
+                <div>
+
+                    <p>Publicado por:</p>
+
+                    <p>
+
+                        <?php echo htmlspecialchars($material['NOME_USU']); ?>
+
+                        (@<?php echo htmlspecialchars($material['USERNAME']); ?>)
+
+                    </p>
+
+                </div>
+
             </a>
-
-            <a href="../<?php echo htmlspecialchars($material['CAMINHO_ARQUIVO']); ?>" 
-                download="<?php echo htmlspecialchars($material['NOME_ARQUIVO']); ?>">
-                Baixar arquivo
-</a>
 
         </div>
 
-    </main>
+
+        <p>
+
+            <strong>Data:</strong>
+
+            <?php echo date("d/m/Y", strtotime($material['DATA_CAD'])); ?>
+
+        </p>
 
 
+        <p>
+
+            <strong>Arquivo:</strong>
+
+            <?php echo htmlspecialchars($material['NOME_ARQUIVO']); ?>
+
+        </p>
+
+
+        <a 
+            href="../<?php echo htmlspecialchars($material['CAMINHO_ARQUIVO']); ?>" 
+            target="_blank"
+        >
+
+            Abrir arquivo
+
+        </a>
+
+
+        <a 
+            href="../<?php echo htmlspecialchars($material['CAMINHO_ARQUIVO']); ?>" 
+            download="<?php echo htmlspecialchars($material['NOME_ARQUIVO']); ?>"
+        >
+
+            Baixar arquivo
+
+        </a>
+
+
+        <?php if(isset($_SESSION['id_usuario'])){ ?>
+
+            <button 
+                type="button" 
+                id="salvarMaterial"
+                data-id="<?php echo $material['ID_MATERIAL']; ?>"
+            >
+
+                <i class="bx bx-bookmark"></i>
+
+                Salvar material
+
+            </button>
+
+        <?php } ?>
+
+
+        <?php if($ehDono){ ?>
+
+            <form 
+                action="../php/excluirMaterial.php" 
+                method="POST"
+                onsubmit="return confirm('Tem certeza que deseja excluir este material?');"
+            >
+
+                <input 
+                    type="hidden" 
+                    name="id_material" 
+                    value="<?php echo $material['ID_MATERIAL']; ?>"
+                >
+
+                <button type="submit">
+
+                    Excluir material
+
+                </button>
+
+            </form>
+
+        <?php } ?>
+
+
+    </div>
+
+
+</main>
+
+<dialog id="modalSalvarMaterial">
+
+    <div class="modal-salvar-material">
+
+        <button type="button" id="fecharSalvarMaterial">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Salvar material</h2>
+
+
+        <p>Escolha uma pasta:</p>
+
+
+        <div id="pastasSalvar">
+
+            <p>Carregando pastas...</p>
+
+        </div>
+
+
+    </div>
+
+</dialog>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../js/material.js"></script>
 </body>
 
 </html>

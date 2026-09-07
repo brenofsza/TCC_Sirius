@@ -5,15 +5,6 @@ session_start();
 include '../php/conexao.php';
 
 
-if (!isset($_SESSION['id_usuario'])) {
-
-    header("Location: logar.php");
-
-    exit;
-
-}
-
-
 $id_usuario = $_GET['id'] ?? '';
 
 

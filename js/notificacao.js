@@ -3,9 +3,63 @@ $(document).ready(function(){
 	let modal = $('#modalNotificacao');
 
 
+	function atualizarContador(){
+
+		let logado = $('#btnNotificacao').data('logado');
+
+		if(logado == 'nao'){
+
+			return;
+
+		}
+
+
+		fetch("php/contarNotificacoes.php", {
+			method: "POST"
+		})
+		.then(response => response.text())
+		.then(retorno => {
+
+			let quantidade = parseInt(retorno.trim());
+
+			if(quantidade > 0){
+
+    	$('#contadorNotificacao').addClass('ativo');
+
+		} else {
+
+   		 $('#contadorNotificacao').removeClass('ativo');
+
+}
+
+		})
+		.catch(function(erro){
+
+			console.log(erro);
+
+		});
+
+	}
+
+
 	$('#btnNotificacao').click(function(){
 
+		let logado = $(this).data('logado');
+
 		modal[0].showModal();
+
+
+		if(logado == 'nao'){
+
+			$('#notificacoes').html(`
+				<p>Faça login para visualizar suas notificações.</p>
+				<a href="front/logar.php">Entrar</a>
+			`);
+
+			return;
+
+		}
+
 
 		buscarSolicitacoes();
 
@@ -46,6 +100,7 @@ $(document).ready(function(){
 	$(document).on('click', '.aceitarConexao, .recusarConexao', function(){
 
 		let idLigacao = $(this).data('id');
+
 		let acao = '';
 
 
@@ -78,6 +133,8 @@ $(document).ready(function(){
 
 				buscarSolicitacoes();
 
+				atualizarContador();
+
 			} else {
 
 				console.log(resposta);
@@ -93,5 +150,7 @@ $(document).ready(function(){
 
 	});
 
+
+	atualizarContador();
 
 });
