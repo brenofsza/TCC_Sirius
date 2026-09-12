@@ -90,13 +90,9 @@ $materiais = $stmt->get_result();
 <head>
 
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="../css/navbar.css">
-
     <title><?php echo htmlspecialchars($pasta['NOME_PASTA']); ?></title>
-
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 </head>
@@ -194,6 +190,28 @@ $materiais = $stmt->get_result();
 
         <?php echo htmlspecialchars($pasta['NOME_PASTA']); ?>
 
+
+        <?php if($pasta['NOME_PASTA'] != 'Favoritos'){ ?>
+
+            <button type="button" id="renomearPasta">
+
+                <i class="bx bx-edit"></i>
+
+                Renomear
+
+            </button>
+
+
+            <button type="button" id="excluirPasta">
+
+                <i class="bx bx-trash"></i>
+
+                Excluir
+
+            </button>
+
+        <?php } ?>
+
     </h1>
 
 
@@ -205,7 +223,9 @@ $materiais = $stmt->get_result();
 
             while($material = $materiais->fetch_assoc()){
 
-                echo "<a href='material.php?id=" . $material['ID_MATERIAL'] . "' class='card-material'>";
+                echo "<div class='card-material'>";
+
+                echo "<a href='material.php?id=" . $material['ID_MATERIAL'] . "' class='info-material'>";
 
                 echo "<h3>" . htmlspecialchars($material['TITULO_MATERIA']) . "</h3>";
 
@@ -233,6 +253,16 @@ $materiais = $stmt->get_result();
 
                 echo "</a>";
 
+
+                echo "<button type='button' class='removerMaterial' data-id='" . $material['ID_MATERIAL'] . "'>";
+
+                echo "<i class='bx bx-trash'></i>";
+
+                echo "</button>";
+
+
+                echo "</div>";
+
             }
 
         } else {
@@ -249,6 +279,141 @@ $materiais = $stmt->get_result();
 </main>
 
 
+<dialog id="modalRenomearPasta">
+
+    <div class="modal-renomear-pasta">
+
+        <button type="button" id="fecharRenomearPasta">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Renomear pasta</h2>
+
+
+        <input
+            type="text"
+            id="novoNomePasta"
+            maxlength="50"
+            value="<?php echo htmlspecialchars($pasta['NOME_PASTA']); ?>"
+        >
+
+
+        <button type="button" id="salvarNomePasta">
+
+            Salvar
+
+        </button>
+
+
+        <p id="mensagemRenomear"></p>
+
+    </div>
+
+</dialog>
+
+
+<dialog id="modalExcluirPasta">
+
+    <div class="modal-excluir-pasta">
+
+        <button type="button" id="fecharExcluirPasta">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Excluir pasta?</h2>
+
+
+        <p>
+
+            Tem certeza que deseja excluir esta pasta?
+
+        </p>
+
+
+        <p>
+
+            Os materiais salvos nela serão removidos da pasta, mas os materiais originais não serão excluídos.
+
+        </p>
+
+
+        <button type="button" id="confirmarExcluirPasta">
+
+            Excluir
+
+        </button>
+
+
+        <button type="button" id="cancelarExcluirPasta">
+
+            Cancelar
+
+        </button>
+
+
+        <p id="mensagemExcluir"></p>
+
+    </div>
+
+</dialog>
+
+<dialog id="modalRemoverMaterial">
+
+    <div class="modal-remover-material">
+
+        <button type="button" id="fecharRemoverMaterial">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Remover material?</h2>
+
+
+        <p>
+
+            Tem certeza que deseja remover este material desta pasta?
+
+        </p>
+
+
+        <p>
+
+            O material original não será excluído.
+
+        </p>
+
+
+        <button type="button" id="confirmarRemoverMaterial">
+
+            Remover
+
+        </button>
+
+
+        <button type="button" id="cancelarRemoverMaterial">
+
+            Cancelar
+
+        </button>
+
+
+        <p id="mensagemRemover"></p>
+
+    </div>
+
+</dialog>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../js/pastaSalva.js"></script>
 </body>
 
 </html>
