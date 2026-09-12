@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+
+.cabecalho-planejamento {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+
+.cabecalho-planejamento h1 {
+    margin-bottom: 8px;
+}
+
+
+.subtitulo {
+    color: #666;
+}
+
+
+#novaAula {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+
+.conteudo-planejamento {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+
+.calendario,
+.proximas-aulas,
+.aulas-dia {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.cabecalho-calendario {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
+.cabecalho-calendario h2 {
+    font-size: 20px;
+}
+
+
+.cabecalho-calendario button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+
+.dias-semana,
+.dias-calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+
+.dias-semana {
+    margin-bottom: 10px;
+}
+
+
+.dias-semana span {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px 0;
+}
+
+
+.dia {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+
+.dia:hover {
+    background: #f0f0f0;
+}
+
+
+.dia-atual {
+    font-weight: bold;
+    border: 2px solid;
+}
+
+
+.dia-selecionado {
+    background: #e5e5e5;
+}
+
+
+.dia.vazio {
+    cursor: default;
+}
+
+
+.dia.vazio:hover {
+    background: transparent;
+}
+
+
+.proximas-aulas h2,
+.aulas-dia h2 {
+    margin-bottom: 15px;
+}
+
+
+.aulas-dia {
+    margin-top: 25px;
+    min-height: 150px;
+}
+
+
+#novaAula {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

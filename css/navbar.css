@@ -1,4 +1,4 @@
-/*.fotoPerfil {
+.fotoPerfil {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -38,7 +38,7 @@ body {
 
 /* Navbar NÃO MEXER PELO AMOR DE DEUS, OBRIGADO*/
 
-/*.sidebar-navigation {
+.sidebar-navigation {
     position: fixed;
     top: 0;
     bottom: 0;
