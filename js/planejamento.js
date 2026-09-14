@@ -7,6 +7,57 @@ $(document).ready(function(){
     let anoAtual = dataAtual.getFullYear();
 
 
+    function buscarPlanejamentos(){
+
+        fetch("../php/buscarPlanejamento.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "mes=" + encodeURIComponent(mesAtual + 1) +
+                  "&ano=" + encodeURIComponent(anoAtual)
+        })
+        .then(response => response.json())
+        .then(aulas => {
+
+            $('.dia').each(function(){
+
+                let dia = $(this).text();
+
+                if(dia == ''){
+
+                    return;
+
+                }
+
+
+                let possuiAula = aulas.some(function(aula){
+
+                    let data = aula.DATA_AULA.split('-');
+
+                    return parseInt(data[2]) == parseInt(dia);
+
+                });
+
+
+                if(possuiAula){
+
+                    $(this).addClass('tem-aula');
+
+                }
+
+            });
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+
+        });
+
+    }
+
+
     function mostrarCalendario(){
 
         let primeiroDia = new Date(anoAtual, mesAtual, 1);
@@ -93,6 +144,9 @@ $(document).ready(function(){
             $('#diasCalendario').append(elementoDia);
 
         }
+
+
+        buscarPlanejamentos();
 
     }
 
@@ -186,6 +240,8 @@ $(document).ready(function(){
                     $('#formAula')[0].reset();
 
                     $('#mensagemAula').html('');
+
+                    mostrarCalendario();
 
                 }, 1000);
 
