@@ -148,54 +148,81 @@ if(!isset($_SESSION['id_usuario'])){
             <form id="formAula">
 
                 <div class="campo">
-    <label for="tituloAula">Título da aula</label>
 
-    <input type="text" id="tituloAula" name="titulo"
-        placeholder="Digite o título da aula" required>
-</div>
+                    <label for="tituloAula">Título da aula</label>
 
+                    <input type="text" id="tituloAula" name="titulo"
+                        placeholder="Digite o título da aula" required>
 
-<div class="campo">
-    <label for="assuntoAula">Assunto</label>
-
-    <textarea id="assuntoAula" name="assunto"
-        placeholder="Descreva o assunto da aula..."
-        rows="3"></textarea>
-</div>
+                </div>
 
 
-<div class="campo">
-    <label for="dataAula">Data</label>
+                <div class="campo">
 
-    <input type="date" id="dataAula" name="data" required>
-</div>
+                    <label for="assuntoAula">Assunto</label>
 
+                    <textarea id="assuntoAula" name="assunto"
+                        placeholder="Descreva o assunto da aula..."
+                        rows="3"></textarea>
 
-<div class="campo">
-    <label for="horaInicio">Hora de início</label>
-
-    <input type="time" id="horaInicio" name="hora_inicio" required>
-</div>
+                </div>
 
 
-<div class="campo">
-    <label for="horaFim">Hora de término</label>
+                <div class="campo">
 
-    <input type="time" id="horaFim" name="hora_fim" required>
-</div>
+                    <label for="dataAula">Data</label>
 
+                    <input type="date" id="dataAula" name="data" required>
 
-<div class="campo">
-    <label for="sala">Sala / Turma</label>
-
-    <input type="text" id="sala" name="sala"
-        placeholder="Ex: 3ª A Etec Phila" required>
-</div>
+                </div>
 
 
-<button type="submit" class="btn-cadastrar">
-    Cadastrar aula
-</button>
+                <div class="campo">
+
+                    <label for="horaInicio">Hora de início</label>
+
+                    <input type="time" id="horaInicio" name="hora_inicio" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="horaFim">Hora de término</label>
+
+                    <input type="time" id="horaFim" name="hora_fim" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="sala">Sala / Turma</label>
+
+                    <input type="text" id="sala" name="sala"
+                        placeholder="Ex: 3ª A Etec Phila" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="pesquisaMaterial">Materiais da aula</label>
+
+                    <input type="text" id="pesquisaMaterial"
+                        placeholder="Pesquise um material...">
+
+                    <div id="resultadoMateriais"></div>
+
+                </div>
+
+
+                <div id="materiaisSelecionados"></div>
+
+
+                <button type="submit" class="btn-cadastrar">
+                    Cadastrar aula
+                </button>
 
             </form>
 
@@ -205,44 +232,61 @@ if(!isset($_SESSION['id_usuario'])){
 
 
     <nav class="sidebar-navigation">
+
         <ul>
+
             <li>
+
                 <a href="../index.php">
                     <i class="bx bx-home-alt"></i>
                     <span class="tooltip">Inicio</span>
                 </a>
+
             </li>
 
+
             <li>
+
                 <a href="criar.php">
                     <i class="bx bx-plus"></i>
                     <span class="tooltip">Criar</span>
                 </a>
+
             </li>
 
+
             <li>
+
                 <a href="pesquisar.php">
                     <i class="bx bx-search-alt"></i>
                     <span class="tooltip">Pesquisar</span>
                 </a>
+
             </li>
 
+
             <li class="active">
+
                 <a href="planejamento.php">
                     <i class="bx bx-calendar-event"></i>
                     <span class="tooltip">Planejamento</span>
                 </a>
+
             </li>
 
+
             <li>
+
                 <a href="perfil.php">
                     <i class="bx bx-user"></i>
                     <span class="tooltip">Perfil</span>
                 </a>
-            </li>
-        </ul>
-    </nav>
 
+            </li>
+
+        </ul>
+
+    </nav>
 
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

@@ -154,3 +154,18 @@ body {
     align-items: center;
     gap: 5px;
 }
+
+.tem-aula {
+    position: relative;
+}
+
+
+.tem-aula::after {
+    content: "";
+    position: absolute;
+    bottom: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: black;
+}

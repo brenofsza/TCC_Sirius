@@ -16,11 +16,10 @@ if(!isset($_SESSION['id_usuario'])){
 
 $id_usuario = $_SESSION['id_usuario'];
 
-$mes = $_POST['mes'] ?? '';
-$ano = $_POST['ano'] ?? '';
+$data = $_POST['data'] ?? '';
 
 
-if($mes == '' || $ano == ''){
+if($data == ''){
 
     echo json_encode([]);
 
@@ -32,14 +31,13 @@ if($mes == '' || $ano == ''){
 $sql = "SELECT *
         FROM PLANEJAMENTO
         WHERE COD_USU = ?
-        AND MONTH(DATA_AULA) = ?
-        AND YEAR(DATA_AULA) = ?
-        ORDER BY DATA_AULA, HORA_INICIO";
+        AND DATA_AULA = ?
+        ORDER BY HORA_INICIO";
 
 
 $stmt = $conexao->prepare($sql);
 
-$stmt->bind_param("iii", $id_usuario, $mes, $ano);
+$stmt->bind_param("is", $id_usuario, $data);
 
 $stmt->execute();
 

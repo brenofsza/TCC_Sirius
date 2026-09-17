@@ -58,6 +58,213 @@ $(document).ready(function(){
     }
 
 
+    function buscarAulasDia(dia){
+
+        let mes = String(mesAtual + 1).padStart(2, '0');
+
+        let diaFormatado = String(dia).padStart(2, '0');
+
+        let data = anoAtual + "-" + mes + "-" + diaFormatado;
+
+
+        fetch("../php/buscarAulasDia.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "data=" + encodeURIComponent(data)
+        })
+        .then(response => response.json())
+        .then(aulas => {
+
+            $('#tituloAulasDia').html(
+                "Aulas do dia " + diaFormatado + "/" + mes + "/" + anoAtual
+            );
+
+
+            if(aulas.length == 0){
+
+                $('#listaAulasDia').html(
+                    "<p>Nenhuma aula planejada para este dia.</p>"
+                );
+
+                return;
+
+            }
+
+
+            $('#listaAulasDia').html('');
+
+
+            aulas.forEach(function(aula){
+
+                $('#listaAulasDia').append(
+
+                    '<div class="aula">' +
+
+                        '<h3>' +
+                            htmlspecialchars(aula.TITULO_PLAN) +
+                        '</h3>' +
+
+                        '<p>' +
+                            aula.HORA_INICIO.substring(0, 5) +
+                            ' - ' +
+                            aula.HORA_FIM.substring(0, 5) +
+                        '</p>' +
+
+                        '<p>' +
+                            htmlspecialchars(aula.SALA) +
+                        '</p>' +
+
+                        '<p>' +
+                            htmlspecialchars(aula.ASSUNTO || '') +
+                        '</p>' +
+
+                    '</div>'
+
+                );
+
+            });
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+
+            $('#listaAulasDia').html(
+                "<p>Erro ao carregar as aulas.</p>"
+            );
+
+        });
+
+    }
+
+
+    function buscarMateriais(){
+
+        let pesquisa = $('#pesquisaMaterial').val().trim();
+
+
+        if(pesquisa == ''){
+
+            $('#resultadoMateriais').html('');
+
+            return;
+
+        }
+
+
+        fetch("../php/buscarMateriaisAula.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "pesquisa=" + encodeURIComponent(pesquisa)
+        })
+        .then(response => response.json())
+        .then(materiais => {
+
+            $('#resultadoMateriais').html('');
+
+
+            if(materiais.length == 0){
+
+                $('#resultadoMateriais').html(
+                    "<p>Nenhum material encontrado.</p>"
+                );
+
+                return;
+
+            }
+
+
+            materiais.forEach(function(material){
+
+                $('#resultadoMateriais').append(
+
+                    '<div class="resultado-material">' +
+
+                        '<div>' +
+
+                            '<h3>' +
+                                htmlspecialchars(material.TITULO_MATERIA) +
+                            '</h3>' +
+
+                            '<p>' +
+                                htmlspecialchars(material.NOME_DISCI) +
+                                ' • ' +
+                                htmlspecialchars(material.NOME_CONTEUDO) +
+                            '</p>' +
+
+                        '</div>' +
+
+                        '<button type="button" class="adicionar-material" ' +
+                            'data-id="' + material.ID_MATERIAL + '">' +
+                            'Adicionar à aula' +
+                        '</button>' +
+
+                    '</div>'
+
+                );
+
+            });
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+
+            $('#resultadoMateriais').html(
+                "<p>Erro ao buscar materiais.</p>"
+            );
+
+        });
+
+    }
+
+
+    function htmlspecialchars(texto){
+
+        if(!texto){
+
+            return '';
+
+        }
+
+        return $('<div>').text(texto).html();
+
+    }
+
+
+    $('#pesquisaMaterial').on('input', function(){
+
+        buscarMateriais();
+
+    });
+
+
+    $('#novaAula').click(function(){
+
+        $('#mensagemAula').html('');
+
+        $('#pesquisaMaterial').val('');
+
+        $('#resultadoMateriais').html('');
+
+        $('#materiaisSelecionados').html('');
+
+        $('#modalAula')[0].showModal();
+
+    });
+
+
+    $('#fecharAula').click(function(){
+
+        $('#modalAula')[0].close();
+
+    });
+
+
     function mostrarCalendario(){
 
         let primeiroDia = new Date(anoAtual, mesAtual, 1);
@@ -131,12 +338,7 @@ $(document).ready(function(){
 
                 $(this).addClass('dia-selecionado');
 
-                console.log(
-                    "Dia selecionado: " +
-                    dia + "/" +
-                    (mesAtual + 1) + "/" +
-                    anoAtual
-                );
+                buscarAulasDia(dia);
 
             });
 
@@ -185,22 +387,6 @@ $(document).ready(function(){
 
 
         mostrarCalendario();
-
-    });
-
-
-    $('#novaAula').click(function(){
-
-        $('#mensagemAula').html('');
-
-        $('#modalAula')[0].showModal();
-
-    });
-
-
-    $('#fecharAula').click(function(){
-
-        $('#modalAula')[0].close();
 
     });
 
