@@ -198,10 +198,19 @@ $(document).ready(function(){
 
                         '</div>' +
 
-                        '<button type="button" class="adicionar-material" ' +
-                            'data-id="' + material.ID_MATERIAL + '">' +
-                            'Adicionar à aula' +
-                        '</button>' +
+                        '<div>' +
+
+                            '<button type="button" class="ver-material" ' +
+                                'data-id="' + material.ID_MATERIAL + '">' +
+                                'Ver material' +
+                            '</button>' +
+
+                            '<button type="button" class="adicionar-material" ' +
+                                'data-id="' + material.ID_MATERIAL + '">' +
+                                'Adicionar à aula' +
+                            '</button>' +
+
+                        '</div>' +
 
                     '</div>'
 
@@ -239,6 +248,131 @@ $(document).ready(function(){
     $('#pesquisaMaterial').on('input', function(){
 
         buscarMateriais();
+
+    });
+
+
+    $(document).on('click', '.ver-material', function(){
+
+        let idMaterial = $(this).data('id');
+
+
+        fetch("../php/materialModalAula.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "id_material=" + encodeURIComponent(idMaterial)
+        })
+        .then(response => response.json())
+        .then(material => {
+
+            if(!material.ID_MATERIAL){
+
+                $('#conteudoMaterial').html(
+                    "<p>Erro ao carregar o material.</p>"
+                );
+
+                return;
+
+            }
+
+
+            let caminhoArquivo = "../" + material.CAMINHO_ARQUIVO;
+
+
+            let conteudo =
+
+                '<h2>' +
+                    htmlspecialchars(material.TITULO_MATERIA) +
+                '</h2>' +
+
+                '<p><strong>Disciplina:</strong> ' +
+                    htmlspecialchars(material.NOME_DISCI) +
+                '</p>' +
+
+                '<p><strong>Conteúdo:</strong> ' +
+                    htmlspecialchars(material.NOME_CONTEUDO) +
+                '</p>' +
+
+                '<p><strong>Nível:</strong> ' +
+                    htmlspecialchars(material.NOME_NIVEL) +
+                '</p>';
+
+
+            if(material.DESCRICAO_MATERIA){
+
+                conteudo +=
+
+                    '<p><strong>Descrição:</strong> ' +
+                        htmlspecialchars(material.DESCRICAO_MATERIA) +
+                    '</p>';
+
+            }
+
+
+            conteudo +=
+
+                '<div class="autor-material">' +
+
+                    '<p><strong>Publicado por:</strong> ' +
+                        htmlspecialchars(material.NOME_USU) +
+                    '</p>' +
+
+                '</div>' +
+
+                '<p><strong>Data:</strong> ' +
+                    new Date(material.DATA_CAD).toLocaleDateString('pt-BR') +
+                '</p>' +
+
+                '<p><strong>Arquivo:</strong> ' +
+                    htmlspecialchars(material.NOME_ARQUIVO) +
+                '</p>' +
+
+                '<a href="' + htmlspecialchars(caminhoArquivo) +
+                    '" target="_blank">' +
+                    'Abrir arquivo' +
+                '</a>' +
+
+                '<a href="' + htmlspecialchars(caminhoArquivo) +
+                    '" download="' + htmlspecialchars(material.NOME_ARQUIVO) + '">' +
+                    'Baixar arquivo' +
+                '</a>' +
+
+                '<button type="button" class="adicionar-material-modal" ' +
+                    'data-id="' + material.ID_MATERIAL + '">' +
+                    'Adicionar à aula' +
+                '</button>';
+
+
+            $('#conteudoMaterial').html(conteudo);
+
+            $('#modalMaterial')[0].showModal();
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+
+            $('#conteudoMaterial').html(
+                "<p>Erro ao carregar o material.</p>"
+            );
+
+        });
+
+    });
+
+
+    $('#fecharMaterial').click(function(){
+
+        $('#modalMaterial')[0].close();
+
+    });
+
+
+    $('#voltarMaterial').click(function(){
+
+        $('#modalMaterial')[0].close();
 
     });
 

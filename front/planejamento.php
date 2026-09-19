@@ -230,6 +230,28 @@ if(!isset($_SESSION['id_usuario'])){
 
     </dialog>
 
+<dialog class="modal" id="modalMaterial">
+
+    <div class="modal-conteudo">
+
+        <button type="button" class="fechar" id="fecharMaterial">
+            <i class="bx bx-x"></i>
+        </button>
+
+        <button type="button" id="voltarMaterial">
+            <i class="bx bx-arrow-back"></i>
+            Voltar
+        </button>
+
+        <div id="conteudoMaterial">
+
+        </div>
+
+    </div>
+
+</dialog>
+
+
 
     <nav class="sidebar-navigation">
 
