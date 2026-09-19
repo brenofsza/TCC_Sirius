@@ -23,6 +23,8 @@ $hora_inicio = $_POST['hora_inicio'] ?? '';
 $hora_fim = $_POST['hora_fim'] ?? '';
 $sala = $_POST['sala'] ?? '';
 
+$materiais = $_POST['materiais'] ?? '';
+
 
 if($titulo == '' || $data == '' || $hora_inicio == '' || $hora_fim == '' || $sala == ''){
 
@@ -57,6 +59,40 @@ $stmt->bind_param(
 
 
 if($stmt->execute()){
+
+    $id_planejamento = $conexao->insert_id;
+
+    if($materiais != ''){
+
+        $listaMateriais = explode(",", $materiais);
+
+        $sqlMaterial = "INSERT INTO PLANEJAMENTO_MATERIAL
+                        (COD_PLANEJAMENTO, COD_MATERIAL)
+                        VALUES (?, ?)";
+
+        $stmtMaterial = $conexao->prepare($sqlMaterial);
+
+        foreach($listaMateriais as $id_material){
+
+            $id_material = intval($id_material);
+
+            if($id_material > 0){
+
+                $stmtMaterial->bind_param(
+                    "ii",
+                    $id_planejamento,
+                    $id_material
+                );
+
+                $stmtMaterial->execute();
+
+            }
+
+        }
+
+        $stmtMaterial->close();
+
+    }
 
     echo "OK!";
 

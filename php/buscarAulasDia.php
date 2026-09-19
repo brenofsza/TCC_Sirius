@@ -49,6 +49,38 @@ $aulas = [];
 
 while($aula = $resultado->fetch_assoc()){
 
+    $id_planejamento = $aula['ID_PLANEJAMENTO'];
+
+    $sqlMateriais = "SELECT MATERIAL.ID_MATERIAL, MATERIAL.TITULO_MATERIA
+                     FROM PLANEJAMENTO_MATERIAL
+                     INNER JOIN MATERIAL
+                     ON PLANEJAMENTO_MATERIAL.COD_MATERIAL = MATERIAL.ID_MATERIAL
+                     WHERE PLANEJAMENTO_MATERIAL.COD_PLANEJAMENTO = ?";
+
+    $stmtMateriais = $conexao->prepare($sqlMateriais);
+
+    $stmtMateriais->bind_param("i", $id_planejamento);
+
+    $stmtMateriais->execute();
+
+    $resultadoMateriais = $stmtMateriais->get_result();
+
+
+    $materiais = [];
+
+
+    while($material = $resultadoMateriais->fetch_assoc()){
+
+        $materiais[] = $material;
+
+    }
+
+
+    $stmtMateriais->close();
+
+
+    $aula['MATERIAIS'] = $materiais;
+
     $aulas[] = $aula;
 
 }

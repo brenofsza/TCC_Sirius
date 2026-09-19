@@ -214,6 +214,11 @@ if(!isset($_SESSION['id_usuario'])){
 
                     <div id="resultadoMateriais"></div>
 
+                    <button type="button" id="abrirMateriaisSalvos">
+                        <i class="bx bx-folder"></i>
+                        Usar materiais salvos
+                    </button>
+
                 </div>
 
 
@@ -230,27 +235,96 @@ if(!isset($_SESSION['id_usuario'])){
 
     </dialog>
 
-<dialog class="modal" id="modalMaterial">
+
+    <dialog class="modal" id="modalMateriaisSalvos">
+
+        <div class="modal-conteudo">
+
+            <button type="button" class="fechar" id="fecharMateriaisSalvos">
+                <i class="bx bx-x"></i>
+            </button>
+
+
+            <div id="pastasPlanejamento">
+
+                <h2>Materiais salvos</h2>
+
+                <div id="listaPastasPlanejamento"></div>
+
+            </div>
+
+
+            <div id="materiaisPasta" style="display: none;">
+
+                <button type="button" id="voltarPastas">
+                    <i class="bx bx-arrow-back"></i>
+                    Voltar
+                </button>
+
+                <h2 id="nomePastaPlanejamento"></h2>
+
+                <div id="listaMateriaisPasta"></div>
+
+                <button type="button" id="adicionarMateriaisAula">
+                    Adicionar à aula
+                </button>
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+
+    <dialog class="modal" id="modalMaterial">
+
+        <div class="modal-conteudo">
+
+            <button type="button" class="fechar" id="fecharMaterial">
+                <i class="bx bx-x"></i>
+            </button>
+
+            <button type="button" id="voltarMaterial">
+                <i class="bx bx-arrow-back"></i>
+                Voltar
+            </button>
+
+            <div id="conteudoMaterial">
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+
+<dialog class="modal" id="modalExcluirAula">
 
     <div class="modal-conteudo">
 
-        <button type="button" class="fechar" id="fecharMaterial">
+        <button type="button" class="fechar" id="fecharExcluirAula">
             <i class="bx bx-x"></i>
         </button>
 
-        <button type="button" id="voltarMaterial">
-            <i class="bx bx-arrow-back"></i>
-            Voltar
-        </button>
+        <h2>Excluir aula</h2>
 
-        <div id="conteudoMaterial">
+        <p>Tem certeza que deseja excluir esta aula?</p>
+
+        <div class="acoes-excluir">
+
+            <button type="button" id="cancelarExcluirAula">
+                Cancelar
+            </button>
+
+            <button type="button" id="confirmarExcluirAula">
+                Excluir
+            </button>
 
         </div>
 
     </div>
 
 </dialog>
-
 
 
     <nav class="sidebar-navigation">
@@ -316,6 +390,8 @@ if(!isset($_SESSION['id_usuario'])){
     <script src="../js/navbar.js"></script>
 
     <script src="../js/planejamento.js"></script>
+
+    <script src="../js/pastasPlanejamento.js"></script>
 
 </body>
 

@@ -95,34 +95,77 @@ $(document).ready(function(){
 
             $('#listaAulasDia').html('');
 
-
             aulas.forEach(function(aula){
 
-                $('#listaAulasDia').append(
+                let materiais = '';
 
-                    '<div class="aula">' +
+                if(aula.MATERIAIS && aula.MATERIAIS.length > 0){
 
-                        '<h3>' +
-                            htmlspecialchars(aula.TITULO_PLAN) +
-                        '</h3>' +
+                    materiais +=
+                        '<div class="materiais-aula">' +
+                            '<strong>Materiais:</strong>';
 
+                    aula.MATERIAIS.forEach(function(material){
+
+                    materiais +=
                         '<p>' +
-                            aula.HORA_INICIO.substring(0, 5) +
-                            ' - ' +
-                            aula.HORA_FIM.substring(0, 5) +
-                        '</p>' +
+                            '<a href="material.php?id=' + material.ID_MATERIAL + '">' +
+                                htmlspecialchars(material.TITULO_MATERIA) +
+                            '</a>' +
+                        '</p>';
 
-                        '<p>' +
-                            htmlspecialchars(aula.SALA) +
-                        '</p>' +
+                });
 
-                        '<p>' +
-                            htmlspecialchars(aula.ASSUNTO || '') +
-                        '</p>' +
+                    materiais +=
+                        '</div>';
 
-                    '</div>'
+                }
 
-                );
+        $('#listaAulasDia').append(
+
+            '<div class="aula">' +
+
+                '<div class="acoes-aula">' +
+
+                    '<button type="button" class="editar-aula" data-id="' +
+                        aula.ID_PLANEJAMENTO + '">' +
+
+                        '<i class="bx bx-edit"></i>' +
+
+                    '</button>' +
+
+                    '<button type="button" class="excluir-aula" data-id="' +
+                        aula.ID_PLANEJAMENTO + '">' +
+
+                        '<i class="bx bx-trash"></i>' +
+
+                    '</button>' +
+
+                '</div>' +
+
+                '<h3>' +
+                    htmlspecialchars(aula.TITULO_PLAN) +
+                '</h3>' +
+
+                '<p>' +
+                    aula.HORA_INICIO.substring(0, 5) +
+                    ' - ' +
+                    aula.HORA_FIM.substring(0, 5) +
+                '</p>' +
+
+                '<p>' +
+                    htmlspecialchars(aula.SALA) +
+                '</p>' +
+
+                '<p>' +
+                    htmlspecialchars(aula.ASSUNTO || '') +
+                '</p>' +
+
+                materiais +
+
+            '</div>'
+
+        );
 
             });
 
@@ -240,6 +283,7 @@ $(document).ready(function(){
 
         }
 
+
         return $('<div>').text(texto).html();
 
     }
@@ -325,18 +369,9 @@ $(document).ready(function(){
                     new Date(material.DATA_CAD).toLocaleDateString('pt-BR') +
                 '</p>' +
 
-                '<p><strong>Arquivo:</strong> ' +
-                    htmlspecialchars(material.NOME_ARQUIVO) +
-                '</p>' +
-
                 '<a href="' + htmlspecialchars(caminhoArquivo) +
                     '" target="_blank">' +
                     'Abrir arquivo' +
-                '</a>' +
-
-                '<a href="' + htmlspecialchars(caminhoArquivo) +
-                    '" download="' + htmlspecialchars(material.NOME_ARQUIVO) + '">' +
-                    'Baixar arquivo' +
                 '</a>' +
 
                 '<button type="button" class="adicionar-material-modal" ' +
@@ -359,6 +394,62 @@ $(document).ready(function(){
             );
 
         });
+
+    });
+
+
+    $(document).on('click', '.adicionar-material, .adicionar-material-modal', function(){
+
+        let idMaterial = $(this).data('id');
+
+        let titulo = '';
+
+
+        if($(this).hasClass('adicionar-material-modal')){
+
+            titulo = $('#conteudoMaterial h2').text();
+
+        } else {
+
+            titulo = $(this).closest('.resultado-material').find('h3').text();
+
+        }
+
+
+        if($('.material-selecionado[data-id="' + idMaterial + '"]').length > 0){
+
+            $('#modalMaterial')[0].close();
+
+            return;
+
+        }
+
+
+        $('#materiaisSelecionados').append(
+
+            '<div class="material-selecionado" data-id="' + idMaterial + '">' +
+
+                '<span>' +
+                    htmlspecialchars(titulo) +
+                '</span>' +
+
+                '<button type="button" class="remover-material">' +
+                    'Remover' +
+                '</button>' +
+
+            '</div>'
+
+        );
+
+
+        $('#modalMaterial')[0].close();
+
+    });
+
+
+    $(document).on('click', '.remover-material', function(){
+
+        $(this).closest('.material-selecionado').remove();
 
     });
 
@@ -529,9 +620,18 @@ $(document).ready(function(){
 
         event.preventDefault();
 
-
         let dados = $(this).serialize();
 
+        let materiais = [];
+
+        $('.material-selecionado').each(function(){
+
+            materiais.push($(this).data('id'));
+
+        });
+
+
+        dados += "&materiais=" + encodeURIComponent(materiais.join(","));
 
         fetch("../php/cadPlanejamento.php", {
             method: "POST",
