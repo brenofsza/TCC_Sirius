@@ -20,6 +20,8 @@ $(document).ready(function(){
         .then(response => response.json())
         .then(aulas => {
 
+            $('.dia').removeClass('tem-aula');
+
             $('.dia').each(function(){
 
                 let dia = $(this).text();
@@ -107,65 +109,66 @@ $(document).ready(function(){
 
                     aula.MATERIAIS.forEach(function(material){
 
-                    materiais +=
-                        '<p>' +
-                            '<a href="material.php?id=' + material.ID_MATERIAL + '">' +
-                                htmlspecialchars(material.TITULO_MATERIA) +
-                            '</a>' +
-                        '</p>';
+                        materiais +=
+                            '<p>' +
+                                '<a href="material.php?id=' + material.ID_MATERIAL + '">' +
+                                    htmlspecialchars(material.TITULO_MATERIA) +
+                                '</a>' +
+                            '</p>';
 
-                });
+                    });
 
                     materiais +=
                         '</div>';
 
                 }
 
-        $('#listaAulasDia').append(
 
-            '<div class="aula">' +
+                $('#listaAulasDia').append(
 
-                '<div class="acoes-aula">' +
+                    '<div class="aula">' +
 
-                    '<button type="button" class="editar-aula" data-id="' +
-                        aula.ID_PLANEJAMENTO + '">' +
+                        '<div class="acoes-aula">' +
 
-                        '<i class="bx bx-edit"></i>' +
+                            '<button type="button" class="editar-aula" data-id="' +
+                                aula.ID_PLANEJAMENTO + '">' +
 
-                    '</button>' +
+                                '<i class="bx bx-edit"></i>' +
 
-                    '<button type="button" class="excluir-aula" data-id="' +
-                        aula.ID_PLANEJAMENTO + '">' +
+                            '</button>' +
 
-                        '<i class="bx bx-trash"></i>' +
+                            '<button type="button" class="excluir-aula" data-id="' +
+                                aula.ID_PLANEJAMENTO + '">' +
 
-                    '</button>' +
+                                '<i class="bx bx-trash"></i>' +
 
-                '</div>' +
+                            '</button>' +
 
-                '<h3>' +
-                    htmlspecialchars(aula.TITULO_PLAN) +
-                '</h3>' +
+                        '</div>' +
 
-                '<p>' +
-                    aula.HORA_INICIO.substring(0, 5) +
-                    ' - ' +
-                    aula.HORA_FIM.substring(0, 5) +
-                '</p>' +
+                        '<h3>' +
+                            htmlspecialchars(aula.TITULO_PLAN) +
+                        '</h3>' +
 
-                '<p>' +
-                    htmlspecialchars(aula.SALA) +
-                '</p>' +
+                        '<p>' +
+                            aula.HORA_INICIO.substring(0, 5) +
+                            ' - ' +
+                            aula.HORA_FIM.substring(0, 5) +
+                        '</p>' +
 
-                '<p>' +
-                    htmlspecialchars(aula.ASSUNTO || '') +
-                '</p>' +
+                        '<p>' +
+                            htmlspecialchars(aula.SALA) +
+                        '</p>' +
 
-                materiais +
+                        '<p>' +
+                            htmlspecialchars(aula.ASSUNTO || '') +
+                        '</p>' +
 
-            '</div>'
+                        materiais +
 
-        );
+                    '</div>'
+
+                );
 
             });
 
@@ -633,6 +636,7 @@ $(document).ready(function(){
 
         dados += "&materiais=" + encodeURIComponent(materiais.join(","));
 
+
         fetch("../php/cadPlanejamento.php", {
             method: "POST",
             headers: {
@@ -684,6 +688,94 @@ $(document).ready(function(){
             $('#mensagemAula').html(
                 "Erro ao cadastrar a aula."
             );
+
+        });
+
+    });
+
+
+    let idAulaExcluir = null;
+
+
+    $(document).on('click', '.excluir-aula', function(){
+
+        idAulaExcluir = $(this).data('id');
+
+        $('#modalExcluirAula')[0].showModal();
+
+    });
+
+
+    $('#fecharExcluirAula, #cancelarExcluirAula').click(function(){
+
+        $('#modalExcluirAula')[0].close();
+
+        idAulaExcluir = null;
+
+    });
+
+
+    $('#confirmarExcluirAula').click(function(){
+
+        if(idAulaExcluir == null){
+
+            return;
+
+        }
+
+
+        let diaSelecionado = $('.dia-selecionado').data('dia');
+
+
+        fetch("../php/excPlanejamento.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "id_planejamento=" + encodeURIComponent(idAulaExcluir)
+        })
+        .then(response => response.text())
+        .then(retorno => {
+
+            let resposta = retorno.trim();
+
+
+            if(resposta == "OK!"){
+
+                $('#modalExcluirAula')[0].close();
+
+                idAulaExcluir = null;
+
+
+                mostrarCalendario();
+
+
+                if(diaSelecionado){
+
+                    $('#tituloAulasDia').html(
+                        "Aulas do dia " +
+                        String(diaSelecionado).padStart(2, '0') +
+                        "/" +
+                        String(mesAtual + 1).padStart(2, '0') +
+                        "/" +
+                        anoAtual
+                    );
+
+
+                    buscarAulasDia(diaSelecionado);
+
+                }
+
+            } else {
+
+                console.log(resposta);
+
+            }
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
 
         });
 
