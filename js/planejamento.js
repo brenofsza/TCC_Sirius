@@ -554,7 +554,7 @@ $(document).ready(function(){
 
 
             let elementoDia = $(
-                '<div class="' + classe + '">' +
+                '<div class="' + classe + '" data-dia="' + dia + '">' +
                     dia +
                 '</div>'
             );
@@ -627,7 +627,8 @@ $(document).ready(function(){
 
         let materiais = [];
 
-        $('.material-selecionado').each(function(){
+
+        $('#materiaisSelecionados .material-selecionado').each(function(){
 
             materiais.push($(this).data('id'));
 
@@ -694,6 +695,184 @@ $(document).ready(function(){
     });
 
 
+    let idAulaEditar = null;
+
+
+    $(document).on('click', '.editar-aula', function(){
+
+        idAulaEditar = $(this).data('id');
+
+
+        fetch("../php/edtPlanejamento.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "id_planejamento=" + encodeURIComponent(idAulaEditar)
+        })
+        .then(response => response.json())
+        .then(aula => {
+
+            if(!aula.ID_PLANEJAMENTO){
+
+                $('#mensagemEditarAula').html(
+                    "Erro ao carregar a aula."
+                );
+
+                return;
+
+            }
+
+
+            $('#tituloEditarAula').val(aula.TITULO_PLAN);
+
+            $('#assuntoEditarAula').val(aula.ASSUNTO);
+
+            $('#dataEditarAula').val(aula.DATA_AULA);
+
+            $('#horaInicioEditarAula').val(
+                aula.HORA_INICIO.substring(0, 5)
+            );
+
+            $('#horaFimEditarAula').val(
+                aula.HORA_FIM.substring(0, 5)
+            );
+
+            $('#salaEditarAula').val(aula.SALA);
+
+
+            $('#pesquisaMaterialEditar').val('');
+
+            $('#resultadoMateriaisEditar').html('');
+
+            $('#materiaisSelecionadosEditar').html('');
+
+
+            if(aula.MATERIAIS && aula.MATERIAIS.length > 0){
+
+                aula.MATERIAIS.forEach(function(material){
+
+                    $('#materiaisSelecionadosEditar').append(
+
+                        '<div class="material-selecionado" data-id="' +
+                            material.ID_MATERIAL + '">' +
+
+                            '<span>' +
+                                htmlspecialchars(material.TITULO_MATERIA) +
+                            '</span>' +
+
+                            '<button type="button" class="remover-material">' +
+                                'Remover' +
+                            '</button>' +
+
+                        '</div>'
+
+                    );
+
+                });
+
+            }
+
+
+            $('#mensagemEditarAula').html('');
+
+            $('#modalEditarAula')[0].showModal();
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+
+            $('#mensagemEditarAula').html(
+                "Erro ao carregar a aula."
+            );
+
+        });
+
+    });
+
+
+    $('#fecharEditarAula').click(function(){
+
+        $('#modalEditarAula')[0].close();
+
+        idAulaEditar = null;
+
+    });
+
+$('#formEditarAula').submit(function(event){
+
+    event.preventDefault();
+
+    if(idAulaEditar == null){
+
+        return;
+
+    }
+
+
+    let dados = $(this).serialize();
+
+    dados += "&id_planejamento=" + encodeURIComponent(idAulaEditar);
+    dados += "&acao=salvar";
+
+
+    let diaSelecionado = $('.dia-selecionado').data('dia');
+
+
+    fetch("../php/edtPlanejamento.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: dados
+    })
+    .then(response => response.json())
+    .then(retorno => {
+
+        if(retorno.resposta == "OK!"){
+
+            $('#modalEditarAula')[0].close();
+
+            idAulaEditar = null;
+
+            mostrarCalendario();
+
+
+            if(diaSelecionado){
+
+                let diaElemento = $('.dia[data-dia="' + diaSelecionado + '"]');
+
+                diaElemento.addClass('dia-selecionado');
+
+                buscarAulasDia(diaSelecionado);
+
+            }
+
+        } else {
+
+            $('#mensagemEditarAula').html(
+                "Erro ao salvar as alterações."
+            );
+
+            console.log(retorno);
+
+        }
+
+    })
+    .catch(function(erro){
+
+        console.log(erro);
+
+        $('#mensagemEditarAula').html(
+            "Erro ao salvar as alterações."
+        );
+
+    });
+
+});
+
+
     let idAulaExcluir = null;
 
 
@@ -752,14 +931,10 @@ $(document).ready(function(){
 
                 if(diaSelecionado){
 
-                    $('#tituloAulasDia').html(
-                        "Aulas do dia " +
-                        String(diaSelecionado).padStart(2, '0') +
-                        "/" +
-                        String(mesAtual + 1).padStart(2, '0') +
-                        "/" +
-                        anoAtual
-                    );
+                    let diaElemento = $('.dia[data-dia="' + diaSelecionado + '"]');
+
+
+                    diaElemento.addClass('dia-selecionado');
 
 
                     buscarAulasDia(diaSelecionado);

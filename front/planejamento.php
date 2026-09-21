@@ -1,3 +1,4 @@
+```php
 <?php
 
 session_start();
@@ -133,6 +134,8 @@ if(!isset($_SESSION['id_usuario'])){
     </main>
 
 
+    <!-- modal para cadastrar aula -->
+
     <dialog class="modal" id="modalAula">
 
         <div class="modal-conteudo">
@@ -236,6 +239,113 @@ if(!isset($_SESSION['id_usuario'])){
     </dialog>
 
 
+    <!-- modal para editar aula -->
+
+    <dialog class="modal" id="modalEditarAula">
+
+        <div class="modal-conteudo">
+
+            <button type="button" class="fechar" id="fecharEditarAula">
+                <i class="bx bx-x"></i>
+            </button>
+
+            <div id="mensagemEditarAula"></div>
+
+            <h2>Editar aula</h2>
+
+            <form id="formEditarAula">
+
+                <div class="campo">
+
+                    <label for="tituloEditarAula">Título da aula</label>
+
+                    <input type="text" id="tituloEditarAula" name="titulo"
+                        placeholder="Digite o título da aula" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="assuntoEditarAula">Assunto</label>
+
+                    <textarea id="assuntoEditarAula" name="assunto"
+                        placeholder="Descreva o assunto da aula..."
+                        rows="3"></textarea>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="dataEditarAula">Data</label>
+
+                    <input type="date" id="dataEditarAula" name="data" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="horaInicioEditarAula">Hora de início</label>
+
+                    <input type="time" id="horaInicioEditarAula" name="hora_inicio" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="horaFimEditarAula">Hora de término</label>
+
+                    <input type="time" id="horaFimEditarAula" name="hora_fim" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="salaEditarAula">Sala / Turma</label>
+
+                    <input type="text" id="salaEditarAula" name="sala"
+                        placeholder="Ex: 3ª A Etec Phila" required>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="pesquisaMaterialEditar">
+                        Materiais da aula
+                    </label>
+
+                    <input type="text" id="pesquisaMaterialEditar"
+                        placeholder="Pesquise um material...">
+
+                    <div id="resultadoMateriaisEditar"></div>
+
+                    <button type="button" id="abrirMateriaisSalvosEditar">
+                        <i class="bx bx-folder"></i>
+                        Usar materiais salvos
+                    </button>
+
+                </div>
+
+
+                <div id="materiaisSelecionadosEditar"></div>
+
+
+                <button type="submit" class="btn-cadastrar">
+                    Salvar alterações
+                </button>
+
+            </form>
+
+        </div>
+
+    </dialog>
+
+
     <dialog class="modal" id="modalMateriaisSalvos">
 
         <div class="modal-conteudo">
@@ -298,33 +408,33 @@ if(!isset($_SESSION['id_usuario'])){
     </dialog>
 
 
-<dialog class="modal" id="modalExcluirAula">
+    <dialog class="modal" id="modalExcluirAula">
 
-    <div class="modal-conteudo">
+        <div class="modal-conteudo">
 
-        <button type="button" class="fechar" id="fecharExcluirAula">
-            <i class="bx bx-x"></i>
-        </button>
-
-        <h2>Excluir aula</h2>
-
-        <p>Tem certeza que deseja excluir esta aula?</p>
-
-        <div class="acoes-excluir">
-
-            <button type="button" id="cancelarExcluirAula">
-                Cancelar
+            <button type="button" class="fechar" id="fecharExcluirAula">
+                <i class="bx bx-x"></i>
             </button>
 
-            <button type="button" id="confirmarExcluirAula">
-                Excluir
-            </button>
+            <h2>Excluir aula</h2>
+
+            <p>Tem certeza que deseja excluir esta aula?</p>
+
+            <div class="acoes-excluir">
+
+                <button type="button" id="cancelarExcluirAula">
+                    Cancelar
+                </button>
+
+                <button type="button" id="confirmarExcluirAula">
+                    Excluir
+                </button>
+
+            </div>
 
         </div>
 
-    </div>
-
-</dialog>
+    </dialog>
 
 
     <nav class="sidebar-navigation">
@@ -396,3 +506,4 @@ if(!isset($_SESSION['id_usuario'])){
 </body>
 
 </html>
+```
