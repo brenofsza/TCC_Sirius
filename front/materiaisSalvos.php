@@ -22,6 +22,7 @@ if(!isset($_SESSION['id_usuario'])){
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/materiaisSalvos.css">
     <title>Materiais salvos</title>
+    <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 </head>

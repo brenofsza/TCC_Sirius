@@ -35,6 +35,8 @@ if(!isset($_SESSION['id_usuario'])){
 
     <title>Planejamento</title>
 
+    <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
+
 </head>
 
 <body>

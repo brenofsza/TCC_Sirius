@@ -48,6 +48,8 @@ if (empty($row['FOTO_USU'])) {
     
     <title>Perfil</title>
 
+    <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
+
     <link rel="stylesheet" href="../css/navbar.css">
 
 

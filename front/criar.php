@@ -16,6 +16,8 @@ if (!isset($_SESSION['id_usuario'])) {
     <link rel="stylesheet" href="../css/criar.css">
     <title>Criar Materiais</title>
 
+    <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
+
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/typeahead.css">

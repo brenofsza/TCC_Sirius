@@ -65,6 +65,8 @@ if(empty($usuario['FOTO_USU'])){
 
     <title><?php echo htmlspecialchars($usuario['NOME_USU']); ?></title>
 
+    <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
+
     <link rel="stylesheet" href="../css/navbar.css">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>

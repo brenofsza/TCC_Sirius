@@ -92,6 +92,7 @@ if(isset($_SESSION['id_usuario'])){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <title><?php echo htmlspecialchars($material['TITULO_MATERIA']); ?></title>
+    <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
 
 </head>
 
