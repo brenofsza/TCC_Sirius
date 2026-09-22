@@ -120,6 +120,45 @@ button {
     transform: translateY(-2px);
 }
 
+/* Link do perfil para as pastas salvas: segue o formato de cartão dos demais atalhos. */
+.atalho-materiais-salvos {
+    grid-column: 1;
+    grid-row: 4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: min(100%, 250px);
+    padding: 13px 16px;
+    border: 1px solid var(--borda);
+    border-left: 4px solid var(--amarelo);
+    border-radius: 10px;
+    color: var(--roxo-escuro);
+    background: var(--branco);
+    box-shadow: 0 6px 18px rgba(51, 23, 97, .09);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.atalho-materiais-salvos:hover,
+.atalho-materiais-salvos:focus-visible {
+    border-color: var(--roxo);
+    box-shadow: 0 10px 22px rgba(51, 23, 97, .15);
+    transform: translateY(-2px);
+}
+
+/* Ícones de pasta e seta dentro do atalho. */
+.atalho-materiais-salvos i {
+    color: var(--roxo);
+    font-size: 1.3rem;
+}
+
+/* O texto se expande para separar os dois ícones. */
+.atalho-materiais-salvos span {
+    flex: 1;
+}
+
 /* Área que ocupa a maior parte da página para os materiais do usuário. */
 .materiais-perfil {
     grid-column: 2;
@@ -225,19 +264,42 @@ body > button:not(#editPerfil) {
     background: transparent;
 }
 
-body > a[href*='logout'] {
+/* .sair-conta apresenta a saída como botão vermelho abaixo de Materiais salvos. */
+.sair-conta {
     grid-column: 1;
-    /* Fica abaixo do link de materiais salvos, sem sobrepor o texto. */
     grid-row: 5;
     align-self: start;
     justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    width: min(100%, 250px);
+    padding: 12px 16px;
+    border: 1px solid #e8bdc5;
+    border-radius: 10px;
     color: #a33c52;
-    font-size: .9rem;
+    background: #fff0f2;
+    box-shadow: 0 6px 18px rgba(163, 60, 82, .1);
+    font-size: .94rem;
     font-weight: 700;
     text-decoration: none;
+    transition: color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
 }
 
-body > a[href*='logout']:hover,
+.sair-conta:hover,
+.sair-conta:focus-visible {
+    color: #fff;
+    background: #a00023;
+    box-shadow: 0 10px 22px rgba(163, 60, 82, .18);
+    transform: translateY(-2px);
+}
+
+/* Ícone de saída alinhado ao texto do botão. */
+.sair-conta i {
+    font-size: 1.25rem;
+}
+
 body > button:not(#editPerfil):hover {
     text-decoration: underline;
 }
@@ -382,10 +444,14 @@ dialog h2 {
     #formFoto,
     .info-perfil,
     #editPerfil,
+    .atalho-materiais-salvos,
     .materiais-perfil,
-    body > button:not(#editPerfil),
-    body > a[href*='logout'] {
+    body > button:not(#editPerfil) {
         display: block;
+        margin-bottom: 22px;
+    }
+
+    .sair-conta {
         margin-bottom: 22px;
     }
 

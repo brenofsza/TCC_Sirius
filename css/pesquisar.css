@@ -107,3 +107,9 @@
 body {
     background-color: #F5F6F8;
 }
+
+/* Deixa o primeiro item da barra lateral abaixo do cabeçalho fixo. */
+.sidebar-navigation {
+    top: 60px;
+    height: calc(100vh - 60px);
+}

@@ -48,7 +48,12 @@ if($resultado->num_rows > 0){
 
 } else {
 
-    echo "<p>Nenhuma pasta encontrada.</p>";
+    // Este bloco substitui os cartões quando o usuário ainda não possui pastas.
+    echo "<div class='estado-vazio-pastas'>";
+    echo "<i class='bx bx-folder-open' aria-hidden='true'></i>";
+    echo "<h2>Suas pastas aparecem aqui</h2>";
+    echo "<p>Crie uma pasta para começar a organizar seus materiais salvos.</p>";
+    echo "</div>";
 
 }
 

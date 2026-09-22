@@ -1,0 +1,391 @@
+/* #modalAula define tamanho, rolagem e aparência da janela Nova aula. */
+#modalAula {
+    box-sizing: border-box;
+    width: min(92vw, 680px);
+    max-height: 90vh;
+    margin: auto;
+    padding: 0;
+    overflow-y: auto;
+    border: 0;
+    border-top: 5px solid #ffc928;
+    border-radius: 16px;
+    color: #2f243b;
+    background: #fff;
+    box-shadow: 0 24px 60px rgba(51, 23, 97, .26);
+}
+
+/* O fundo escurecido destaca o formulário quando o modal está aberto. */
+#modalAula::backdrop {
+    background: rgba(38, 22, 59, .52);
+    backdrop-filter: blur(3px);
+}
+
+/* .modal-conteudo cria espaço interno e posiciona o botão de fechar. */
+#modalAula .modal-conteudo {
+    position: relative;
+    padding: 30px 34px 34px;
+}
+
+/* .fechar coloca o botão X no canto superior direito. */
+#modalAula .fechar {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    color: #331761;
+    background: #f1edf6;
+    font-size: 1.45rem;
+    cursor: pointer;
+}
+
+/* Título da janela, com espaço para o botão de fechar. */
+#modalAula h2 {
+    margin: 0 44px 24px 0;
+    color: #331761;
+    font-size: 1.6rem;
+}
+
+/* #mensagemAula apresenta o retorno do cadastro somente quando há uma mensagem. */
+#modalAula #mensagemAula:not(:empty) {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    color: #331761;
+    background: #f1edf6;
+    line-height: 1.4;
+}
+
+/* #formAula organiza os campos em duas colunas quando há espaço. */
+#modalAula #formAula {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* .campo agrupa cada rótulo com seu campo de entrada. */
+#modalAula .campo {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+}
+
+/* Título, assunto e busca de materiais usam a largura completa do formulário. */
+#modalAula .campo:nth-child(1),
+#modalAula .campo:nth-child(2),
+#modalAula .campo:nth-child(7) {
+    grid-column: 1 / -1;
+}
+
+/* Rótulos mostram qual informação preencher em cada campo. */
+#modalAula .campo label {
+    color: #331761;
+    font-size: .92rem;
+    font-weight: 700;
+}
+
+/* Entradas de texto, data, hora e assunto usam o mesmo padrão visual. */
+#modalAula .campo input,
+#modalAula .campo textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 13px;
+    border: 1px solid #e4ddec;
+    border-radius: 9px;
+    outline: none;
+    color: #2f243b;
+    background: #fff;
+    font: inherit;
+    line-height: 1.35;
+}
+
+/* A área de assunto pode crescer se o texto for longo. */
+#modalAula .campo textarea {
+    min-height: 88px;
+    resize: vertical;
+}
+
+/* Destaca o campo que está sendo preenchido. */
+#modalAula .campo input:focus,
+#modalAula .campo textarea:focus {
+    border-color: #7141bb;
+    box-shadow: 0 0 0 4px rgba(113, 65, 187, .13);
+}
+
+/* #resultadoMateriais exibe os resultados da pesquisa sem aumentar demais a janela. */
+#modalAula #resultadoMateriais:not(:empty) {
+    display: grid;
+    gap: 8px;
+    max-height: 230px;
+    margin-top: 5px;
+    overflow-y: auto;
+}
+
+/* .resultado-material é o cartão de cada material encontrado. */
+#modalAula .resultado-material {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 14px;
+    border: 1px solid #e4ddec;
+    border-radius: 9px;
+    background: #fdfcff;
+}
+
+/* Título, disciplina e conteúdo identificam cada resultado. */
+#modalAula .resultado-material h3 {
+    color: #331761;
+    font-size: .95rem;
+    line-height: 1.3;
+}
+
+#modalAula .resultado-material p {
+    margin-top: 5px;
+    color: #766b82;
+    font-size: .82rem;
+    line-height: 1.3;
+}
+
+/* .ver-material e .adicionar-material são as ações de um resultado da busca. */
+#modalAula .resultado-material button {
+    margin: 2px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 7px;
+    color: #331761;
+    background: #eee8f7;
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* A ação de adicionar material recebe destaque amarelo. */
+#modalAula .resultado-material .adicionar-material {
+    background: #ffc928;
+}
+
+/* #abrirMateriaisSalvos abre as pastas já guardadas pelo usuário. */
+#modalAula #abrirMateriaisSalvos {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 4px;
+    padding: 10px 13px;
+    border: 1px solid #e4ddec;
+    border-radius: 9px;
+    color: #331761;
+    background: #f4f0f9;
+    font: inherit;
+    font-size: .88rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* #materiaisSelecionados ocupa a largura total e reúne as escolhas feitas. */
+#modalAula #materiaisSelecionados {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 8px;
+}
+
+/* .material-selecionado mostra o título e a opção de remoção de cada escolha. */
+#modalAula .material-selecionado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid #e4ddec;
+    border-radius: 9px;
+    background: #fdfcff;
+}
+
+/* .remover-material desfaz a seleção antes do cadastro da aula. */
+#modalAula .remover-material {
+    padding: 6px 9px;
+    border: 0;
+    border-radius: 7px;
+    color: #a33c52;
+    background: #fff0f2;
+    font: inherit;
+    font-size: .78rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* .btn-cadastrar envia a nova aula e fecha o fluxo de preenchimento. */
+#modalAula .btn-cadastrar {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 13px 18px;
+    border: 0;
+    border-radius: 9px;
+    color: #251238;
+    background: #ffc928;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+/* Em telas menores, os campos e resultados ficam em uma coluna. */
+@media (max-width: 580px) {
+    #modalAula .modal-conteudo {
+        padding: 24px 20px;
+    }
+
+    #modalAula #formAula {
+        grid-template-columns: 1fr;
+    }
+
+    #modalAula .resultado-material {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+/* #modalMateriaisSalvos segue o tamanho, a borda e a sombra do modal Nova aula. */
+#modalMateriaisSalvos {
+    box-sizing: border-box;
+    width: min(92vw, 540px);
+    max-height: 85vh;
+    margin: auto;
+    padding: 0;
+    overflow-y: auto;
+    border: 0;
+    border-top: 5px solid #ffc928;
+    border-radius: 16px;
+    color: #2f243b;
+    background: #fff;
+    box-shadow: 0 24px 60px rgba(51, 23, 97, .26);
+}
+
+/* O fundo escurecido mantém o foco na escolha da pasta. */
+#modalMateriaisSalvos::backdrop {
+    background: rgba(38, 22, 59, .52);
+    backdrop-filter: blur(3px);
+}
+
+/* .modal-conteudo separa o texto e a lista das bordas da janela. */
+#modalMateriaisSalvos .modal-conteudo {
+    position: relative;
+    padding: 30px;
+}
+
+/* .fechar coloca o botão X no canto superior direito. */
+#modalMateriaisSalvos .fechar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    color: #331761;
+    background: #f1edf6;
+    font-size: 1.45rem;
+    cursor: pointer;
+}
+
+/* Título das duas etapas: lista de pastas e materiais da pasta escolhida. */
+#modalMateriaisSalvos h2 {
+    margin: 0 42px 22px 0;
+    color: #331761;
+    font-size: 1.5rem;
+}
+
+/* #listaPastasPlanejamento organiza os botões de pasta em uma coluna. */
+#modalMateriaisSalvos #listaPastasPlanejamento {
+    display: grid;
+    gap: 10px;
+}
+
+/* A mensagem de lista vazia ocupa espaço suficiente para não parecer uma janela quebrada. */
+#modalMateriaisSalvos #listaPastasPlanejamento > p,
+#modalMateriaisSalvos #listaMateriaisPasta > p {
+    display: grid;
+    place-items: center;
+    min-height: 130px;
+    padding: 20px;
+    border: 1px dashed #d8c9e8;
+    border-radius: 11px;
+    color: #766b82;
+    background: #fbf9ff;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* .pasta-planejamento representa uma pasta que o usuário pode abrir. */
+#modalMateriaisSalvos .pasta-planejamento {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #e4ddec;
+    border-radius: 10px;
+    color: #331761;
+    background: #fdfcff;
+    font: inherit;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* O ícone identifica visualmente cada pasta da lista. */
+#modalMateriaisSalvos .pasta-planejamento i {
+    color: #7141bb;
+    font-size: 1.5rem;
+}
+
+/* #materiaisPasta mostra a segunda etapa após abrir uma pasta. */
+#modalMateriaisSalvos #materiaisPasta {
+    color: #2f243b;
+}
+
+/* #voltarPastas retorna à lista sem fechar a janela. */
+#modalMateriaisSalvos #voltarPastas {
+    margin-bottom: 18px;
+    padding: 0;
+    border: 0;
+    color: #7141bb;
+    background: transparent;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* .material-pasta-planejamento apresenta cada material com sua caixa de seleção. */
+#modalMateriaisSalvos .material-pasta-planejamento {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding: 13px;
+    border: 1px solid #e4ddec;
+    border-radius: 10px;
+    background: #fdfcff;
+}
+
+/* #adicionarMateriaisAula confirma os materiais marcados na pasta. */
+#modalMateriaisSalvos #adicionarMateriaisAula {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+    border: 0;
+    border-radius: 9px;
+    color: #251238;
+    background: #ffc928;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}

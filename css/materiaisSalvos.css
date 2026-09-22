@@ -1,0 +1,420 @@
+/* Cores compartilhadas com os botões e cartões do perfil. */
+:root {
+    --roxo: #7141bb;
+    --roxo-escuro: #331761;
+    --amarelo: #ffc928;
+    --borda: #e4ddec;
+    --texto: #2f243b;
+}
+
+/* .materiais-salvos e .pasta-salva centralizam o conteúdo e ocupam a largura livre sem a navbar. */
+.materiais-salvos,
+.pasta-salva {
+    box-sizing: border-box;
+    width: min(100%, 1440px);
+    margin: 0 auto;
+    padding: 48px 36px 72px;
+    color: var(--texto);
+}
+
+/* .cabecalho-salvos coloca o texto à esquerda e o botão Nova pasta à direita. */
+.cabecalho-salvos {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 26px;
+}
+
+/* Títulos principais das duas páginas de materiais salvos. */
+.cabecalho-salvos h1,
+.pasta-salva h1 {
+    margin: 12px 0 8px;
+    color: var(--roxo-escuro);
+    font-size: clamp(1.7rem, 3vw, 2.25rem);
+}
+
+/* Texto de apoio abaixo do título da lista de pastas. */
+.cabecalho-salvos p {
+    color: #766b82;
+    line-height: 1.4;
+}
+
+/* .voltar-perfil retorna ao perfil; o link da pasta retorna à lista de pastas. */
+.voltar-perfil,
+.pasta-salva > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--roxo);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.voltar-perfil:hover,
+.pasta-salva > a:hover {
+    text-decoration: underline;
+}
+
+/* #novaPasta abre o modal; #criarPasta e #salvarNomePasta confirmam os formulários. */
+#novaPasta,
+#criarPasta,
+#salvarNomePasta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 9px;
+    color: #251238;
+    background: var(--amarelo);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+#novaPasta:hover,
+#criarPasta:hover,
+#salvarNomePasta:hover {
+    background: #ffd75a;
+    transform: translateY(-2px);
+}
+
+#novaPasta i {
+    font-size: 1.2rem;
+}
+
+/* #listaPastas recebe os cartões via JavaScript; #materiaisPasta recebe os materiais da pasta. */
+#listaPastas,
+#materiaisPasta {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+/* Mensagem simples que ocupa toda a grade quando não há itens para mostrar. */
+#listaPastas > p,
+#materiaisPasta > p {
+    grid-column: 1 / -1;
+    padding: 24px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    color: #766b82;
+    background: #fff;
+}
+
+/* .estado-vazio-pastas é o painel mostrado quando a lista de pastas está vazia. */
+.estado-vazio-pastas {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+    padding: 30px;
+    border: 1px solid var(--borda);
+    border-top: 4px solid var(--amarelo);
+    border-radius: 15px;
+    background: linear-gradient(180deg, #fff 0%, #fbf9ff 100%);
+    text-align: center;
+}
+
+/* Ícone da pasta aberta dentro do estado vazio. */
+.estado-vazio-pastas i {
+    margin-bottom: 14px;
+    color: var(--roxo);
+    font-size: 3rem;
+}
+
+/* Título que explica onde as futuras pastas aparecerão. */
+.estado-vazio-pastas h2 {
+    margin-bottom: 10px;
+    color: var(--roxo-escuro);
+    font-size: 1.3rem;
+}
+
+/* Instrução curta para criar a primeira pasta. */
+.estado-vazio-pastas p {
+    color: #766b82;
+    line-height: 1.4;
+}
+
+/* .guia-salvos divide o bloco de orientação em apresentação e passos numerados. */
+.guia-salvos {
+    display: grid;
+    grid-template-columns: minmax(220px, .8fr) minmax(360px, 1.2fr);
+    gap: 48px;
+    margin-top: 32px;
+    padding: 30px 34px;
+    border: 1px solid var(--borda);
+    border-radius: 15px;
+    background: #fff;
+}
+
+/* .guia-salvos-cabecalho contém a chamada, o título e o resumo do guia. */
+.guia-salvos-cabecalho > span {
+    color: var(--roxo);
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+}
+
+/* Título do guia, destacado em roxo escuro. */
+.guia-salvos h2 {
+    margin: 12px 0;
+    color: var(--roxo-escuro);
+    font-size: 1.45rem;
+}
+
+/* Descrição abaixo do título do guia. */
+.guia-salvos-cabecalho p {
+    color: #766b82;
+    line-height: 1.5;
+}
+
+/* .guia-salvos-passos organiza cada etapa em uma linha separada por borda. */
+.guia-salvos-passos > div {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--borda);
+}
+
+/* Fecha a linha superior da primeira etapa. */
+.guia-salvos-passos > div:first-child {
+    border-top: 1px solid var(--borda);
+}
+
+/* Número de cada etapa. */
+.guia-salvos-passos span {
+    color: var(--roxo);
+    font-weight: 800;
+}
+
+/* Texto explicativo de cada etapa. */
+.guia-salvos-passos p {
+    line-height: 1.45;
+}
+
+/* .card-pasta abre a pasta; .card-material reúne os dados de um material salvo. */
+.card-pasta,
+.pasta-salva .card-material {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 145px;
+    padding: 22px;
+    border: 1px solid var(--borda);
+    border-top: 4px solid var(--amarelo);
+    border-radius: 13px;
+    color: var(--roxo-escuro);
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(51, 23, 97, .08);
+    text-decoration: none;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+/* Indica visualmente que os cartões podem ser abertos. */
+.card-pasta:hover,
+.card-pasta:focus-visible,
+.pasta-salva .card-material:hover {
+    border-color: var(--roxo);
+    box-shadow: 0 12px 28px rgba(51, 23, 97, .15);
+    transform: translateY(-3px);
+}
+
+/* Ícone mostrado no início de cada cartão de pasta. */
+.card-pasta i {
+    color: var(--roxo);
+    font-size: 2.3rem;
+}
+
+/* Nome da pasta, com quebra para nomes compridos. */
+.card-pasta p {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+/* O título de .pasta-salva agrupa nome, ícone e botões da pasta. */
+.pasta-salva h1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.pasta-salva h1 > i {
+    color: var(--roxo);
+}
+
+/* Ações da pasta: renomear, excluir e remover um material do cartão. */
+#renomearPasta,
+#excluirPasta,
+.removerMaterial {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    color: var(--roxo-escuro);
+    background: #f4f0f9;
+    font: inherit;
+    font-size: .85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#excluirPasta,
+.removerMaterial {
+    color: #a33c52;
+    background: #fff0f2;
+}
+
+/* Materiais salvos têm altura mínima maior para acomodar seus detalhes. */
+.pasta-salva .card-material {
+    min-height: 175px;
+}
+
+/* .info-material é o link que abre a página completa do material. */
+.info-material {
+    flex: 1;
+    color: inherit;
+    text-decoration: none;
+}
+
+.info-material h3 {
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.info-material p {
+    margin: 0 0 8px;
+    color: #766b82;
+    font-size: .9rem;
+    line-height: 1.4;
+}
+
+/* Mantém o botão de remover no canto inferior do cartão. */
+.removerMaterial {
+    align-self: end;
+}
+
+/* Os diálogos compartilham tamanho, borda amarela e sombra. */
+.materiais-salvos dialog,
+.pasta-salva dialog,
+body > dialog {
+    width: min(92vw, 480px);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    border-top: 5px solid var(--amarelo);
+    border-radius: 16px;
+    color: var(--texto);
+    background: #fff;
+    box-shadow: 0 18px 48px rgba(51, 23, 97, .24);
+}
+
+body > dialog::backdrop {
+    background: rgba(38, 22, 59, .48);
+}
+
+/* Cada .modal-* é o conteúdo interno de sua janela de criação ou confirmação. */
+.modal-nova-pasta,
+.modal-renomear-pasta,
+.modal-excluir-pasta,
+.modal-remover-material {
+    position: relative;
+    display: grid;
+    gap: 16px;
+    padding: 30px;
+}
+
+body > dialog h2 {
+    color: var(--roxo-escuro);
+}
+
+body > dialog p {
+    line-height: 1.45;
+}
+
+body > dialog input {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1px solid var(--borda);
+    border-radius: 9px;
+    font: inherit;
+}
+
+/* Botões de fechar posicionados no canto superior direito de cada modal. */
+#fecharNovaPasta,
+#fecharRenomearPasta,
+#fecharExcluirPasta,
+#fecharRemoverMaterial {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    color: var(--roxo-escuro);
+    background: #f1edf6;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+/* Diferencia as ações de exclusão dos botões de cancelamento. */
+#confirmarExcluirPasta,
+#confirmarRemoverMaterial,
+#cancelarExcluirPasta,
+#cancelarRemoverMaterial {
+    padding: 11px 15px;
+    border: 0;
+    border-radius: 9px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#confirmarExcluirPasta,
+#confirmarRemoverMaterial {
+    color: #fff;
+    background: #a33c52;
+}
+
+#cancelarExcluirPasta,
+#cancelarRemoverMaterial {
+    color: var(--roxo-escuro);
+    background: #eee8f7;
+}
+
+/* Em telas estreitas, empilha o cabeçalho e mostra um cartão por linha. */
+@media (max-width: 900px) {
+    .materiais-salvos,
+    .pasta-salva {
+        padding: 24px 18px 40px;
+    }
+
+    .cabecalho-salvos {
+        align-items: start;
+        flex-direction: column;
+    }
+
+    #listaPastas,
+    #materiaisPasta {
+        grid-template-columns: 1fr;
+    }
+
+    .guia-salvos {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 24px;
+    }
+}

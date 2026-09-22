@@ -360,13 +360,16 @@ if (empty($row['FOTO_USU'])) {
 </div>
 
 
-<a href="materiaisSalvos.php">
-     Ver materiais salvos 
-    </a>
+<a href="materiaisSalvos.php" class="atalho-materiais-salvos">
+    <i class="bx bx-bookmark" aria-hidden="true"></i>
+    <span>Materiais salvos</span>
+    <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+</a>
 
 
-<a href="../php/logout.php">
-    Sair da conta
+<a href="../php/logout.php" class="sair-conta">
+    <i class="bx bx-log-out" aria-hidden="true"></i>
+    <span>Sair da conta</span>
 </a>
 
 
