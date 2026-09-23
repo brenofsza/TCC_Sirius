@@ -5,7 +5,7 @@ $usuario = "root";
 $senha = "";
 $banco = "BD_SIRIUS";
 
-$conexao = new mysqli($host, $usuario, $senha, $banco, 3306);
+$conexao = new mysqli($host, $usuario, $senha, $banco, 3308);
 
 
 if($conexao->connect_error){
@@ -14,7 +14,7 @@ if($conexao->connect_error){
 
 }
 
-
+// Define o conjunto de caracteres para UTF-8
 $conexao->set_charset("utf8mb4");
 
 ?>

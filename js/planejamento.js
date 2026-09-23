@@ -846,6 +846,23 @@ $(document).on('click', '.ver-material-editar', function(){
 
         event.preventDefault();
 
+        let diaSelecionado = $('.dia-selecionado').data('dia');
+
+        let horaInicio = $('#horaInicio').val();
+        let horaFim = $('#horaFim').val();
+
+        if(horaFim <= horaInicio){
+
+            $('#mensagemAula').html(
+                "O horário final deve ser maior que o horário inicial."
+            );
+
+            return;
+
+        }
+
+        
+
         let dados = $(this).serialize();
 
         let materiais = [];
@@ -890,6 +907,17 @@ $(document).on('click', '.ver-material-editar', function(){
                     $('#mensagemAula').html('');
 
                     mostrarCalendario();
+
+
+        if(diaSelecionado){
+
+            let diaElemento = $('.dia[data-dia="' + diaSelecionado + '"]');
+
+            diaElemento.addClass('dia-selecionado');
+
+            buscarAulasDia(diaSelecionado);
+
+        }
 
                 }, 1000);
 
@@ -1026,6 +1054,19 @@ $(document).on('click', '.ver-material-editar', function(){
 $('#formEditarAula').submit(function(event){
 
     event.preventDefault();
+
+    let horaInicio = $('#horaInicioEditarAula').val();
+    let horaFim = $('#horaFimEditarAula').val();
+
+    if(horaFim <= horaInicio){
+
+        $('#mensagemEditarAula').html(
+            "O horário final deve ser maior que o horário inicial."
+        );
+
+        return;
+
+}
 
     if(idAulaEditar == null){
 
