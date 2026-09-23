@@ -1,22 +1,32 @@
 $(document).ready(function(){
 
+    let modoMateriais = "cadastro";
+
+
     function buscarPastasPlanejamento(){
 
         fetch("../php/buscarPastasPlanejamento.php", {
+
             method: "POST"
+
         })
+
         .then(response => response.text())
+
         .then(retorno => {
 
             $('#listaPastasPlanejamento').html(retorno);
 
         })
+
         .catch(function(erro){
 
             console.log(erro);
 
             $('#listaPastasPlanejamento').html(
+
                 "<p>Erro ao carregar as pastas.</p>"
+
             );
 
         });
@@ -25,6 +35,23 @@ $(document).ready(function(){
 
 
     $('#abrirMateriaisSalvos').click(function(){
+
+        modoMateriais = "cadastro";
+
+        buscarPastasPlanejamento();
+
+        $('#pastasPlanejamento').show();
+
+        $('#materiaisPasta').hide();
+
+        $('#modalMateriaisSalvos')[0].showModal();
+
+    });
+
+
+    $('#abrirMateriaisSalvosEditar').click(function(){
+
+        modoMateriais = "editar";
 
         buscarPastasPlanejamento();
 
@@ -48,14 +75,23 @@ $(document).ready(function(){
 
         let idPasta = $(this).data('id');
 
+
         fetch("../php/buscarMatPlanejamentoPasta.php", {
+
             method: "POST",
+
             headers: {
+
                 "Content-Type": "application/x-www-form-urlencoded"
+
             },
+
             body: "id_pasta=" + encodeURIComponent(idPasta)
+
         })
+
         .then(response => response.text())
+
         .then(retorno => {
 
             $('#pastasPlanejamento').hide();
@@ -65,12 +101,15 @@ $(document).ready(function(){
             $('#listaMateriaisPasta').html(retorno);
 
         })
+
         .catch(function(erro){
 
             console.log(erro);
 
             $('#listaMateriaisPasta').html(
+
                 "<p>Erro ao carregar os materiais.</p>"
+
             );
 
         });
@@ -97,9 +136,24 @@ $(document).ready(function(){
                 .find('h3')
                 .text();
 
-            if($('#materiaisSelecionados .material-selecionado[data-id="' + idMaterial + '"]').length == 0){
 
-                $('#materiaisSelecionados').append(
+            let listaMateriais;
+
+
+            if(modoMateriais == "cadastro"){
+
+                listaMateriais = '#materiaisSelecionados';
+
+            } else {
+
+                listaMateriais = '#materiaisSelecionadosEditar';
+
+            }
+
+
+            if($(listaMateriais + ' .material-selecionado[data-id="' + idMaterial + '"]').length == 0){
+
+                $(listaMateriais).append(
 
                     '<div class="material-selecionado" data-id="' + idMaterial + '">' +
 

@@ -298,6 +298,128 @@ $(document).ready(function(){
 
     });
 
+    $('#pesquisaMaterialEditar').on('input', function(){
+
+        let pesquisa = $(this).val().trim();
+
+
+        if(pesquisa == ''){
+
+            $('#resultadoMateriaisEditar').html('');
+
+            return;
+
+        }
+
+
+        fetch("../php/buscarMateriaisAula.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "pesquisa=" + encodeURIComponent(pesquisa)
+        })
+        .then(response => response.json())
+        .then(materiais => {
+
+            $('#resultadoMateriaisEditar').html('');
+
+
+            if(materiais.length == 0){
+
+                $('#resultadoMateriaisEditar').html(
+                    "<p>Nenhum material encontrado.</p>"
+                );
+
+                return;
+
+            }
+
+
+            materiais.forEach(function(material){
+
+                $('#resultadoMateriaisEditar').append(
+
+                    '<div class="resultado-material">' +
+
+                        '<div>' +
+
+                            '<h3>' +
+                                htmlspecialchars(material.TITULO_MATERIA) +
+                            '</h3>' +
+
+                            '<p>' +
+                                htmlspecialchars(material.NOME_DISCI) +
+                                ' • ' +
+                                htmlspecialchars(material.NOME_CONTEUDO) +
+                            '</p>' +
+
+                        '</div>' +
+
+                        '<div>' +
+
+                            '<button type="button" class="ver-material-editar" ' +
+                                'data-id="' + material.ID_MATERIAL + '">' +
+                                'Ver material' +
+                            '</button>' +
+
+                            '<button type="button" class="adicionar-material-editar" ' +
+                                'data-id="' + material.ID_MATERIAL + '">' +
+                                'Adicionar à aula' +
+                            '</button>' +
+
+                        '</div>' +
+
+                    '</div>'
+
+                );
+
+            });
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+
+            $('#resultadoMateriaisEditar').html(
+                "<p>Erro ao buscar materiais.</p>"
+            );
+
+        });
+
+    });
+
+$(document).on('click', '.adicionar-material-editar', function(){
+
+    let idMaterial = $(this).data('id');
+
+    let titulo = $(this).closest('.resultado-material').find('h3').text();
+
+
+    if($('#materiaisSelecionadosEditar .material-selecionado[data-id="' + idMaterial + '"]').length > 0){
+
+        return;
+
+    }
+
+
+    $('#materiaisSelecionadosEditar').append(
+
+        '<div class="material-selecionado" data-id="' + idMaterial + '">' +
+
+            '<span>' +
+                htmlspecialchars(titulo) +
+            '</span>' +
+
+            '<button type="button" class="remover-material">' +
+                'Remover' +
+            '</button>' +
+
+        '</div>'
+
+    );
+
+});
 
     $(document).on('click', '.ver-material', function(){
 
@@ -399,6 +521,107 @@ $(document).ready(function(){
         });
 
     });
+
+$(document).on('click', '.ver-material-editar', function(){
+
+    let idMaterial = $(this).data('id');
+
+
+    fetch("../php/materialModalAula.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "id_material=" + encodeURIComponent(idMaterial)
+    })
+    .then(response => response.json())
+    .then(material => {
+
+        if(!material.ID_MATERIAL){
+
+            $('#conteudoMaterial').html(
+                "<p>Erro ao carregar o material.</p>"
+            );
+
+            return;
+
+        }
+
+
+        let caminhoArquivo = "../" + material.CAMINHO_ARQUIVO;
+
+
+        let conteudo =
+
+            '<h2>' +
+                htmlspecialchars(material.TITULO_MATERIA) +
+            '</h2>' +
+
+            '<p><strong>Disciplina:</strong> ' +
+                htmlspecialchars(material.NOME_DISCI) +
+            '</p>' +
+
+            '<p><strong>Conteúdo:</strong> ' +
+                htmlspecialchars(material.NOME_CONTEUDO) +
+            '</p>' +
+
+            '<p><strong>Nível:</strong> ' +
+                htmlspecialchars(material.NOME_NIVEL) +
+            '</p>';
+
+
+        if(material.DESCRICAO_MATERIA){
+
+            conteudo +=
+
+                '<p><strong>Descrição:</strong> ' +
+                    htmlspecialchars(material.DESCRICAO_MATERIA) +
+                '</p>';
+
+        }
+
+
+        conteudo +=
+
+            '<div class="autor-material">' +
+
+                '<p><strong>Publicado por:</strong> ' +
+                    htmlspecialchars(material.NOME_USU) +
+                '</p>' +
+
+            '</div>' +
+
+            '<p><strong>Data:</strong> ' +
+                new Date(material.DATA_CAD).toLocaleDateString('pt-BR') +
+            '</p>' +
+
+            '<a href="' + htmlspecialchars(caminhoArquivo) +
+                '" target="_blank">' +
+                'Abrir arquivo' +
+            '</a>' +
+
+            '<button type="button" class="adicionar-material-modal-editar" ' +
+                'data-id="' + material.ID_MATERIAL + '">' +
+                'Adicionar à aula' +
+            '</button>';
+
+
+        $('#conteudoMaterial').html(conteudo);
+
+        $('#modalMaterial')[0].showModal();
+
+    })
+    .catch(function(erro){
+
+        console.log(erro);
+
+        $('#conteudoMaterial').html(
+            "<p>Erro ao carregar o material.</p>"
+        );
+
+    });
+
+});
 
 
     $(document).on('click', '.adicionar-material, .adicionar-material-modal', function(){
@@ -810,11 +1033,21 @@ $('#formEditarAula').submit(function(event){
 
     }
 
+        let dados = $(this).serialize();
 
-    let dados = $(this).serialize();
 
-    dados += "&id_planejamento=" + encodeURIComponent(idAulaEditar);
-    dados += "&acao=salvar";
+        let materiais = [];
+
+        $('#materiaisSelecionadosEditar .material-selecionado').each(function(){
+
+            materiais.push($(this).data('id'));
+
+        });
+
+
+        dados += "&materiais=" + encodeURIComponent(materiais.join(","));
+        dados += "&id_planejamento=" + encodeURIComponent(idAulaEditar);
+        dados += "&acao=salvar";
 
 
     let diaSelecionado = $('.dia-selecionado').data('dia');
