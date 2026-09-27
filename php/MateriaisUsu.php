@@ -4,11 +4,13 @@ session_start();
 
 include("conexao.php");
 
-// aqui é para separar se é usuario exeterno ou se é a propria pessoa vendo seu 
+// aqui é para separar se é usuario externo ou se é a propria pessoa vendo seu 
 // perfil na aba perfil
 $id_usuario = $_POST['id_usuario'] ?? $_SESSION['id_usuario'];
 
 $tipo = $_POST['tipo'] ?? 'publico';
+
+$id_logado = $_SESSION['id_usuario'] ?? 0;
 
 
 // busca os materiais do usuario
@@ -23,9 +25,46 @@ $sql = "SELECT MATERIAL.*, CONTEUDO.NOME_CONTEUDO, DISCIPLINA.NOME_DISCI,
 
 if($tipo == "publico"){
 
-    $sql .= " AND MATERIAL.STATUS_MATERIA = 'PUBLICO'";
+    if($id_logado == $id_usuario){
+
+        $sql .= " AND (
+                    MATERIAL.STATUS_MATERIA = 'PUBLICO'
+                    OR MATERIAL.STATUS_MATERIA = 'CONEXOES'
+                  )";
+
+    } else if($id_logado > 0){
+
+        $sql .= " AND (
+                    MATERIAL.STATUS_MATERIA = 'PUBLICO'
+                    OR (
+                        MATERIAL.STATUS_MATERIA = 'CONEXOES'
+                        AND EXISTS (
+                            SELECT 1
+                            FROM LIGACAO
+                            WHERE STATUS_LIGACAO = 'ACEITA'
+                            AND (
+                                (COD_USU = ? AND COD_USU_DESTINO = MATERIAL.COD_USU)
+                                OR
+                                (COD_USU_DESTINO = ? AND COD_USU = MATERIAL.COD_USU)
+                            )
+                        )
+                    )
+                  )";
+
+    } else {
+
+        $sql .= " AND MATERIAL.STATUS_MATERIA = 'PUBLICO'";
+
+    }
 
 } else if($tipo == "privado"){
+
+    if($id_logado != $id_usuario){
+
+        echo "<p>Nenhum material privado.</p>";
+        exit;
+
+    }
 
     $sql .= " AND MATERIAL.STATUS_MATERIA = 'PRIVADO'";
 
@@ -37,7 +76,22 @@ $sql .= " ORDER BY MATERIAL.DATA_CAD DESC";
 
 $stmt = $conexao->prepare($sql);
 
-$stmt->bind_param("i", $id_usuario);
+
+if($tipo == "publico" && $id_logado > 0 && $id_logado != $id_usuario){
+
+    $stmt->bind_param(
+        "iii",
+        $id_usuario,
+        $id_logado,
+        $id_logado
+    );
+
+} else {
+
+    $stmt->bind_param("i", $id_usuario);
+
+}
+
 
 $stmt->execute();
 
@@ -50,7 +104,17 @@ if($resultado->num_rows > 0){
 
         echo "<a href='../front/material.php?id=" . $material['ID_MATERIAL'] . "' class='card-material'>";
 
-        echo "<h3>" . htmlspecialchars($material['TITULO_MATERIA']) . "</h3>";
+        echo "<h3>";
+
+        echo htmlspecialchars($material['TITULO_MATERIA']);
+
+        if($material['STATUS_MATERIA'] == 'CONEXOES'){
+
+        echo " <span class='icone-conexoes'><i class='bx bx-link-alt'></i></span>";
+
+}
+
+        echo "</h3>";
 
         echo "<p>" . 
             htmlspecialchars($material['NOME_DISCI']) . 
@@ -66,13 +130,13 @@ if($resultado->num_rows > 0){
 
             echo "<p>" . 
                 htmlspecialchars($material['DESCRICAO_MATERIA']) . 
-            "</p>";
+                "</p>";
 
         }
 
         echo "<p>" . 
             date("d/m/Y", strtotime($material['DATA_CAD'])) . 
-        "</p>";
+            "</p>";
 
         echo "</a>";
 

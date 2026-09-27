@@ -99,6 +99,27 @@
 		</div>
 	</main>
 
+	<section class="inicio-blocos">
+
+    <div class="bloco-inicio">
+        <h2>Próximas aulas</h2>
+
+        <div id="proximasAulas">
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+
+    <div class="bloco-inicio">
+        <h2>Atividades das suas conexões</h2>
+
+        <div id="atividadesConexoes">
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+</section>
+
 
 	<dialog id="modalNotificacao">
 
@@ -121,6 +142,7 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script src="js/navbar.js"></script>
 	<script src="js/notificacao.js"></script>
+	<script src="js/inicio.js"></script>
 </body>
 
 </html>

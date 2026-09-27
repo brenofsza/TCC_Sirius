@@ -2,7 +2,6 @@ $(document).ready(function(){
 
 	let idUsuario = $('#idUsuario').val();
 
-
 	function buscarMateriais(tipo){
 
 		fetch("../php/MateriaisUsu.php", {
@@ -17,13 +16,9 @@ $(document).ready(function(){
 		.then(retorno => {
 
 			if(tipo == "publico"){
-
 				$('#materiaisPublicos').html(retorno);
-
 			} else if(tipo == "privado"){
-
 				$('#materiaisPrivados').html(retorno);
-
 			}
 
 		})
@@ -32,23 +27,16 @@ $(document).ready(function(){
 			console.log(erro);
 
 			if(tipo == "publico"){
-
 				$('#materiaisPublicos').html(
 					"<p>Erro ao carregar os materiais.</p>"
 				);
-
 			} else {
-
 				$('#materiaisPrivados').html(
 					"<p>Erro ao carregar os materiais.</p>"
 				);
-
 			}
-
 		});
-
 	}
-
 
 	function contarConexoes(){
 
@@ -65,31 +53,20 @@ $(document).ready(function(){
 			let quantidade = parseInt(retorno);
 
 			if(quantidade == 1){
-
 				$('#qtdConexoes').text("1 conexão");
-
 			} else {
-
 				$('#qtdConexoes').text(quantidade + " conexões");
-
 			}
-
 		})
 		.catch(function(erro){
-
 			console.log(erro);
-
 		});
-
 	}
-
 
 	$('#qtdConexoes').click(function(){
 
 		$('#modalConexoes')[0].showModal();
-
 		$('#listaConexoes').html("Carregando...");
-
 
 		fetch("../php/modalConexao.php", {
 			method: "POST",
@@ -111,18 +88,12 @@ $(document).ready(function(){
 			$('#listaConexoes').html(
 				"<p>Erro ao carregar as conexões.</p>"
 			);
-
 		});
-
 	});
-
 
 	$('#fecharConexoes').click(function(){
-
 		$('#modalConexoes')[0].close();
-
 	});
-
 
 	$('.abaMaterial').click(function(){
 
@@ -131,7 +102,6 @@ $(document).ready(function(){
 		$(this).addClass('ativa');
 
 		let tipo = $(this).data('tipo');
-
 
 		if(tipo == "publico"){
 
@@ -144,12 +114,9 @@ $(document).ready(function(){
 			$('#materiaisPrivados').show();
 
 		}
-
 	});
 
-
 	buscarMateriais("publico");
-
 	buscarMateriais("privado");
 
 	contarConexoes();

@@ -44,6 +44,7 @@ if (empty($row['FOTO_USU'])) {
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="../css/perfil.css">
     
     <title>Perfil</title>
@@ -51,7 +52,6 @@ if (empty($row['FOTO_USU'])) {
     <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
 
     <link rel="stylesheet" href="../css/navbar.css">
-
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -363,15 +363,22 @@ if (empty($row['FOTO_USU'])) {
 
 
 <a href="materiaisSalvos.php" class="atalho-materiais-salvos">
+
     <i class="bx bx-bookmark" aria-hidden="true"></i>
+
     <span>Materiais salvos</span>
+
     <i class="bx bx-right-arrow-alt" aria-hidden="true"></i>
+
 </a>
 
 
 <a href="../php/logout.php" class="sair-conta">
+
     <i class="bx bx-log-out" aria-hidden="true"></i>
+
     <span>Sair da conta</span>
+
 </a>
 
 
@@ -383,9 +390,13 @@ if (empty($row['FOTO_USU'])) {
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <script src="../js/navbar.js"></script>
+
 <script src="../js/editUsu.js"></script>
+
 <script src="../js/fotoUsu.js"></script>
+
 <script src="../js/perfil.js"></script>
 
 

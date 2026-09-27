@@ -109,6 +109,11 @@ if (!isset($_SESSION['id_usuario'])) {
                         <input type="radio" name="status" value="PRIVADO">
                         Privado
                     </label>
+                    
+                    <label>
+                        <input type="radio" name="status" value="CONEXOES">
+                        Somente conexões
+                    </label>
                 </div>
 
                 <div class="campo">

@@ -6,6 +6,11 @@ $(document).ready(function(){
 
     let anoAtual = dataAtual.getFullYear();
 
+    
+    let parametros = new URLSearchParams(window.location.search);
+    
+    let dataAula = parametros.get('data');
+
 
     function buscarPlanejamentos(){
 
@@ -1331,7 +1336,28 @@ $(document).on('click', '.proxima-aula', function(){
 
 });
 
+    if(dataAula){
+
+    let partes = dataAula.split("-");
+
+    anoAtual = parseInt(partes[0]);
+    mesAtual = parseInt(partes[1]) - 1;
+
     mostrarCalendario();
+
+    let dia = parseInt(partes[2]);
+
+    let diaElemento = $('.dia[data-dia="' + dia + '"]');
+
+    diaElemento.addClass('dia-selecionado');
+
+    buscarAulasDia(dia);
+
+} else {
+
+    mostrarCalendario();
+
+}
     buscarProximasAulas();
 
 });

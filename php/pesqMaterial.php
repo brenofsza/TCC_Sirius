@@ -12,6 +12,8 @@ $tipo = $_POST['tipo'] ?? 'materiais';
 $disci = $_POST['disciplina'] ?? '';
 $cont = $_POST['conteudo'] ?? '';
 
+$id_usuario = $_SESSION['id_usuario'] ?? 0;
+
 
 if($pesquisa == ''){
 
@@ -35,7 +37,23 @@ if($tipo == "materiais"){
 				(MATERIAL.TITULO_MATERIA LIKE ?
 				OR MATERIAL.DESCRICAO_MATERIA LIKE ?
 				OR CONTEUDO.NOME_CONTEUDO LIKE ?
-				OR DISCIPLINA.NOME_DISCI LIKE ?)";
+				OR DISCIPLINA.NOME_DISCI LIKE ?)
+			AND (
+				MATERIAL.STATUS_MATERIA = 'PUBLICO'
+				OR (
+					MATERIAL.STATUS_MATERIA = 'CONEXOES'
+					AND EXISTS (
+						SELECT 1
+						FROM LIGACAO
+						WHERE LIGACAO.STATUS_LIGACAO = 'ACEITA'
+						AND (
+							(LIGACAO.COD_USU = ? AND LIGACAO.COD_USU_DESTINO = MATERIAL.COD_USU)
+							OR
+							(LIGACAO.COD_USU_DESTINO = ? AND LIGACAO.COD_USU = MATERIAL.COD_USU)
+						)
+					)
+				)
+			)";
 
 
 	// filtro disci
@@ -60,51 +78,58 @@ if($tipo == "materiais"){
 	$stmt = $conexao->prepare($sql);
 
 
-	// define os parametros de acordo com os filtros, aqui os 2 filtros estao atiados
+	// define os parametros de acordo com os filtros
 	if($disci != '' && $cont != ''){
 
 		$stmt->bind_param(
-			"ssssii",
+			"ssssiiii",
 			$busca,
 			$busca,
 			$busca,
 			$busca,
+			$id_usuario,
+			$id_usuario,
 			$disci,
 			$cont
 		);
 
-	//
 	} else if($disci != ''){
 
 		$stmt->bind_param(
-			"ssssi",
+			"ssssiii",
 			$busca,
 			$busca,
 			$busca,
 			$busca,
+			$id_usuario,
+			$id_usuario,
 			$disci
 		);
 
 	} else if($cont != ''){
 
 		$stmt->bind_param(
-			"sssssi",
+			"ssssiii",
 			$busca,
 			$busca,
 			$busca,
 			$busca,
+			$id_usuario,
+			$id_usuario,
 			$cont
 		);
 
 	} else {
 
-	//nenhum filtro ativado
+		// nenhum filtro ativado
 		$stmt->bind_param(
-			"ssss",
+			"ssssii",
 			$busca,
 			$busca,
 			$busca,
-			$busca
+			$busca,
+			$id_usuario,
+			$id_usuario
 		);
 
 	}

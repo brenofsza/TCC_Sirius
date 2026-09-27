@@ -189,11 +189,14 @@ $(document).ready(function(){
 
 	});
 
+buscarMateriais();
 
-	buscarMateriais();
+if($('#ligarUsuario').length > 0){
 
 	verificarConexao();
 
-	contarConexoes();
+}
+
+contarConexoes();
 
 });

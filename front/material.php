@@ -62,6 +62,58 @@ if($material['STATUS_MATERIA'] == 'PRIVADO'){
 }
 
 
+if($material['STATUS_MATERIA'] == 'CONEXOES'){
+
+    // se não estiver logado, não pode acessar
+    if(!isset($_SESSION['id_usuario'])){
+        header("Location: logar.php");
+        exit;
+    }
+
+    // se for o dono, pode acessar
+    if($material['COD_USU'] != $_SESSION['id_usuario']){
+
+        $id_usuario = $_SESSION['id_usuario'];
+
+        $sqlLigacao = "SELECT ID_LIGACAO
+                       FROM LIGACAO
+                       WHERE STATUS_LIGACAO = 'ACEITA'
+                       AND (
+                           (COD_USU = ? AND COD_USU_DESTINO = ?)
+                           OR
+                           (COD_USU_DESTINO = ? AND COD_USU = ?)
+                       )";
+
+        $stmtLigacao = $conexao->prepare($sqlLigacao);
+
+        $stmtLigacao->bind_param(
+            "iiii",
+            $id_usuario,
+            $material['COD_USU'],
+            $id_usuario,
+            $material['COD_USU']
+        );
+
+        $stmtLigacao->execute();
+
+        $resultadoLigacao = $stmtLigacao->get_result();
+
+        if($resultadoLigacao->num_rows == 0){
+
+            $stmtLigacao->close();
+
+            header("Location: pesquisar.php");
+            exit;
+
+        }
+
+        $stmtLigacao->close();
+
+    }
+
+}
+
+
 // verifica se o material pertence ao usuário logado
 
 $ehDono = false;

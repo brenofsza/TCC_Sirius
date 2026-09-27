@@ -476,3 +476,25 @@ dialog h2 {
         grid-template-columns: 1fr;
     }
 }
+
+.card-material {
+    position: relative;
+}
+
+.icone-conexoes {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--roxo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icone-conexoes i {
+    color: white;
+    font-size: 18px;
+}

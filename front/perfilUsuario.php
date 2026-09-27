@@ -154,7 +154,7 @@ if(empty($usuario['FOTO_USU'])){
 
 <?php
 
-if($id_usuario != $_SESSION['id_usuario']){
+if(isset($_SESSION['id_usuario']) && $id_usuario != $_SESSION['id_usuario']){
 
 ?>
 
