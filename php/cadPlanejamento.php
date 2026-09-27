@@ -35,6 +35,45 @@ if($titulo == '' || $data == '' || $hora_inicio == '' || $hora_fim == '' || $sal
 }
 
 
+// verifica se já existe aula no mesmo dia e horário
+
+$sql = "SELECT ID_PLANEJAMENTO
+        FROM PLANEJAMENTO
+        WHERE COD_USU = ?
+        AND DATA_AULA = ?
+        AND HORA_INICIO < ?
+        AND HORA_FIM > ?";
+
+
+$stmt = $conexao->prepare($sql);
+
+$stmt->bind_param(
+    "isss",
+    $id_usuario,
+    $data,
+    $hora_fim,
+    $hora_inicio
+);
+
+$stmt->execute();
+
+$resultado = $stmt->get_result();
+
+
+if($resultado->num_rows > 0){
+
+    echo "HORARIO_OCUPADO";
+
+    $stmt->close();
+
+    exit;
+
+}
+
+
+$stmt->close();
+
+
 $status = "PLANEJADA";
 
 

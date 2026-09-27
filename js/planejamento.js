@@ -888,51 +888,59 @@ $(document).on('click', '.ver-material-editar', function(){
         .then(response => response.text())
         .then(retorno => {
 
-            let resposta = retorno.trim();
+    let resposta = retorno.trim();
 
 
-            if(resposta == "OK!"){
+    if(resposta == "OK!"){
 
-                $('#mensagemAula').html(
-                    "Aula cadastrada com sucesso!"
-                );
-
-
-                setTimeout(function(){
-
-                    $('#modalAula')[0].close();
-
-                    $('#formAula')[0].reset();
-
-                    $('#mensagemAula').html('');
-
-                    mostrarCalendario();
+        $('#mensagemAula').html(
+            "Aula cadastrada com sucesso!"
+        );
 
 
-        if(diaSelecionado){
+        setTimeout(function(){
 
-            let diaElemento = $('.dia[data-dia="' + diaSelecionado + '"]');
+            $('#modalAula')[0].close();
 
-            diaElemento.addClass('dia-selecionado');
+            $('#formAula')[0].reset();
 
-            buscarAulasDia(diaSelecionado);
+            $('#mensagemAula').html('');
 
-        }
-
-                }, 1000);
+            mostrarCalendario();
 
 
-            } else {
+            if(diaSelecionado){
 
-                console.log(resposta);
+                let diaElemento = $('.dia[data-dia="' + diaSelecionado + '"]');
 
-                $('#mensagemAula').html(
-                    "Erro ao cadastrar a aula."
-                );
+                diaElemento.addClass('dia-selecionado');
+
+                buscarAulasDia(diaSelecionado);
 
             }
+            buscarProximasAulas();
 
-        })
+        }, 1000);
+
+
+    } else if(resposta == "HORARIO_OCUPADO"){
+
+        $('#mensagemAula').html(
+            "Já existe uma aula nesse horário."
+        );
+
+
+    } else {
+
+        console.log(resposta);
+
+        $('#mensagemAula').html(
+            "Erro ao cadastrar a aula."
+        );
+
+    }
+
+})
         .catch(function(erro){
 
             console.log(erro);
@@ -1104,36 +1112,43 @@ $('#formEditarAula').submit(function(event){
     .then(response => response.json())
     .then(retorno => {
 
-        if(retorno.resposta == "OK!"){
+    if(retorno.resposta == "OK!"){
 
-            $('#modalEditarAula')[0].close();
+        $('#modalEditarAula')[0].close();
 
-            idAulaEditar = null;
+        idAulaEditar = null;
 
-            mostrarCalendario();
+        mostrarCalendario();
 
+        if(diaSelecionado){
 
-            if(diaSelecionado){
+            let diaElemento = $('.dia[data-dia="' + diaSelecionado + '"]');
 
-                let diaElemento = $('.dia[data-dia="' + diaSelecionado + '"]');
+            diaElemento.addClass('dia-selecionado');
 
-                diaElemento.addClass('dia-selecionado');
-
-                buscarAulasDia(diaSelecionado);
-
-            }
-
-        } else {
-
-            $('#mensagemEditarAula').html(
-                "Erro ao salvar as alterações."
-            );
-
-            console.log(retorno);
+            buscarAulasDia(diaSelecionado);
 
         }
 
-    })
+        buscarProximasAulas();
+
+    } else if(retorno.resposta == "HORARIO_OCUPADO"){
+
+        $('#mensagemEditarAula').html(
+            "Já existe uma aula nesse horário."
+        );
+
+    } else {
+
+        $('#mensagemEditarAula').html(
+            "Erro ao salvar as alterações."
+        );
+
+        console.log(retorno);
+
+    }
+
+})
     .catch(function(erro){
 
         console.log(erro);
@@ -1214,6 +1229,7 @@ $('#formEditarAula').submit(function(event){
                     buscarAulasDia(diaSelecionado);
 
                 }
+                buscarProximasAulas();
 
             } else {
 
@@ -1229,8 +1245,93 @@ $('#formEditarAula').submit(function(event){
         });
 
     });
+    
+    function buscarProximasAulas(){
 
+    fetch("../php/buscarProximasAulas.php", {
+        method: "POST"
+    })
+    .then(response => response.json())
+    .then(aulas => {
+
+        if(aulas.length == 0){
+
+            $('#listaProximasAulas').html(
+                "<p>Nenhuma próxima aula.</p>"
+            );
+
+            return;
+
+        }
+
+
+        let html = "";
+
+
+        aulas.forEach(function(aula){
+
+            let data = aula.DATA_AULA.split("-");
+
+            let dataFormatada =
+                data[2] + "/" + data[1] + "/" + data[0];
+
+
+                    html +=
+            '<div class="proxima-aula" data-data="' + aula.DATA_AULA + '">' +
+                '<h3>' + aula.TITULO_PLAN + '</h3>' +
+                '<p>' +
+                    dataFormatada +
+                    ' • ' +
+                    aula.HORA_INICIO.substring(0, 5) +
+                    ' - ' +
+                    aula.HORA_FIM.substring(0, 5) +
+                '</p>' +
+                '<p>' +
+                    aula.SALA +
+                '</p>' +
+    '</div>';
+
+        });
+
+
+        $('#listaProximasAulas').html(html);
+
+    })
+    .catch(function(erro){
+
+        console.log(erro);
+
+        $('#listaProximasAulas').html(
+            "<p>Erro ao carregar as próximas aulas.</p>"
+        );
+
+    });
+
+}
+$(document).on('click', '.proxima-aula', function(){
+
+    let data = $(this).data('data');
+
+    let partes = data.split("-");
+
+    let ano = parseInt(partes[0]);
+    let mes = parseInt(partes[1]) - 1;
+    let dia = parseInt(partes[2]);
+
+    mesAtual = mes;
+    anoAtual = ano;
 
     mostrarCalendario();
+
+    let diaElemento = $('.dia[data-dia="' + dia + '"]');
+
+    diaElemento.addClass('dia-selecionado');
+
+    buscarAulasDia(dia);
+
+});
+
+    mostrarCalendario();
+    buscarProximasAulas();
 
 });

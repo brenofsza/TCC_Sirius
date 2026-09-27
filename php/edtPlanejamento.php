@@ -88,6 +88,49 @@ if($acao == "salvar"){
     $stmt->close();
 
 
+    // verifica se já existe aula no mesmo dia e horário
+
+    $sql = "SELECT ID_PLANEJAMENTO
+            FROM PLANEJAMENTO
+            WHERE COD_USU = ?
+            AND DATA_AULA = ?
+            AND HORA_INICIO < ?
+            AND HORA_FIM > ?
+            AND ID_PLANEJAMENTO != ?";
+
+
+    $stmt = $conexao->prepare($sql);
+
+    $stmt->bind_param(
+        "isssi",
+        $id_usuario,
+        $data,
+        $hora_fim,
+        $hora_inicio,
+        $id_planejamento
+    );
+
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+
+
+    if($resultado->num_rows > 0){
+
+        echo json_encode([
+            "resposta" => "HORARIO_OCUPADO"
+        ]);
+
+        $stmt->close();
+
+        exit;
+
+    }
+
+
+    $stmt->close();
+
+
     // atualiza a aula
 
     $sql = "UPDATE PLANEJAMENTO

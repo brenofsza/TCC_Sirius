@@ -147,8 +147,7 @@ if(!isset($_SESSION['id_usuario'])){
                 <i class="bx bx-x"></i>
             </button>
 
-            <div id="mensagemAula"></div>
-
+            
             <h2>Nova aula</h2>
 
             <form id="formAula">
@@ -230,7 +229,8 @@ if(!isset($_SESSION['id_usuario'])){
 
                 <div id="materiaisSelecionados"></div>
 
-
+                <div id="mensagemAula"></div>
+                
                 <button type="submit" class="btn-cadastrar">
                     Cadastrar aula
                 </button>
