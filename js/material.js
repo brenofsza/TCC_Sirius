@@ -152,7 +152,50 @@ $(document).ready(function(){
 
         const modal = $('#modalAcessoNegado')[0];
 
+        let idUsuario = $('#solicitarConexao').data('id');
+
         modal.showModal();
+
+
+        fetch("../php/buscarConexao.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "id_usuario=" + encodeURIComponent(idUsuario)
+        })
+        .then(response => response.text())
+        .then(retorno => {
+
+            let resposta = retorno.trim();
+
+
+            if(resposta == "PENDENTE"){
+
+                $('#solicitarConexao').html("Conexão pendente");
+
+                $('#solicitarConexao').prop("disabled", true);
+
+            } else if(resposta == "ACEITA"){
+
+                $('#solicitarConexao').html("Conectado");
+
+                $('#solicitarConexao').prop("disabled", true);
+
+            } else {
+
+                $('#solicitarConexao').html("Solicitar conexão");
+
+                $('#solicitarConexao').prop("disabled", false);
+
+            }
+
+        })
+        .catch(function(erro){
+
+            console.log(erro);
+
+        });
 
 
         $('#fecharAcessoNegado').click(function(){
@@ -165,9 +208,6 @@ $(document).ready(function(){
 
 
         $('#solicitarConexao').click(function(){
-
-            let idUsuario = $(this).data('id');
-
 
             fetch("../php/conectarUsu.php", {
                 method: "POST",
@@ -188,13 +228,11 @@ $(document).ready(function(){
 
                     $('#solicitarConexao').prop("disabled", true);
 
-
                 } else if(resposta == "ACEITA"){
 
                     modal.close();
 
                     location.reload();
-
 
                 } else if(resposta == "CANCELADO"){
 
@@ -202,6 +240,7 @@ $(document).ready(function(){
                         "Solicitar conexão"
                     );
 
+                    $('#solicitarConexao').prop("disabled", false);
 
                 } else {
 

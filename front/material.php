@@ -1,6 +1,6 @@
 <?php 
 
-session_start(); 
+session_start();
 
 include '../php/conexao.php';
 
@@ -43,19 +43,20 @@ $material = $resultado->fetch_assoc();
 $stmt->close();
 
 
+$acessoNegado = false;
+
+
 // verifica quem pode ver o material
 
 $acessoNegado = false;
 
 if($material['STATUS_MATERIA'] == 'PRIVADO'){
 
-    // se não estiver logado, não pode acessar
     if(!isset($_SESSION['id_usuario'])){
         header("Location: logar.php");
         exit;
     }
 
-    // se estiver logado, mas não for o dono, não pode acessar
     if($material['COD_USU'] != $_SESSION['id_usuario']){
         header("Location: pesquisar.php");
         exit;
@@ -66,13 +67,11 @@ if($material['STATUS_MATERIA'] == 'PRIVADO'){
 
 if($material['STATUS_MATERIA'] == 'CONEXOES'){
 
-    // se não estiver logado, não pode acessar
     if(!isset($_SESSION['id_usuario'])){
         header("Location: logar.php");
         exit;
     }
 
-    // se for o dono, pode acessar
     if($material['COD_USU'] != $_SESSION['id_usuario']){
 
         $id_usuario = $_SESSION['id_usuario'];
@@ -150,7 +149,6 @@ if(isset($_SESSION['id_usuario'])){
 
 
 <body>
-
 
 <nav class="sidebar-navigation">
 
@@ -282,7 +280,6 @@ if(isset($_SESSION['id_usuario'])){
 
 
     <?php if(!$acessoNegado){ ?>
-
 
     <div class="material">
 
@@ -460,40 +457,10 @@ if(isset($_SESSION['id_usuario'])){
 
     </div>
 
-
     <?php } ?>
 
 
 </main>
-
-
-<dialog id="modalSalvarMaterial">
-
-    <div class="modal-salvar-material">
-
-        <button type="button" id="fecharSalvarMaterial">
-
-            <i class="bx bx-x"></i>
-
-        </button>
-
-
-        <h2>Salvar material</h2>
-
-
-        <p>Escolha uma pasta:</p>
-
-
-        <div id="pastasSalvar">
-
-            <p>Carregando pastas...</p>
-
-        </div>
-
-
-    </div>
-
-</dialog>
 
 
 <?php if($acessoNegado){ ?>
@@ -534,6 +501,35 @@ if(isset($_SESSION['id_usuario'])){
 </dialog>
 
 <?php } ?>
+
+
+<dialog id="modalSalvarMaterial">
+
+    <div class="modal-salvar-material">
+
+        <button type="button" id="fecharSalvarMaterial">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Salvar material</h2>
+
+
+        <p>Escolha uma pasta:</p>
+
+
+        <div id="pastasSalvar">
+
+            <p>Carregando pastas...</p>
+
+        </div>
+
+
+    </div>
+
+</dialog>
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
