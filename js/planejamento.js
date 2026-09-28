@@ -231,43 +231,33 @@ $(document).ready(function(){
 
             materiais.forEach(function(material){
 
-                $('#resultadoMateriais').append(
+    let iconeConexoes = '';
 
-                    '<div class="resultado-material">' +
+    if(material.STATUS_MATERIA == 'CONEXOES'){
 
-                        '<div>' +
+        iconeConexoes = 
+            '<span class="icone-conexoes">' +
+                '<i class="bx bx-link-alt"></i>' +
+            '</span>';
 
-                            '<h3>' +
-                                htmlspecialchars(material.TITULO_MATERIA) +
-                            '</h3>' +
+    }
 
-                            '<p>' +
-                                htmlspecialchars(material.NOME_DISCI) +
-                                ' • ' +
-                                htmlspecialchars(material.NOME_CONTEUDO) +
-                            '</p>' +
+    let card =
+        '<div class="resultado-material">' +
+            iconeConexoes +
+            '<div>' +
+                '<h3>' + htmlspecialchars(material.TITULO_MATERIA) + '</h3>' +
+                '<p>' + htmlspecialchars(material.NOME_DISCI) + ' • ' + htmlspecialchars(material.NOME_CONTEUDO) + '</p>' +
+            '</div>' +
+            '<div>' +
+                '<button type="button" class="ver-material" data-id="' + material.ID_MATERIAL + '">Ver material</button>' +
+                '<button type="button" class="adicionar-material" data-id="' + material.ID_MATERIAL + '">Adicionar à aula</button>' +
+            '</div>' +
+        '</div>';
 
-                        '</div>' +
+    $('#resultadoMateriais').append(card);
 
-                        '<div>' +
-
-                            '<button type="button" class="ver-material" ' +
-                                'data-id="' + material.ID_MATERIAL + '">' +
-                                'Ver material' +
-                            '</button>' +
-
-                            '<button type="button" class="adicionar-material" ' +
-                                'data-id="' + material.ID_MATERIAL + '">' +
-                                'Adicionar à aula' +
-                            '</button>' +
-
-                        '</div>' +
-
-                    '</div>'
-
-                );
-
-            });
+});
 
         })
         .catch(function(erro){
@@ -343,43 +333,33 @@ $(document).ready(function(){
 
             materiais.forEach(function(material){
 
-                $('#resultadoMateriaisEditar').append(
+    let iconeConexoes = '';
 
-                    '<div class="resultado-material">' +
+    if(material.STATUS_MATERIA == 'CONEXOES'){
 
-                        '<div>' +
+        iconeConexoes = 
+            '<span class="icone-conexoes">' +
+                '<i class="bx bx-link-alt"></i>' +
+            '</span>';
 
-                            '<h3>' +
-                                htmlspecialchars(material.TITULO_MATERIA) +
-                            '</h3>' +
+    }
 
-                            '<p>' +
-                                htmlspecialchars(material.NOME_DISCI) +
-                                ' • ' +
-                                htmlspecialchars(material.NOME_CONTEUDO) +
-                            '</p>' +
+    let card =
+        '<div class="resultado-material">' +
+            iconeConexoes +
+            '<div>' +
+                '<h3>' + htmlspecialchars(material.TITULO_MATERIA) + '</h3>' +
+                '<p>' + htmlspecialchars(material.NOME_DISCI) + ' • ' + htmlspecialchars(material.NOME_CONTEUDO) + '</p>' +
+            '</div>' +
+            '<div>' +
+                '<button type="button" class="ver-material-editar" data-id="' + material.ID_MATERIAL + '">Ver material</button>' +
+                '<button type="button" class="adicionar-material-editar" data-id="' + material.ID_MATERIAL + '">Adicionar à aula</button>' +
+            '</div>' +
+        '</div>';
 
-                        '</div>' +
+     $('#resultadoMateriaisEditar').append(card);
 
-                        '<div>' +
-
-                            '<button type="button" class="ver-material-editar" ' +
-                                'data-id="' + material.ID_MATERIAL + '">' +
-                                'Ver material' +
-                            '</button>' +
-
-                            '<button type="button" class="adicionar-material-editar" ' +
-                                'data-id="' + material.ID_MATERIAL + '">' +
-                                'Adicionar à aula' +
-                            '</button>' +
-
-                        '</div>' +
-
-                    '</div>'
-
-                );
-
-            });
+})
 
         })
         .catch(function(erro){

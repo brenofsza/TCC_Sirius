@@ -1,3 +1,4 @@
+```php
 <?php 
 
 session_start(); 
@@ -43,17 +44,18 @@ $material = $resultado->fetch_assoc();
 $stmt->close();
 
 
+$acessoNegado = false;
+
+
 // verifica quem pode ver o material
 
 if($material['STATUS_MATERIA'] == 'PRIVADO'){
 
-    // se não estiver logado, não pode acessar
     if(!isset($_SESSION['id_usuario'])){
         header("Location: logar.php");
         exit;
     }
 
-    // se estiver logado, mas não for o dono, não pode acessar
     if($material['COD_USU'] != $_SESSION['id_usuario']){
         header("Location: pesquisar.php");
         exit;
@@ -64,13 +66,11 @@ if($material['STATUS_MATERIA'] == 'PRIVADO'){
 
 if($material['STATUS_MATERIA'] == 'CONEXOES'){
 
-    // se não estiver logado, não pode acessar
     if(!isset($_SESSION['id_usuario'])){
         header("Location: logar.php");
         exit;
     }
 
-    // se for o dono, pode acessar
     if($material['COD_USU'] != $_SESSION['id_usuario']){
 
         $id_usuario = $_SESSION['id_usuario'];
@@ -99,12 +99,7 @@ if($material['STATUS_MATERIA'] == 'CONEXOES'){
         $resultadoLigacao = $stmtLigacao->get_result();
 
         if($resultadoLigacao->num_rows == 0){
-
-            $stmtLigacao->close();
-
-            header("Location: pesquisar.php");
-            exit;
-
+            $acessoNegado = true;
         }
 
         $stmtLigacao->close();
@@ -144,6 +139,7 @@ if(isset($_SESSION['id_usuario'])){
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <title><?php echo htmlspecialchars($material['TITULO_MATERIA']); ?></title>
+
     <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
 
 </head>
@@ -280,6 +276,8 @@ if(isset($_SESSION['id_usuario'])){
 
     </a>
 
+
+    <?php if(!$acessoNegado){ ?>
 
     <div class="material">
 
@@ -457,8 +455,49 @@ if(isset($_SESSION['id_usuario'])){
 
     </div>
 
+    <?php } ?>
+
 
 </main>
+
+
+<?php if($acessoNegado){ ?>
+
+<dialog id="modalAcessoNegado">
+
+    <div class="modal-acesso-negado">
+
+        <button type="button" id="fecharAcessoNegado">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Material indisponível</h2>
+
+
+        <p>
+            Este material está disponível somente para conexões do autor.
+        </p>
+
+
+        <button 
+            type="button" 
+            id="solicitarConexao"
+            data-id="<?php echo $material['COD_USU']; ?>"
+        >
+
+            Solicitar conexão
+
+        </button>
+
+    </div>
+
+</dialog>
+
+<?php } ?>
+
 
 <dialog id="modalSalvarMaterial">
 
@@ -487,8 +526,12 @@ if(isset($_SESSION['id_usuario'])){
     </div>
 
 </dialog>
+
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 <script src="../js/material.js"></script>
+
 </body>
 
 </html>
