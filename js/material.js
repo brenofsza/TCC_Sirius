@@ -148,6 +148,79 @@ $(document).ready(function(){
     });
 
 
+    if($('#modalAcessoNegado').length > 0){
+
+        const modal = $('#modalAcessoNegado')[0];
+
+        modal.showModal();
+
+
+        $('#fecharAcessoNegado').click(function(){
+
+            modal.close();
+
+            history.back();
+
+        });
+
+
+        $('#solicitarConexao').click(function(){
+
+            let idUsuario = $(this).data('id');
+
+
+            fetch("../php/conectarUsu.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "id_usuario=" + encodeURIComponent(idUsuario)
+            })
+            .then(response => response.text())
+            .then(retorno => {
+
+                let resposta = retorno.trim();
+
+
+                if(resposta == "OK!"){
+
+                    $('#solicitarConexao').html("Conexão pendente");
+
+                    $('#solicitarConexao').prop("disabled", true);
+
+
+                } else if(resposta == "ACEITA"){
+
+                    modal.close();
+
+                    location.reload();
+
+
+                } else if(resposta == "CANCELADO"){
+
+                    $('#solicitarConexao').html(
+                        "Solicitar conexão"
+                    );
+
+
+                } else {
+
+                    console.log(resposta);
+
+                }
+
+            })
+            .catch(function(erro){
+
+                console.log(erro);
+
+            });
+
+        });
+
+    }
+
+
     verificarMaterialSalvo();
 
 });
