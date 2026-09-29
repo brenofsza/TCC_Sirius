@@ -373,13 +373,34 @@ if (empty($row['FOTO_USU'])) {
 </a>
 
 
-<a href="../php/logout.php" class="sair-conta">
+<a href="#" class="sair-conta" id="abrirLogout">
 
     <i class="bx bx-log-out" aria-hidden="true"></i>
 
     <span>Sair da conta</span>
 
 </a>
+
+
+<!-- Modal de confirmação de logout -->
+
+<dialog id="modalLogout">
+
+    <h2>Sair da conta?</h2>
+
+    <p>Tem certeza que deseja sair da sua conta?</p>
+
+
+    <button type="button" id="confirmarLogout">
+        Sair
+    </button>
+
+
+    <button type="button" id="cancelarLogout">
+        Cancelar
+    </button>
+
+</dialog>
 
 
 <input 

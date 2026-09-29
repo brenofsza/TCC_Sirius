@@ -202,6 +202,26 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#abrirLogout').click(function(e){
+
+		e.preventDefault();
+
+		$('#modalLogout')[0].showModal();
+
+	});
+
+	$('#cancelarLogout').click(function(){
+
+		$('#modalLogout')[0].close();
+
+	});
+
+	$('#confirmarLogout').click(function(){
+
+		window.location.href = "../php/logout.php";
+
+	});
+
 	buscarMateriais("publico");
 	buscarMateriais("privado");
 
