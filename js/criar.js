@@ -341,15 +341,22 @@ $(document).ready(function() {
 
             console.log(resposta);
 
-            if (resposta == "OK!") {
+           
+        if (resposta == "OK!") {
 
-                $('#mensagem').html("Material cadastrado com sucesso!").css("color", "green").fadeIn(300).delay(2000).fadeOut(400);
+            $('#mensagem').html("Material cadastrado com sucesso!").css("color", "green").fadeIn(300).delay(2000).fadeOut(400);
 
-                $('#criaMaterial')[0].reset();
-                $('#id_disci').val('');
-                $('#id_cont').val('');
+            $('#criaMaterial')[0].reset();
+            $('#arquivo').val(null);
+            $('#nomeArquivo').text('Nenhum arquivo selecionado');
+            $('#disci').val('');
+            $('#id_disci').val('');
+            $('#cont').val('');
+            $('#id_cont').val('');
 
-            } else if (resposta == "campos_vazios") {
+        }
+
+        else if (resposta == "campos_vazios") {
 
                 $('#mensagem').html("Preencha todos os campos.").css("color", "red").fadeIn(300).delay(2000).fadeOut(400);
 

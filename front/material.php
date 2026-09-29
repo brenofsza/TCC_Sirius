@@ -1,6 +1,7 @@
 <?php 
 
 session_start();
+date_default_timezone_set('America/Sao_Paulo');
 
 include '../php/conexao.php';
 
@@ -47,8 +48,6 @@ $acessoNegado = false;
 
 
 // verifica quem pode ver o material
-
-$acessoNegado = false;
 
 if($material['STATUS_MATERIA'] == 'PRIVADO'){
 
@@ -140,6 +139,8 @@ if(isset($_SESSION['id_usuario'])){
     <link rel="stylesheet" href="../css/navbar.css">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="../css/typeahead.css">
 
     <title><?php echo htmlspecialchars($material['TITULO_MATERIA']); ?></title>
 
@@ -432,25 +433,26 @@ if(isset($_SESSION['id_usuario'])){
 
         <?php if($ehDono){ ?>
 
-            <form 
-                action="../php/excluirMaterial.php" 
-                method="POST"
-                onsubmit="return confirm('Tem certeza que deseja excluir este material?');"
+            <button 
+                type="button" 
+                id="editarMaterial"
+                data-id="<?php echo $material['ID_MATERIAL']; ?>"
             >
 
-                <input 
-                    type="hidden" 
-                    name="id_material" 
-                    value="<?php echo $material['ID_MATERIAL']; ?>"
-                >
+                Editar material
 
-                <button type="submit">
+            </button>
 
-                    Excluir material
 
-                </button>
+            <button
+                type="button"
+                id="excluirMaterial"
+                data-id="<?php echo $material['ID_MATERIAL']; ?>"
+            >
 
-            </form>
+                Excluir material
+
+            </button>
 
         <?php } ?>
 
@@ -532,9 +534,401 @@ if(isset($_SESSION['id_usuario'])){
 </dialog>
 
 
+<?php if($ehDono){ ?>
+
+<dialog id="modalExcluirMaterial">
+
+    <div class="modal-excluir-material">
+
+        <button type="button" id="fecharExcluirMaterial">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Excluir material</h2>
+
+
+        <p>
+
+            Tem certeza que deseja excluir este material?
+
+        </p>
+
+
+        <p>
+
+            Essa ação não poderá ser desfeita.
+
+        </p>
+
+
+        <button
+            type="button"
+            id="confirmarExcluirMaterial"
+        >
+
+            Excluir material
+
+        </button>
+
+
+        <button
+            type="button"
+            id="cancelarExcluirMaterial"
+        >
+
+            Cancelar
+
+        </button>
+
+
+        <div id="mensagemExcluirMaterial"></div>
+
+    </div>
+
+</dialog>
+
+
+<dialog id="modalEditarMaterial">
+
+    <div class="modal-editar-material">
+
+        <button type="button" id="fecharEditarMaterial">
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Editar material</h2>
+
+
+        <form id="formEditarMaterial">
+
+            <input
+                type="hidden"
+                id="editarIdMaterial"
+            >
+
+
+            <div class="campo">
+
+                <label for="editarTitulo">
+                    Título
+                </label>
+
+                <input
+                    type="text"
+                    id="editarTitulo"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="editarDisci">
+                    Disciplina
+                </label>
+
+                <input
+                    type="text"
+                    id="editarDisci"
+                    autocomplete="off"
+                    required
+                >
+
+                <input
+                    type="hidden"
+                    id="editarIdDisci"
+                >
+
+                <button
+                    type="button"
+                    class="criar-link"
+                    id="abrirEditarDisci"
+                >
+                    Não encontrou a disciplina? Criar uma
+                </button>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="editarCont">
+                    Conteúdo
+                </label>
+
+                <input
+                    type="text"
+                    id="editarCont"
+                    autocomplete="off"
+                    required
+                >
+
+                <input
+                    type="hidden"
+                    id="editarIdCont"
+                >
+
+                <button
+                    type="button"
+                    class="criar-link"
+                    id="abrirEditarCont"
+                >
+                    Não encontrou o conteúdo? Criar um
+                </button>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="editarNivel">
+                    Nível de ensino
+                </label>
+
+                <select
+                    id="editarNivel"
+                    required
+                >
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option value="1">
+                        Ens. Fundamental I
+                    </option>
+
+                    <option value="2">
+                        Ens. Fundamental II
+                    </option>
+
+                    <option value="3">
+                        Ens. Médio
+                    </option>
+
+                    <option value="4">
+                        Ens. Superior
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label>
+                    Status do material
+                </label>
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="editarStatus"
+                        value="PUBLICO"
+                    >
+
+                    Público
+
+                </label>
+
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="editarStatus"
+                        value="PRIVADO"
+                    >
+
+                    Privado
+
+                </label>
+
+
+                <label>
+
+                    <input
+                        type="radio"
+                        name="editarStatus"
+                        value="CONEXOES"
+                    >
+
+                    Somente conexões
+
+                </label>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="editarDescricao">
+                    Descrição
+                </label>
+
+                <textarea
+                    id="editarDescricao"
+                    maxlength="300"
+                ></textarea>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label>Arquivo atual</label>
+
+                <p id="arquivoAtual">
+                    <?php echo htmlspecialchars($material['NOME_ARQUIVO']); ?>
+                </p>
+
+                <label for="editarArquivo">
+                    Escolher novo arquivo
+                </label>
+
+                <input
+                    type="file"
+                    id="editarArquivo"
+                    accept=".pdf,.jpg,.jpeg,.png,.webp,.ppt,.pptx"
+                >
+
+                <p>
+                    Se não escolher um novo arquivo, o arquivo atual será mantido.
+                </p>
+
+            </div>
+
+
+            <button type="submit">
+                Salvar alterações
+            </button>
+
+
+            <button
+                type="button"
+                id="cancelarEditarMaterial"
+            >
+                Cancelar
+            </button>
+
+
+            <div id="mensagemEditarMaterial"></div>
+
+        </form>
+
+    </div>
+
+</dialog>
+
+
+<dialog class="modal" id="modalEditarDisci">
+
+    <div class="modal-conteudo">
+
+        <button
+            type="button"
+            class="fechar"
+            id="fecharEditarDisci"
+        >
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Criar disciplina</h2>
+
+
+        <form id="formEditarDisci">
+
+            <label for="novaEditarDisci">
+                Nome da disciplina
+            </label>
+
+
+            <input
+                type="text"
+                id="novaEditarDisci"
+                name="nome"
+                placeholder="Ex: História"
+                required
+            >
+
+
+            <button type="submit">
+                Criar disciplina
+            </button>
+
+        </form>
+
+    </div>
+
+</dialog>
+
+
+<dialog class="modal" id="modalEditarCont">
+
+    <div class="modal-conteudo">
+
+        <button
+            type="button"
+            class="fechar"
+            id="fecharEditarCont"
+        >
+
+            <i class="bx bx-x"></i>
+
+        </button>
+
+
+        <h2>Criar conteúdo</h2>
+
+
+        <form id="formEditarCont">
+
+            <label for="novoEditarCont">
+                Nome do conteúdo
+            </label>
+
+
+            <input
+                type="text"
+                id="novoEditarCont"
+                name="nome"
+                placeholder="Ex: Primeira Guerra Mundial"
+                required
+            >
+
+
+            <button type="submit">
+                Criar conteúdo
+            </button>
+
+        </form>
+
+    </div>
+
+</dialog>
+
+<?php } ?>
+
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<script src="../js/bootstrap3-typeahead.js"></script>
+
 <script src="../js/material.js"></script>
+
 
 </body>
 

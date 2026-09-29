@@ -1,5 +1,66 @@
 $(document).ready(function(){
 
+    function tempoDecorrido(data){
+
+        let dataAtividade = new Date(data.replace(" ", "T"));
+        let agora = new Date();
+
+        let diferenca = agora - dataAtividade;
+
+        let minutos = Math.floor(diferenca / (1000 * 60));
+
+        if(minutos < 1){
+            return "agora";
+        }
+
+        if(minutos == 1){
+            return "há 1 minuto";
+        }
+
+        if(minutos < 60){
+            return "há " + minutos + " minutos";
+        }
+
+        let horas = Math.floor(minutos / 60);
+
+        if(horas == 1){
+            return "há 1 hora";
+        }
+
+        if(horas < 24){
+            return "há " + horas + " horas";
+        }
+
+        let dias = Math.floor(horas / 24);
+
+        if(dias == 1){
+            return "há 1 dia";
+        }
+
+        if(dias < 7){
+            return "há " + dias + " dias";
+        }
+
+        let semanas = Math.floor(dias / 7);
+
+        if(semanas == 1){
+            return "há 1 semana";
+        }
+
+        if(semanas < 4){
+            return "há " + semanas + " semanas";
+        }
+
+        let meses = Math.floor(dias / 30);
+
+        if(meses == 1){
+            return "há 1 mês";
+        }
+
+        return "há " + meses + " meses";
+    }
+
+
     function buscarAtividadesConexoes(){
 
         let logado = $('#btnNotificacao').data('logado');
@@ -37,10 +98,13 @@ $(document).ready(function(){
 
             atividades.forEach(function(atividade){
 
+                let tempo = tempoDecorrido(atividade.DATA_CAD);
+
                 html +=
                     '<div class="atividade-conexao" data-id="' + atividade.ID_MATERIAL + '">' +
                         '<h3>' + atividade.NOME_USU + ' publicou um novo material</h3>' +
                         '<p>' + atividade.TITULO_MATERIA + '</p>' +
+                        '<small>' + tempo + '</small>' +
                     '</div>';
 
             });
@@ -61,13 +125,15 @@ $(document).ready(function(){
 
     }
 
+
     $(document).on('click', '.atividade-conexao', function(){
 
-    let idMaterial = $(this).data('id');
+        let idMaterial = $(this).data('id');
 
-    window.location.href = "front/material.php?id=" + idMaterial;
+        window.location.href = "front/material.php?id=" + idMaterial;
 
-});
+    });
+
 
     function buscarProximasAulas(){
 
@@ -112,20 +178,20 @@ $(document).ready(function(){
                     data[2] + "/" + data[1] + "/" + data[0];
 
 
-               html +=
-                '<div class="proxima-aula" data-data="' + aula.DATA_AULA + '">' +
-                    '<h3>' + aula.TITULO_PLAN + '</h3>' +
-                    '<p>' +
-                        dataFormatada +
-                        ' • ' +
-                        aula.HORA_INICIO.substring(0, 5) +
-                        ' - ' +
-                        aula.HORA_FIM.substring(0, 5) +
-                    '</p>' +
-                    '<p>' +
-                        aula.SALA +
-                    '</p>' +
-                '</div>';
+                html +=
+                    '<div class="proxima-aula" data-data="' + aula.DATA_AULA + '">' +
+                        '<h3>' + aula.TITULO_PLAN + '</h3>' +
+                        '<p>' +
+                            dataFormatada +
+                            ' • ' +
+                            aula.HORA_INICIO.substring(0, 5) +
+                            ' - ' +
+                            aula.HORA_FIM.substring(0, 5) +
+                        '</p>' +
+                        '<p>' +
+                            aula.SALA +
+                        '</p>' +
+                    '</div>';
 
             });
 
@@ -145,13 +211,14 @@ $(document).ready(function(){
 
     }
 
+
     $(document).on('click', '.proxima-aula', function(){
 
-    let data = $(this).data('data');
+        let data = $(this).data('data');
 
-    window.location.href = "front/planejamento.php?data=" + data;
+        window.location.href = "front/planejamento.php?data=" + data;
 
-});
+    });
 
 
     buscarAtividadesConexoes();

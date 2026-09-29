@@ -498,3 +498,28 @@ dialog h2 {
     color: white;
     font-size: 18px;
 }
+
+.item-conexao {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.item-conexao > div {
+    flex: 1;
+}
+
+.desconectarUsuario,
+.conectarUsuario,
+.pendenteUsuario {
+    margin-left: auto;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #ffc928;
+    color: #251238;
+    font: inherit;
+    font-size: .84rem;
+    font-weight: 700;
+    cursor: pointer;
+}

@@ -7,8 +7,7 @@ include("conexao.php");
 
 if(!isset($_SESSION['id_usuario'])){
 
-    header("Location: ../front/logar.php");
-
+    echo "nao_autorizado";
     exit;
 
 }
@@ -21,8 +20,7 @@ $id_material = $_POST['id_material'] ?? '';
 
 if($id_material == ''){
 
-    header("Location: ../front/pesquisar.php");
-
+    echo "id_invalido";
     exit;
 
 }
@@ -34,10 +32,13 @@ $sql = "SELECT CAMINHO_ARQUIVO
         FROM MATERIAL
         WHERE ID_MATERIAL = ? AND COD_USU = ?";
 
-
 $stmt = $conexao->prepare($sql);
 
-$stmt->bind_param("ii", $id_material, $id_usuario);
+$stmt->bind_param(
+    "ii",
+    $id_material,
+    $id_usuario
+);
 
 $stmt->execute();
 
@@ -46,7 +47,9 @@ $resultado = $stmt->get_result();
 
 if($resultado->num_rows == 0){
 
-    header("Location: ../front/pesquisar.php");
+    echo "nao_autorizado";
+
+    $stmt->close();
 
     exit;
 
@@ -63,10 +66,13 @@ $stmt->close();
 $sql = "DELETE FROM MATERIAL
         WHERE ID_MATERIAL = ? AND COD_USU = ?";
 
-
 $stmt = $conexao->prepare($sql);
 
-$stmt->bind_param("ii", $id_material, $id_usuario);
+$stmt->bind_param(
+    "ii",
+    $id_material,
+    $id_usuario
+);
 
 
 if($stmt->execute()){
@@ -75,20 +81,24 @@ if($stmt->execute()){
 
     $arquivo = "../" . $material['CAMINHO_ARQUIVO'];
 
-    if(file_exists($arquivo)){
+    if(
+        !empty($material['CAMINHO_ARQUIVO']) &&
+        file_exists($arquivo)
+    ){
 
         unlink($arquivo);
 
     }
 
+    echo "OK!";
+
+} else {
+
+    echo "erro_banco";
+
 }
 
 
 $stmt->close();
-
-
-header("Location: ../front/perfil.php");
-
-exit;
 
 ?>

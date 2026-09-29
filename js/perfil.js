@@ -95,6 +95,92 @@ $(document).ready(function(){
 		$('#modalConexoes')[0].close();
 	});
 
+	$(document).on('click', '.desconectarUsuario', function(e){
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		let botao = $(this);
+		let idDestino = botao.data('id');
+
+		fetch("../php/conectarUsu.php", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: "id_usuario=" + encodeURIComponent(idDestino)
+		})
+		.then(response => response.text())
+		.then(retorno => {
+
+			let resposta = retorno.trim();
+
+			if(resposta == "DESFEITO"){
+
+				botao
+					.removeClass('desconectarUsuario')
+					.addClass('conectarUsuario')
+					.text("Conectar");
+
+				contarConexoes();
+
+			} else {
+
+				console.log(resposta);
+
+			}
+
+		})
+		.catch(function(erro){
+
+			console.log(erro);
+
+		});
+
+	});
+
+	$(document).on('click', '.conectarUsuario', function(e){
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		let botao = $(this);
+		let idDestino = botao.data('id');
+
+		fetch("../php/conectarUsu.php", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded"
+			},
+			body: "id_usuario=" + encodeURIComponent(idDestino)
+		})
+		.then(response => response.text())
+		.then(retorno => {
+
+			let resposta = retorno.trim();
+
+			if(resposta == "OK!"){
+
+				botao
+					.removeClass('conectarUsuario')
+					.addClass('pendenteUsuario')
+					.text("Conexão pendente");
+
+			} else {
+
+				console.log(resposta);
+
+			}
+
+		})
+		.catch(function(erro){
+
+			console.log(erro);
+
+		});
+
+	});
+
 	$('.abaMaterial').click(function(){
 
 		$('.abaMaterial').removeClass('ativa');

@@ -4,7 +4,6 @@ include("conexao.php");
 
 $id_usuario = $_POST['id_usuario'] ?? '';
 
-
 if($id_usuario == ''){
 
 	echo "ERRO";
@@ -13,7 +12,7 @@ if($id_usuario == ''){
 }
 
 
-//conexoes que o usu fez
+// conexoes que o usu fez
 
 $sql = "SELECT U.ID_USU, U.NOME_USU, U.USERNAME, U.FOTO_USU
 		FROM LIGACAO L
@@ -22,7 +21,6 @@ $sql = "SELECT U.ID_USU, U.NOME_USU, U.USERNAME, U.FOTO_USU
 		WHERE L.COD_USU = ?
 		AND L.STATUS_LIGACAO = 'ACEITA'";
 
-
 $stmt = $conexao->prepare($sql);
 
 $stmt->bind_param("i", $id_usuario);
@@ -30,7 +28,6 @@ $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 
 $resultado = $stmt->get_result();
-
 
 while($usuario = $resultado->fetch_assoc()){
 
@@ -44,24 +41,28 @@ while($usuario = $resultado->fetch_assoc()){
 
 	}
 
+	echo "
+		<a href='../front/perfilUsuario.php?id=" . $usuario['ID_USU'] . "' class='item-conexao'>
 
-        echo "
-            <a href='../front/perfilUsuario.php?id=" . $usuario['ID_USU'] . "' class='item-conexao'>
+			<img src='" . htmlspecialchars($foto) . "' alt='Foto de perfil'>
 
-                <img src='" . htmlspecialchars($foto) . "' alt='Foto de perfil'>
+			<div>
+				<strong>" . htmlspecialchars($usuario['NOME_USU']) . "</strong>
+				<p>@" . htmlspecialchars($usuario['USERNAME']) . "</p>
+			</div>
 
-                <div>
-                    <strong>" . htmlspecialchars($usuario['NOME_USU']) . "</strong>
-                    <p>@" . htmlspecialchars($usuario['USERNAME']) . "</p>
-                </div>
+			<button
+				type='button'
+				class='desconectarUsuario'
+				data-id='" . $usuario['ID_USU'] . "'
+			>
+				Desconectar
+			</button>
 
-            </a>
-        ";
-
-
+		</a>
+	";
 
 }
-
 
 $stmt->close();
 
@@ -75,7 +76,6 @@ $sql = "SELECT U.ID_USU, U.NOME_USU, U.USERNAME, U.FOTO_USU
 		WHERE L.COD_USU_DESTINO = ?
 		AND L.STATUS_LIGACAO = 'ACEITA'";
 
-
 $stmt = $conexao->prepare($sql);
 
 $stmt->bind_param("i", $id_usuario);
@@ -83,7 +83,6 @@ $stmt->bind_param("i", $id_usuario);
 $stmt->execute();
 
 $resultado = $stmt->get_result();
-
 
 while($usuario = $resultado->fetch_assoc()){
 
@@ -97,25 +96,28 @@ while($usuario = $resultado->fetch_assoc()){
 
 	}
 
+	echo "
+		<a href='../front/perfilUsuario.php?id=" . $usuario['ID_USU'] . "' class='item-conexao'>
 
-	
-        echo "
-            <a href='../front/perfilUsuario.php?id=" . $usuario['ID_USU'] . "' class='item-conexao'>
+			<img src='" . htmlspecialchars($foto) . "' alt='Foto de perfil'>
 
-                <img src='" . htmlspecialchars($foto) . "' alt='Foto de perfil'>
+			<div>
+				<strong>" . htmlspecialchars($usuario['NOME_USU']) . "</strong>
+				<p>@" . htmlspecialchars($usuario['USERNAME']) . "</p>
+			</div>
 
-                <div>
-                    <strong>" . htmlspecialchars($usuario['NOME_USU']) . "</strong>
-                    <p>@" . htmlspecialchars($usuario['USERNAME']) . "</p>
-                </div>
+			<button
+				type='button'
+				class='desconectarUsuario'
+				data-id='" . $usuario['ID_USU'] . "'
+			>
+				Desconectar
+			</button>
 
-            </a>
-        ";
-
-
+		</a>
+	";
 
 }
-
 
 $stmt->close();
 

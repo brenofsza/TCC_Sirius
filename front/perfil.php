@@ -300,9 +300,9 @@ if (empty($row['FOTO_USU'])) {
     </form>
 
 
-    <button type="button">
+    <!--<button type="button">
         Redefinir Senha
-    </button>
+    </button>-->
 
 </dialog>
 
