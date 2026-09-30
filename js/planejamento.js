@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     let dataAtual = new Date();
 
     let mesAtual = dataAtual.getMonth();
@@ -25,7 +24,7 @@ $(document).ready(function(){
         .then(response => response.json())
         .then(aulas => {
 
-            $('.dia').removeClass('tem-aula');
+            $('.dia').removeClass('tem-aula varias-aulas');
 
             $('.dia').each(function(){
 
@@ -38,20 +37,14 @@ $(document).ready(function(){
                 }
 
 
-                let possuiAula = aulas.some(function(aula){
-
+                // Conta as aulas da data para distinguir uma aula de várias no calendário.
+                let quantidadeAulas = aulas.filter(function(aula){
                     let data = aula.DATA_AULA.split('-');
-
                     return parseInt(data[2]) == parseInt(dia);
+                }).length;
 
-                });
-
-
-                if(possuiAula){
-
-                    $(this).addClass('tem-aula');
-
-                }
+                $(this).toggleClass('tem-aula', quantidadeAulas > 0);
+                $(this).toggleClass('varias-aulas', quantidadeAulas > 1);
 
             });
 
@@ -250,8 +243,7 @@ $(document).ready(function(){
                 '<p>' + htmlspecialchars(material.NOME_DISCI) + ' • ' + htmlspecialchars(material.NOME_CONTEUDO) + '</p>' +
             '</div>' +
             '<div>' +
-                '<button type="button" class="ver-material" data-id="' + material.ID_MATERIAL + '">Ver material</button>' +
-                '<button type="button" class="adicionar-material" data-id="' + material.ID_MATERIAL + '">Adicionar à aula</button>' +
+               '<button type="button" class="adicionar-material" data-id="' + material.ID_MATERIAL + '">Adicionar à aula</button>' +
             '</div>' +
         '</div>';
 
@@ -352,7 +344,6 @@ $(document).ready(function(){
                 '<p>' + htmlspecialchars(material.NOME_DISCI) + ' • ' + htmlspecialchars(material.NOME_CONTEUDO) + '</p>' +
             '</div>' +
             '<div>' +
-                '<button type="button" class="ver-material-editar" data-id="' + material.ID_MATERIAL + '">Ver material</button>' +
                 '<button type="button" class="adicionar-material-editar" data-id="' + material.ID_MATERIAL + '">Adicionar à aula</button>' +
             '</div>' +
         '</div>';

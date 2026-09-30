@@ -113,3 +113,172 @@ body {
     top: 60px;
     height: calc(100vh - 60px);
 }
+
+/* 1. Paleta da pesquisa: mesmas cores dos cartões e da página de material. */
+:root {
+    --pesquisa-roxo: #7141bb;
+    --pesquisa-escuro: #331761;
+    --pesquisa-amarelo: #ffc928;
+    --pesquisa-borda: #e4ddec;
+    --pesquisa-suave: #766b82;
+}
+
+/* 2. Medidas e textos: impede que bordas aumentem a largura dos campos. */
+.area-pesquisa, .area-pesquisa *, .search-bar, .search-bar * { box-sizing: border-box; }
+.area-pesquisa *, .search-bar * { line-height: 1.5; }
+
+/* 3. Busca no cabeçalho: campo flexível, sem sobrepor a marca. */
+.topbar { gap: 24px; }
+.topbar .logo { flex-shrink: 0; padding: 0; }
+.topbar .logo img { width: 100px; height: 54px; object-fit: contain; }
+.search-bar {
+    position: static;
+    transform: none;
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    min-width: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.search-bar input[type='search'] {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    height: 40px;
+    border: 1px solid var(--pesquisa-borda);
+    border-radius: 12px;
+    background: #f8f5fc;
+    color: var(--pesquisa-escuro);
+}
+.search-bar button {
+    height: 40px;
+    border-radius: 12px;
+    background: var(--pesquisa-amarelo);
+    color: #251238;
+    font-weight: 700;
+}
+.search-bar button:hover { background: #ffd75a; }
+
+/* 4. Área de resultados: fica abaixo do cabeçalho e à direita do menu fixo. */
+.area-pesquisa {
+    margin-left: 75px;
+    min-height: 100vh;
+    padding: 90px clamp(20px, 3vw, 48px) 36px;
+    color: #2f243b;
+}
+
+/* 5. Abas de materiais e usuários: a classe ativo vem do JavaScript existente. */
+.tipos-pesquisa {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 24px;
+    padding: 6px;
+    border: 1px solid var(--pesquisa-borda);
+    border-radius: 15px;
+    background: #fff;
+}
+.tipoPesquisa {
+    padding: 11px 26px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--pesquisa-suave);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.tipoPesquisa:hover { background: #f3edf9; color: var(--pesquisa-roxo); }
+.tipoPesquisa.ativo { background: var(--pesquisa-roxo); color: #fff; box-shadow: 0 3px 10px rgba(113, 65, 187, .18); }
+
+/* 6. Filtros: painel branco com faixa amarela e campos alinhados. */
+#filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding: 24px;
+    border: 1px solid var(--pesquisa-borda);
+    border-top: 4px solid var(--pesquisa-amarelo);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(51, 23, 97, .04);
+}
+.filtro { display: grid; flex: 1 1 240px; gap: 8px; min-width: 0; }
+.filtro label { color: var(--pesquisa-escuro); font-size: 14px; font-weight: 700; }
+.filtro select {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid var(--pesquisa-borda);
+    border-radius: 10px;
+    background: #fff;
+    color: #2f243b;
+    font: inherit;
+    font-size: 14px;
+}
+.filtro select:disabled { background: #f5f3f7; color: #8b8196; cursor: not-allowed; }
+
+/* 7. Grade responsiva: distribui resultados sem esticar um único cartão. */
+#resultadoPesquisa {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    align-items: stretch;
+    gap: 22px;
+}
+
+/* 8. Materiais: título roxo, nível em etiqueta e descrição com quebra de linha. */
+.card-material, .card-usuario {
+    min-width: 0;
+    padding: 26px;
+    border: 1px solid var(--pesquisa-borda);
+    border-radius: 18px;
+    background: #fff;
+    color: #2f243b;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(51, 23, 97, .05);
+    overflow-wrap: anywhere;
+    transition: border-color .2s, box-shadow .2s;
+}
+.card-material { display: flex; flex-direction: column; align-items: flex-start; border-top: 4px solid var(--pesquisa-roxo); }
+.card-material h3, .card-usuario h3 { margin: 0 0 12px; color: var(--pesquisa-escuro); font-size: 20px; font-weight: 700; line-height: 1.35; }
+.card-material p, .card-usuario p { color: var(--pesquisa-suave); font-size: 14px; line-height: 1.6; }
+.card-material p + p { margin-top: 14px; }
+.card-material p:nth-of-type(2) { padding: 4px 12px; border-radius: 20px; color: var(--pesquisa-roxo); background: #f1ebf8; font-size: 12px; font-weight: 700; }
+.card-material:hover, .card-usuario:hover { border-color: var(--pesquisa-roxo); box-shadow: 0 10px 26px rgba(51, 23, 97, .12); }
+
+/* 9. Usuários: avatar circular ao lado do nome e das informações do perfil. */
+.card-usuario { display: flex; align-items: flex-start; gap: 16px; }
+.card-usuario .foto-usuario { width: 52px; height: 52px; flex-shrink: 0; border: 2px solid #e7dcf4; border-radius: 50%; object-fit: cover; }
+.info-usuario { min-width: 0; }
+.info-usuario h3 { margin-bottom: 5px; }
+.info-usuario p + p { margin-top: 10px; }
+
+/* 10. Mensagens do servidor: ocupa a grade inteira quando não há resultados. */
+#resultadoPesquisa > p { grid-column: 1 / -1; padding: 32px; border: 1px dashed var(--pesquisa-borda); border-radius: 18px; background: #fff; color: var(--pesquisa-suave); text-align: center; }
+
+/* 11. Acessibilidade: realça o controle selecionado pelo teclado. */
+.area-pesquisa :focus-visible, .search-bar :focus-visible { outline: 3px solid var(--pesquisa-roxo); outline-offset: 3px; }
+
+/* 12. Celulares: mantém o menu e adapta busca, filtros e cartões à largura. */
+@media (max-width: 600px) {
+    .topbar { gap: 12px; padding: 0 12px; }
+    .topbar .logo img { width: 64px; }
+    .search-bar { gap: 6px; }
+    .search-bar input[type='search'] { padding: 0 10px; font-size: 13px; }
+    .search-bar button { padding: 0 12px; font-size: 13px; }
+    .area-pesquisa { padding: 80px 14px 24px; }
+    .tipos-pesquisa { width: 100%; gap: 4px; }
+    .tipoPesquisa { flex: 1; padding: 10px 8px; font-size: 14px; }
+    #filtros { padding: 18px; gap: 16px; }
+    #resultadoPesquisa { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .card-material, .card-usuario { padding: 20px; }
+    .card-usuario { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .card-material, .card-usuario { transition: none; }
+}

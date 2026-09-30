@@ -523,3 +523,84 @@ dialog h2 {
     font-weight: 700;
     cursor: pointer;
 }
+/* Confirmação de saída: acabamento discreto no padrão Sirius. */
+#modalLogout {
+    width: min(440px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    padding: 28px;
+    border-top: 4px solid var(--amarelo);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(51, 23, 97, .22);
+}
+
+/* O display só muda quando aberto, preservando o fechamento nativo. */
+#modalLogout[open] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+#modalLogout h2 {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--roxo-escuro);
+    font-size: 1.4rem;
+    line-height: 1.3;
+}
+
+#modalLogout p {
+    grid-column: 1 / -1;
+    margin: 0 0 12px;
+    color: var(--texto-suave);
+    font-size: .94rem;
+    line-height: 1.6;
+}
+
+#modalLogout button {
+    min-height: 44px;
+    padding: 11px 18px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: .92rem;
+    line-height: 1.4;
+    transition: background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+#confirmarLogout {
+    color: #fff;
+    background: var(--roxo);
+}
+
+#confirmarLogout:hover {
+    background: var(--roxo-escuro);
+    box-shadow: 0 4px 12px rgba(51, 23, 97, .15);
+}
+
+#modalLogout #cancelarLogout {
+    border-color: var(--borda);
+    color: var(--roxo-escuro);
+    background: #f5f1fa;
+}
+
+#modalLogout #cancelarLogout:hover {
+    border-color: #cbb7e6;
+    background: #ece3f7;
+}
+
+#modalLogout button:focus-visible {
+    outline: 3px solid var(--roxo);
+    outline-offset: 3px;
+}
+
+#modalLogout::backdrop {
+    background: rgba(38, 22, 59, .38);
+    backdrop-filter: blur(3px);
+}
+
+@media (max-width: 400px) {
+    #modalLogout { padding: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #modalLogout button { transition: none; }
+}

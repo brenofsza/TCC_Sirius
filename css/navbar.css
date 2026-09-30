@@ -118,3 +118,51 @@ body {
 .sidebar-navigation ul li.active i {
     color: #98D7EC;
 }
+
+/* Cabeçalho compartilhado: mantém todos os ícones abaixo da barra superior.
+   O seletor também cobre páginas em que o cabeçalho vem depois do menu. */
+body:has(.topbar) .sidebar-navigation {
+    top: 60px;
+    bottom: 0;
+    height: calc(100vh - 60px);
+    min-height: 0;
+    margin-top: 0;
+}
+
+/* A imagem original tem margens transparentes acima e abaixo da marca.
+   A caixa recorta apenas essas margens e mantém a proporção do desenho. */
+body .topbar .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 160px;
+    height: 54px;
+    padding: 0;
+    overflow: hidden;
+}
+
+body .topbar .logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Preserva espaço para a busca e o perfil em telas menores. */
+@media (max-width: 600px) {
+    body .topbar .logo {
+        width: 100px;
+        height: 42px;
+    }
+}
+
+/* Compacta os itens em janelas baixas para manter os cinco acessíveis. */
+@media (max-height: 540px) {
+    body:has(.topbar) .sidebar-navigation ul li a {
+        padding-top: clamp(4px, calc((100dvh - 195px) / 10), 30px);
+        padding-bottom: clamp(4px, calc((100dvh - 195px) / 10), 30px);
+    }
+}

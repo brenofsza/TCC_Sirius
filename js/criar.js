@@ -1,5 +1,30 @@
 $(document).ready(function() {
-
+    // Personaliza apenas o texto do balão nativo de cada campo obrigatório.
+    const mensagensObrigatorias = {
+        titulo: 'Digite o título do material para continuar.',
+        disci: 'Pesquise e selecione a disciplina do material para continuar.',
+        cont: 'Pesquise e selecione o conteúdo do material para continuar.',
+        nivel: 'Selecione o nível de ensino para continuar.',
+        arquivo: 'Selecione o arquivo do material para continuar.',
+        novaDisci: 'Digite o nome da disciplina que deseja criar.',
+        novoCont: 'Digite o nome do conteúdo que deseja criar.'
+    };
+    Object.entries(mensagensObrigatorias).forEach(function([id, mensagem]) {
+        const campo = document.getElementById(id);
+        if (!campo) return;
+        campo.addEventListener('invalid', function() {
+            this.setCustomValidity(this.validity.valueMissing ? mensagem : '');
+        });
+        // Limpa a mensagem ao digitar, escolher uma opção ou selecionar um arquivo.
+        ['input', 'change'].forEach(function(evento) {
+            campo.addEventListener(evento, function() {
+                this.setCustomValidity('');
+            });
+        });
+        campo.form.addEventListener('reset', function() {
+            campo.setCustomValidity('');
+        });
+    });
     const modalDisciplina = document.getElementById('modalDisci');
     const abrirDisciplina = document.getElementById('abrirDisci');
     const fecharDisciplina = document.getElementById('fecharDisci');

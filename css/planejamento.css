@@ -1,171 +1,228 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* 1. Cores do Sirius: roxo para navegação, amarelo para ações e branco nos cartões. */
+:root {
+    --plan-roxo: #7141bb;
+    --plan-escuro: #331761;
+    --plan-amarelo: #ffc928;
+    --plan-borda: #e4ddec;
+    --plan-suave: #766b82;
 }
+.container, .container *, dialog, dialog * { box-sizing: border-box; }
+.container *, dialog * { line-height: 1.5; }
+body { background: #f5f6f8; color: #2f243b; }
 
-
-body {
-    font-family: Arial, sans-serif;
-}
-
-
+/* 2. Área principal: utiliza a largura disponível sem invadir o menu lateral. */
 .container {
-    max-width: 1200px;
+    width: calc(100% - 75px);
+    max-width: 1515px;
     margin: 0 auto;
-    padding: 30px;
+    position: relative;
+    left: 37.5px;
+    padding: 32px clamp(20px, 3vw, 44px);
 }
 
-
+/* 3. Apresentação do planejamento: painel roxo com ação principal amarela. */
 .cabecalho-planejamento {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding: 28px 32px;
+    border-radius: 22px;
+    background: var(--plan-roxo);
+    box-shadow: 0 12px 28px rgba(113, 65, 187, .15);
+    color: #fff;
 }
-
-
-.cabecalho-planejamento h1 {
-    margin-bottom: 8px;
-}
-
-
-.subtitulo {
-    color: #666;
-}
-
-
+.cabecalho-planejamento h1 { margin-bottom: 8px; font-size: clamp(24px, 2.5vw, 34px); line-height: 1.2; }
+.cabecalho-planejamento .subtitulo { color: #eee5fc; font-size: 15px; }
 #novaAula {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
-
-.conteudo-planejamento {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 25px;
-}
-
-
-.calendario,
-.proximas-aulas,
-.aulas-dia {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-
-.cabecalho-calendario {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-
-.cabecalho-calendario h2 {
-    font-size: 20px;
-}
-
-
-.cabecalho-calendario button {
-    border: none;
-    background: transparent;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 13px 22px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--plan-amarelo);
+    color: #251238;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
-    font-size: 25px;
 }
+#novaAula i { font-size: 21px; }
+#novaAula:hover { background: #ffd75a; }
 
+/* 4. Painéis: calendário maior à esquerda e próximas aulas à direita. */
+.conteudo-planejamento { display: grid; grid-template-columns: minmax(0, 3fr) minmax(240px, 1fr); gap: 24px; }
+.calendario, .proximas-aulas, .aulas-dia {
+    min-width: 0;
+    padding: 24px;
+    border: 1px solid var(--plan-borda);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(51, 23, 97, .05);
+}
+.proximas-aulas { border-top: 4px solid var(--plan-amarelo); }
+.proximas-aulas h2, .aulas-dia h2 { margin-bottom: 18px; color: var(--plan-escuro); font-size: 22px; }
+.aulas-dia { margin-top: 24px; min-height: 160px; }
 
-.dias-semana,
-.dias-calendario {
+/* 5. Navegação dos meses: setas em botões lilás e nome do mês centralizado. */
+.cabecalho-calendario { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.cabecalho-calendario h2 { color: var(--plan-escuro); font-size: 21px; text-align: center; }
+.cabecalho-calendario button {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 12px;
+    background: #f2ecf9;
+    color: var(--plan-roxo);
+    font-size: 26px;
+    cursor: pointer;
 }
+.cabecalho-calendario button:hover { background: var(--plan-roxo); color: #fff; }
 
-
-.dias-semana {
-    margin-bottom: 10px;
-}
-
-
-.dias-semana span {
-    text-align: center;
-    font-weight: bold;
-    padding: 10px 0;
-}
-
-
+/* 6. Calendário: sete colunas fixas, hoje contornado e dia selecionado roxo. */
+.dias-semana, .dias-calendario { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.dias-semana { margin-bottom: 10px; padding: 6px 0; border-radius: 12px; background: #f8f5fc; }
+.dias-semana span { padding: 7px 0; color: var(--plan-suave); font-size: 13px; font-weight: 700; text-align: center; }
 .dia {
-    min-height: 60px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 54px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    color: #443650;
+    font-size: 15px;
     cursor: pointer;
-    border-radius: 8px;
 }
-
-
-.dia:hover {
-    background: #f0f0f0;
+.dia:hover { background: #f2ecf9; color: var(--plan-roxo); }
+.dia-atual { border-color: var(--plan-roxo); color: var(--plan-roxo); font-weight: 800; }
+.dia-selecionado, .dia-selecionado:hover { background: var(--plan-roxo); color: #fff; font-weight: 700; }
+.dia.vazio { cursor: default; }
+.dia.vazio:hover { background: transparent; }
+/* Datas com aulas ficam amarelas; o contorno roxo identifica a seleção. */
+.dia.tem-aula, .dia.tem-aula:hover {
+    background: var(--plan-amarelo);
+    color: var(--plan-escuro);
+    font-weight: 700;
 }
-
-
-.dia-atual {
-    font-weight: bold;
-    border: 2px solid;
-}
-
-
-.dia-selecionado {
-    background: #e5e5e5;
-}
-
-
-.dia.vazio {
-    cursor: default;
-}
-
-
-.dia.vazio:hover {
-    background: transparent;
-}
-
-
-.proximas-aulas h2,
-.aulas-dia h2 {
-    margin-bottom: 15px;
-}
-
-
-.aulas-dia {
-    margin-top: 25px;
-    min-height: 150px;
-}
-
-
-#novaAula {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.tem-aula {
-    position: relative;
-}
-
-
-.tem-aula::after {
-    content: "";
+.dia.tem-aula.dia-selecionado { border-color: var(--plan-roxo); }
+/* O ponto roxo aparece somente quando há mais de uma aula na mesma data. */
+.dia.varias-aulas::after {
+    content: '';
     position: absolute;
-    bottom: 8px;
+    bottom: 5px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: black;
+    background: var(--plan-roxo);
 }
+/* 7. Próximas aulas: cartões individuais com turma em etiqueta lilás. */
+#listaProximasAulas { display: grid; gap: 12px; max-height: 390px; overflow-y: auto; scrollbar-width: thin; }
+.proxima-aula { padding: 16px; border: 1px solid #eee7f6; border-left: 4px solid var(--plan-roxo); border-radius: 12px; background: #fcfaff; cursor: pointer; overflow-wrap: anywhere; }
+.proxima-aula:hover { background: #f2ecf9; }
+.proxima-aula h3, .aula h3 { margin-bottom: 7px; color: var(--plan-escuro); font-size: 17px; }
+.proxima-aula p, .aula p { color: var(--plan-suave); font-size: 14px; }
+.proxima-aula p:last-child { display: inline-block; margin-top: 10px; padding: 3px 10px; border-radius: 20px; background: #eee6f8; color: var(--plan-roxo); font-size: 12px; }
+#listaProximasAulas > p, #listaAulasDia > p { padding: 20px; border: 1px dashed var(--plan-borda); border-radius: 12px; color: var(--plan-suave); background: #fcfaff; font-size: 14px; }
+
+/* 8. Aulas do dia: informações, materiais associados e ações de edição/exclusão. */
+#listaAulasDia { display: grid; gap: 14px; }
+.aula { padding: 20px; border: 1px solid var(--plan-borda); border-radius: 14px; overflow-wrap: anywhere; }
+.acoes-aula { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 10px; }
+.acoes-aula button { width: 36px; height: 36px; border: 0; border-radius: 9px; color: var(--plan-roxo); background: #f2ecf9; font-size: 20px; cursor: pointer; }
+.acoes-aula .excluir-aula { color: #ad3048; background: #fff0f3; }
+.materiais-aula { margin-top: 16px; padding: 14px; border-radius: 10px; background: #f8f5fc; }
+.materiais-aula strong { color: var(--plan-escuro); font-size: 14px; }
+.materiais-aula a { display: inline-block; margin-top: 6px; color: var(--plan-roxo); text-underline-offset: 3px; }
+
+/* 9. Modais auxiliares: mesmo acabamento das janelas de cadastrar e editar. */
+dialog.modal { width: min(92vw, 680px); max-height: 90dvh; margin: auto; padding: 0; overflow-y: auto; border: 0; border-top: 5px solid var(--plan-amarelo); border-radius: 18px; background: #fff; color: #2f243b; box-shadow: 0 24px 60px rgba(51, 23, 97, .26); }
+dialog.modal::backdrop { background: rgba(38, 22, 59, .5); backdrop-filter: blur(3px); }
+dialog .modal-conteudo { position: relative; padding: 30px; }
+dialog h2 { margin: 0 44px 22px 0; color: var(--plan-escuro); font-size: 24px; }
+dialog p { color: var(--plan-suave); overflow-wrap: anywhere; }
+dialog button { padding: 10px 14px; border: 0; border-radius: 9px; color: var(--plan-escuro); background: #f2ecf9; font: inherit; font-size: 14px; cursor: pointer; }
+dialog .fechar { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; padding: 0; border-radius: 50%; font-size: 23px; }
+#confirmarExcluirAula { background: #fff0f3; color: #ad3048; }
+#adicionarMateriaisAula { margin-top: 18px; background: var(--plan-amarelo); font-weight: 700; }
+.acoes-excluir { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+#voltarPastas, #voltarMaterial { margin-bottom: 16px; }
+#listaPastasPlanejamento, #listaMateriaisPasta { display: grid; gap: 12px; }
+
+/* 10. Foco visível para os controles que já aceitam navegação por teclado. */
+.container :focus-visible, dialog :focus-visible { outline: 3px solid var(--plan-roxo); outline-offset: 3px; }
+
+/* 11. Telas menores: empilha painéis e preserva os sete dias sem corte lateral. */
+@media (max-width: 1000px) {
+    .conteudo-planejamento { grid-template-columns: minmax(0, 1fr); }
+    #listaProximasAulas { max-height: none; }
+}
+@media (max-width: 600px) {
+    .container { padding: 18px 12px; }
+    .cabecalho-planejamento { align-items: flex-start; flex-direction: column; padding: 22px; gap: 18px; }
+    .calendario, .proximas-aulas, .aulas-dia { padding: 14px; border-radius: 16px; }
+    .dias-semana, .dias-calendario { gap: 2px; }
+    .dias-semana span { font-size: 11px; }
+    .dia { min-height: 40px; font-size: 13px; border-radius: 8px; }
+    .cabecalho-calendario { gap: 5px; }
+    .cabecalho-calendario h2 { font-size: 16px; }
+    .cabecalho-calendario button { width: 30px; height: 34px; }
+    #modalAula #formAula, #modalEditarAula #formEditarAula { grid-template-columns: minmax(0, 1fr); }
+    #modalAula .modal-conteudo, #modalEditarAula .modal-conteudo, dialog .modal-conteudo { padding: 24px 18px; }
+}
+
+/* 12. Desktop sem rolagem da página: divide a altura entre cabeçalho e painéis. */
+@media (min-width: 1001px) and (min-height: 600px) {
+    html, body { height: 100%; overflow: hidden; }
+    .container {
+        height: 100vh;
+        height: 100dvh;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1.8fr) minmax(0, 1fr);
+        gap: 16px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .cabecalho-planejamento { margin: 0; padding: 20px 28px; }
+    .cabecalho-planejamento h1 { font-size: clamp(24px, 2.2vw, 30px); }
+    .conteudo-planejamento { min-height: 0; gap: 20px; }
+    .calendario {
+        display: grid;
+        grid-template-rows: auto auto minmax(0, 1fr);
+        min-height: 0;
+        padding: 16px 20px;
+    }
+    .cabecalho-calendario { margin-bottom: 8px; }
+    .dias-semana { margin-bottom: 6px; padding: 0; }
+    .dias-semana span { padding: 4px 0; }
+    .dias-calendario { min-height: 0; grid-auto-rows: minmax(0, 1fr); gap: 4px; }
+    .dia { min-height: 0; }
+    .dia.varias-aulas::after { bottom: 2px; width: 5px; height: 5px; }
+    .proximas-aulas, .aulas-dia {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        padding: 18px 20px;
+    }
+    .aulas-dia { margin: 0; }
+    .proximas-aulas h2, .aulas-dia h2 { margin-bottom: 12px; font-size: 20px; }
+    .proximas-aulas > h2, .cabecalho-aulas { flex-shrink: 0; }
+    /* Listas extensas rolam dentro do cartão, preservando o acesso a todas as aulas. */
+    #listaProximasAulas, #listaAulasDia {
+        min-height: 0;
+        max-height: none;
+        overflow-y: auto;
+        align-content: start;
+        scrollbar-width: thin;
+        scrollbar-color: #cbb4e7 transparent;
+        padding-right: 4px;
+    }
+}
+

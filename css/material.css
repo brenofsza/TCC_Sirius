@@ -1,0 +1,165 @@
+/* 1. Paleta Sirius: roxo principal, amarelo de destaque e tons neutros. */
+:root {
+    --material-roxo: #7141bb;
+    --material-escuro: #331761;
+    --material-amarelo: #ffc928;
+    --material-borda: #e4ddec;
+    --material-texto: #2f243b;
+    --material-suave: #766b82;
+}
+
+/* 2. Base: bordas incluídas nas medidas e entrelinhas legíveis. */
+body { background: #f5f6f8; color: var(--material-texto); }
+.area-material, .area-material *, dialog, dialog *, .topbar, .topbar * { box-sizing: border-box; }
+.area-material *, dialog *, .topbar * { line-height: 1.5; }
+
+/* 3. Cabeçalho: marca e perfil alinhados acima do conteúdo. */
+.topbar {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    border-bottom: 1px solid var(--material-borda);
+    background: #fff;
+    z-index: 100;
+}
+.topbar .logo { padding: 0; }
+.topbar .logo img { width: 100px; max-height: 54px; object-fit: contain; }
+.topbar .user { display: flex; align-items: center; gap: 12px; }
+.topbar .user p { color: var(--material-escuro); font-size: 14px; font-weight: 600; }
+.topbar .user a { color: var(--material-roxo); text-decoration: none; font-weight: 700; }
+.topbar .fotoPerfil, .autor-material .fotoPerfil {
+    width: 44px;
+    height: 44px;
+    border: 2px solid var(--material-roxo);
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* 4. Conteúdo: reserva os 75px do menu lateral e os 60px do cabeçalho. */
+.area-material {
+    position: relative;
+    left: 37.5px;
+    width: calc(100% - 75px);
+    max-width: 1255px;
+    margin: 0 auto;
+    padding: 88px 32px 32px;
+}
+.voltar { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; color: var(--material-roxo); text-decoration: none; font-weight: 700; }
+.voltar:hover { color: var(--material-escuro); text-decoration: underline; }
+
+/* 5. Cartão principal: borda amarela e sombra no padrão da página Criar. */
+.material {
+    padding: clamp(22px, 3vw, 42px);
+    border: 1px solid var(--material-borda);
+    border-top: 5px solid var(--material-amarelo);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 14px 36px rgba(51, 23, 97, .10);
+    overflow-wrap: anywhere;
+}
+.material h1 { margin-bottom: 24px; color: var(--material-escuro); font-size: clamp(24px, 3vw, 36px); line-height: 1.2; }
+.material > p { margin: 12px 0; color: var(--material-suave); font-size: 15px; }
+.material strong { color: var(--material-escuro); font-weight: 700; }
+
+/* 6. Autoria: destaca o perfil que publicou o arquivo com fundo lilás. */
+.autor-material { margin: 24px 0; padding: 18px; border: 1px solid #eee7f6; border-radius: 14px; background: #f8f5fc; }
+.autor-material a { display: flex; align-items: center; gap: 14px; color: var(--material-escuro); text-decoration: none; }
+.autor-material a > div { min-width: 0; }
+.autor-material p:first-child { color: var(--material-suave); font-size: 12px; }
+.autor-material p:last-child { font-size: 15px; font-weight: 700; }
+
+/* 7. Botões e links de ação: abrir em amarelo; ações secundárias em roxo. */
+.material > a, .material > button, dialog button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    color: #fff;
+    background: var(--material-roxo);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+.material > a, .material > button { margin: 12px 8px 0 0; }
+.material > a:not([download]), dialog button[type='submit'], #solicitarConexao { color: #251238; background: var(--material-amarelo); }
+#salvarMaterial, #editarMaterial, #cancelarEditarMaterial, #cancelarExcluirMaterial { color: var(--material-roxo); background: #f1ebf8; border-color: var(--material-borda); }
+.material > a:hover, .material > button:hover, dialog button:hover { filter: brightness(.95); }
+/* Vermelho reservado à exclusão para distinguir essa ação das demais. */
+#excluirMaterial, #confirmarExcluirMaterial { color: #a82b43; background: #fff0f3; border-color: #f2ccd4; }
+
+/* 8. Modais: não altera display nem open, preservando o controle do JavaScript. */
+dialog {
+    width: min(92vw, 540px);
+    max-height: calc(100dvh - 40px);
+    margin: auto;
+    padding: 0;
+    overflow-y: auto;
+    border: 1px solid var(--material-borda);
+    border-top: 5px solid var(--material-amarelo);
+    border-radius: 18px;
+    color: var(--material-texto);
+    background: #fff;
+    box-shadow: 0 20px 60px rgba(51, 23, 97, .25);
+}
+dialog::backdrop { background: rgba(38, 22, 59, .48); backdrop-filter: blur(3px); }
+dialog > div { position: relative; padding: 30px; }
+dialog h2 { margin: 0 40px 20px 0; color: var(--material-escuro); font-size: 23px; }
+dialog p { margin: 10px 0 18px; color: var(--material-suave); overflow-wrap: anywhere; }
+dialog button[id^='fechar'] { position: absolute; top: 14px; right: 14px; width: 34px; min-height: 34px; padding: 0; border-radius: 50%; color: var(--material-escuro); background: #f1ebf8; font-size: 23px; }
+#modalEditarMaterial { width: min(92vw, 700px); }
+
+/* 9. Edição e cadastro: campos alinhados, arquivo e opções de visibilidade. */
+dialog .campo { position: relative; display: grid; gap: 8px; margin-bottom: 18px; }
+dialog label { color: var(--material-escuro); font-size: 14px; font-weight: 700; }
+dialog input:not([type='hidden']):not([type='radio']), dialog select, dialog textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 11px 13px;
+    border: 1px solid var(--material-borda);
+    border-radius: 9px;
+    color: var(--material-texto);
+    background: #fff;
+    font: inherit;
+    font-size: 14px;
+}
+dialog textarea { min-height: 110px; resize: vertical; }
+dialog input[type='radio'] { accent-color: var(--material-roxo); margin-right: 7px; }
+dialog input[type='file']::file-selector-button { margin-right: 12px; padding: 8px 12px; border: 0; border-radius: 7px; color: #fff; background: var(--material-roxo); cursor: pointer; }
+dialog .criar-link { justify-self: start; min-height: 0; padding: 0; background: transparent; color: var(--material-roxo); text-align: left; font-size: 13px; }
+#formEditarDisci, #formEditarCont { display: grid; gap: 14px; }
+
+/* 10. Acessibilidade: foco visível ao navegar pelos controles com o teclado. */
+.area-material :focus-visible, dialog :focus-visible, .topbar a:focus-visible { outline: 3px solid var(--material-roxo); outline-offset: 3px; }
+dialog input:focus, dialog textarea:focus, dialog select:focus { border-color: var(--material-roxo); }
+
+/* 11. Conteúdo dinâmico: pastas, mensagens e sugestões de preenchimento. */
+#pastasSalvar { display: grid; gap: 10px; margin-top: 16px; }
+#pastasSalvar button { width: 100%; justify-content: flex-start; text-align: left; }
+#mensagemEditarMaterial:not(:empty), #mensagemExcluirMaterial:not(:empty) { margin-top: 16px; padding: 12px; border-radius: 9px; background: #f8f5fc; line-height: 1.5; overflow-wrap: anywhere; }
+dialog .typeahead.dropdown-menu { border-color: var(--material-borda); border-radius: 9px; }
+dialog .typeahead.dropdown-menu > li.active > a { color: var(--material-escuro); background: #f1ebf8; }
+
+/* 12. Celulares: reduz recuos e empilha as ações sem esconder informações. */
+@media (max-width: 600px) {
+    .topbar { padding: 0 12px; }
+    .topbar .user { gap: 8px; }
+    .topbar .user p { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .area-material { padding: 80px 12px 24px; }
+    .material { padding: 20px 16px; border-radius: 16px; }
+    .material > a, .material > button { display: flex; width: 100%; margin-right: 0; }
+    .autor-material { padding: 12px; }
+    .autor-material a { align-items: flex-start; gap: 10px; }
+    dialog > div { padding: 24px 18px; }
+    dialog h2 { font-size: 20px; }
+}

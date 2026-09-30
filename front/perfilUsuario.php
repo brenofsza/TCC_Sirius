@@ -68,6 +68,7 @@ if(empty($usuario['FOTO_USU'])){
     <link rel="icon" type="image/png" href="../img/preBancaTCC.jpg">
 
     <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/perfilUsuario.css">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -211,23 +212,6 @@ if(isset($_SESSION['id_usuario']) && $id_usuario != $_SESSION['id_usuario']){
     </div>
 
 
-    <!-- Modal de conexões -->
-
-    <dialog id="modalConexoes">
-
-        <button type="button" id="fecharConexoes">
-
-            <i class="bx bx-x"></i>
-
-        </button>
-
-
-        <h2>Conexões</h2>
-
-
-        <div id="listaConexoes"></div>
-
-    </dialog>
 
 
     <input 

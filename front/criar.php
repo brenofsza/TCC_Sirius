@@ -214,7 +214,7 @@ if (!isset($_SESSION['id_usuario'])) {
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../js/navbar.js"></script>
-    <script src="../js/criar.js"></script>
+    <script src="../js/criar.js?v=20260929-3"></script>
     <script src="../js/bootstrap3-typeahead.js"></script>
     <script>
         const campoArquivo = document.getElementById('arquivo');

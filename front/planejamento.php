@@ -24,11 +24,12 @@ if(!isset($_SESSION['id_usuario'])){
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../css/planejamento.css">
+
 
     <link rel="stylesheet" href="../css/navbar.css">
 
     <link rel="stylesheet" href="../css/novaAula.css">
+    <link rel="stylesheet" href="../css/planejamento.css?v=20260929-6">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -502,7 +503,7 @@ if(!isset($_SESSION['id_usuario'])){
 
     <script src="../js/navbar.js"></script>
 
-    <script src="../js/planejamento.js"></script>
+    <script src="../js/planejamento.js?v=20260929-6"></script>
 
     <script src="../js/pastasPlanejamento.js"></script>
 

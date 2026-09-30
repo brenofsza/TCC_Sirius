@@ -21,7 +21,7 @@ $pesquisa = $_GET['q'] ?? '';
 
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/typeahead.css">
-    <link rel="stylesheet" href="../css/pesquisar.css">
+    <link rel="stylesheet" href="../css/pesquisar.css?v=20260929-1">
 </head>
 
 <body>

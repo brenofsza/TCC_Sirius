@@ -1,14 +1,44 @@
-$(document).ready(function(){ 
+$(document).ready(function(){  
  
-    function verificarMaterialSalvo(){ 
+    function verificarMaterialSalvo(){  
  
-        let idMaterial = $('#salvarMaterial').data('id'); 
+        let idMaterial = $('#salvarMaterial').data('id');  
  
-        if(!idMaterial){ 
-            return; 
-        } 
+        if(!idMaterial){  
+            return;  
+        }  
  
-        fetch("../php/verMatSalvo.php", { 
+        fetch("../php/verMatSalvo.php", {  
+            method: "POST",  
+            headers: {  
+                "Content-Type": "application/x-www-form-urlencoded"  
+            },  
+            body: "id_material=" + encodeURIComponent(idMaterial)  
+        })  
+        .then(response => response.text())  
+        .then(retorno => {  
+ 
+            if(retorno.trim() == "SALVO"){  
+ 
+                $('#salvarMaterial').html("Material salvo");  
+ 
+            }  
+ 
+        })  
+        .catch(function(erro){  
+            console.log(erro);  
+        });  
+ 
+    }  
+ 
+ 
+    $('#salvarMaterial').click(function(){  
+ 
+        let idMaterial = $(this).data('id');  
+ 
+        $('#modalSalvarMaterial')[0].showModal();  
+ 
+        fetch("../php/buscarPastasModal.php", { 
             method: "POST", 
             headers: { 
                 "Content-Type": "application/x-www-form-urlencoded" 
@@ -18,890 +48,864 @@ $(document).ready(function(){
         .then(response => response.text()) 
         .then(retorno => { 
  
-            if(retorno.trim() == "SALVO"){ 
-                $('#salvarMaterial').html("Material salvo"); 
-            } 
+            console.log("RETORNO DAS PASTAS:", retorno); 
+ 
+            $('#pastasSalvar').html(retorno); 
  
         }) 
         .catch(function(erro){ 
+ 
             console.log(erro); 
-        }); 
  
-    } 
- 
- 
-    $('#salvarMaterial').click(function(){ 
- 
-        let idMaterial = $(this).data('id'); 
- 
-        $('#modalSalvarMaterial')[0].showModal(); 
- 
-        fetch("../php/buscarPastasModal.php", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: "id_material=" + encodeURIComponent(idMaterial)
-})
-.then(response => response.text())
-.then(retorno => {
-
-    console.log("RETORNO DAS PASTAS:", retorno);
-
-    $('#pastasSalvar').html(retorno);
-
-})
-.catch(function(erro){
-
-    console.log(erro);
-
-    $('#pastasSalvar').html(
-        "<p>Erro ao carregar as pastas.</p>"
-    );
-
-});
- 
-    }); 
- 
- 
-    $('#fecharSalvarMaterial').click(function(){ 
-        $('#modalSalvarMaterial')[0].close(); 
-    }); 
- 
- 
-    $(document).on('click', '.pastaSalvar', function(){ 
- 
-        let idPasta = $(this).data('id'); 
-        let idMaterial = $('#salvarMaterial').data('id'); 
- 
-        fetch("../php/salvarMaterial.php", { 
-            method: "POST", 
-            headers: { 
-                "Content-Type": "application/x-www-form-urlencoded" 
-            }, 
-            body: 
-                "id_pasta=" + encodeURIComponent(idPasta) + 
-                "&id_material=" + encodeURIComponent(idMaterial) 
-        }) 
-        .then(response => response.text()) 
-        .then(retorno => { 
- 
-            if(retorno.trim() == "OK!"){ 
- 
-                $('#modalSalvarMaterial')[0].close(); 
- 
-                $('#salvarMaterial').html("Material salvo"); 
- 
-            } 
- 
-        }) 
-        .catch(function(erro){ 
-            console.log(erro); 
-        }); 
- 
-    }); 
- 
- 
-    if($('#modalAcessoNegado').length > 0){ 
- 
-        const modalAcesso = document.getElementById('modalAcessoNegado'); 
- 
-        modalAcesso.showModal(); 
- 
- 
-        let idUsuario = $('#solicitarConexao').data('id'); 
- 
-        fetch("../php/buscarConexao.php", { 
-            method: "POST", 
-            headers: { 
-                "Content-Type": "application/x-www-form-urlencoded" 
-            }, 
-            body: "id_usuario=" + encodeURIComponent(idUsuario) 
-        }) 
-        .then(response => response.text()) 
-        .then(retorno => { 
- 
-            let resposta = retorno.trim(); 
- 
-            if(resposta == "PENDENTE"){ 
- 
-                $('#solicitarConexao').html("Conexão pendente"); 
- 
-            } else if(resposta == "ACEITA"){ 
- 
-                $('#solicitarConexao').html("Conectado"); 
- 
-            } 
- 
-        }) 
-        .catch(function(erro){ 
-            console.log(erro); 
-        }); 
- 
- 
-        $('#fecharAcessoNegado').click(function(){ 
- 
-            modalAcesso.close(); 
- 
-            history.back(); 
- 
-        }); 
- 
- 
-        $('#solicitarConexao').click(function(){ 
- 
-            fetch("../php/conectarUsu.php", { 
-                method: "POST", 
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                }, 
-                body: "id_usuario=" + encodeURIComponent(idUsuario) 
-            }) 
-            .then(response => response.text()) 
-            .then(retorno => { 
- 
-                let resposta = retorno.trim(); 
- 
-                if(resposta == "OK!"){ 
- 
-                    $('#solicitarConexao').html("Conexão pendente"); 
- 
-                } else if(resposta == "ACEITA"){ 
- 
-                    $('#solicitarConexao').html("Conectado"); 
- 
-                } else if(resposta == "CANCELADO"){ 
- 
-                    $('#solicitarConexao').html("Conectar"); 
- 
-                } 
- 
-            }) 
-            .catch(function(erro){ 
-                console.log(erro); 
-            }); 
- 
-        }); 
- 
-    } 
- 
- 
-    if($('#editarMaterial').length > 0){ 
- 
-        $('#editarMaterial').click(function(){ 
- 
-            let idMaterial = $(this).data('id'); 
- 
-            $('#editarIdMaterial').val(idMaterial); 
- 
-            $('#mensagemEditarMaterial').html( 
-                "<p>Carregando...</p>" 
+            $('#pastasSalvar').html( 
+                "<p>Erro ao carregar as pastas.</p>" 
             ); 
  
-            $('#modalEditarMaterial')[0].showModal(); 
- 
-            fetch("../php/buscarMaterialEdicao.php", { 
-                method: "POST", 
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                }, 
-                body: "id_material=" + encodeURIComponent(idMaterial) 
-            }) 
-            .then(response => response.json()) 
-            .then(material => { 
- 
-                if(material.erro){ 
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Não foi possível carregar o material.</p>" 
-                    ); 
-                    return; 
-                } 
- 
-                $('#editarTitulo').val(material.titulo); 
- 
-                $('#editarDisci').val(material.disci); 
-                $('#editarIdDisci').val(material.id_disci); 
- 
-                $('#editarCont').val(material.cont); 
-                $('#editarIdCont').val(material.id_cont); 
- 
-                $('#editarNivel').val(material.nivel); 
- 
-                $('input[name="editarStatus"][value="' + material.status + '"]').prop( 
-                    "checked", 
-                    true 
-                ); 
- 
-                $('#editarDescricao').val(material.descricao); 
- 
-                $('#mensagemEditarMaterial').html(""); 
- 
-            }) 
-            .catch(function(erro){ 
- 
-                console.log(erro); 
- 
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Erro ao carregar o material.</p>" 
-                ); 
- 
-            }); 
- 
         }); 
  
+    });  
  
-        $('#fecharEditarMaterial').click(function(){ 
-            $('#modalEditarMaterial')[0].close(); 
-        }); 
  
+    $('#fecharSalvarMaterial').click(function(){  
+        $('#modalSalvarMaterial')[0].close();  
+    });  
  
-        $('#cancelarEditarMaterial').click(function(){ 
-            $('#modalEditarMaterial')[0].close(); 
-        }); 
  
+    $(document).on('click', '.pastaSalvar', function(){  
  
-        $('#editarDisci').typeahead({ 
+        let idPasta = $(this).data('id');  
+        let idMaterial = $('#salvarMaterial').data('id');  
  
-            source: function(query, process){ 
+        fetch("../php/salvarMaterial.php", {  
+            method: "POST",  
+            headers: {  
+                "Content-Type": "application/x-www-form-urlencoded"  
+            },  
+            body:  
+                "id_pasta=" + encodeURIComponent(idPasta) +  
+                "&id_material=" + encodeURIComponent(idMaterial)  
+        })  
+        .then(response => response.text())  
+        .then(retorno => {  
  
-                fetch("../php/buscarDisci.php", { 
-                    method: "POST", 
-                    headers: { 
-                        "Content-Type": "application/x-www-form-urlencoded" 
-                    }, 
-                    body: "nome=" + encodeURIComponent(query) 
-                }) 
-                .then(response => response.json()) 
-                .then(dados => { 
+            console.log("RETORNO SALVAR:", retorno); 
  
-                    process(dados.map(function(disci){ 
-                        return disci.nome; 
-                    })); 
+            if(retorno.trim() == "OK!" || retorno.trim() == "JA_SALVO"){  
  
-                    $('#editarDisci').data( 
-                        'disciplinas', 
-                        dados 
-                    ); 
+                $('#modalSalvarMaterial')[0].close();  
  
-                }) 
-                .catch(function(erro){ 
-                    console.log(erro); 
-                }); 
+                $('#salvarMaterial').html("Material salvo");  
  
-            }, 
+            }  
  
-            minLength: 1, 
-            items: 8, 
+        })  
+        .catch(function(erro){  
+            console.log(erro);  
+        });  
  
-            updater: function(nome){ 
+    });  
  
-                let disciplinas = 
-                    $('#editarDisci').data('disciplinas') || []; 
  
-                let disciplina = disciplinas.find(function(disci){ 
-                    return disci.nome == nome; 
-                }); 
+    if($('#modalAcessoNegado').length > 0){  
  
-                if(disciplina){ 
+        const modalAcesso = document.getElementById('modalAcessoNegado');  
  
-                    $('#editarIdDisci').val(disciplina.id); 
+        modalAcesso.showModal();  
  
-                    $('#editarCont').val(''); 
-                    $('#editarIdCont').val(''); 
  
-                } 
+        let idUsuario = $('#solicitarConexao').data('id');  
  
-                return nome; 
+        fetch("../php/buscarConexao.php", {  
+            method: "POST",  
+            headers: {  
+                "Content-Type": "application/x-www-form-urlencoded"  
+            },  
+            body: "id_usuario=" + encodeURIComponent(idUsuario)  
+        })  
+        .then(response => response.text())  
+        .then(retorno => {  
  
-            } 
+            let resposta = retorno.trim();  
  
-        }); 
+            if(resposta == "PENDENTE"){  
  
+                $('#solicitarConexao').html("Conexão pendente");  
  
-        $('#editarDisci').on('input', function(){ 
+            } else if(resposta == "ACEITA"){  
  
-            $('#editarIdDisci').val(''); 
+                $('#solicitarConexao').html("Conectado");  
  
-            $('#editarCont').val(''); 
-            $('#editarIdCont').val(''); 
+            }  
  
-        }); 
+        })  
+        .catch(function(erro){  
+            console.log(erro);  
+        });  
  
  
-        $('#editarCont').typeahead({ 
+        $('#fecharAcessoNegado').click(function(){  
  
-            source: function(query, process){ 
+            modalAcesso.close();  
  
-                let disci = $('#editarIdDisci').val(); 
+            history.back();  
  
-                if(disci == ''){ 
-                    return; 
-                } 
+        });  
  
-                fetch("../php/buscarCont.php", { 
-                    method: "POST", 
-                    headers: { 
-                        "Content-Type": "application/x-www-form-urlencoded" 
-                    }, 
-                    body: 
-                        "nome=" + encodeURIComponent(query) + 
-                        "&disci=" + encodeURIComponent(disci) 
-                }) 
-                .then(response => response.json()) 
-                .then(dados => { 
  
-                    process(dados.map(function(cont){ 
-                        return cont.nome; 
-                    })); 
+        $('#solicitarConexao').click(function(){  
  
-                    $('#editarCont').data( 
-                        'conteudos', 
-                        dados 
-                    ); 
+            fetch("../php/conectarUsu.php", {  
+                method: "POST",  
+                headers: {  
+                    "Content-Type": "application/x-www-form-urlencoded"  
+                },  
+                body: "id_usuario=" + encodeURIComponent(idUsuario)  
+            })  
+            .then(response => response.text())  
+            .then(retorno => {  
  
-                }) 
-                .catch(function(erro){ 
-                    console.log(erro); 
-                }); 
+                let resposta = retorno.trim();  
  
-            }, 
+                if(resposta == "OK!"){  
  
-            minLength: 1, 
-            items: 8, 
+                    $('#solicitarConexao').html("Conexão pendente");  
  
-            updater: function(nome){ 
+                } else if(resposta == "ACEITA"){  
  
-                let conteudos = 
-                    $('#editarCont').data('conteudos') || []; 
+                    $('#solicitarConexao').html("Conectado");  
  
-                let conteudo = conteudos.find(function(cont){ 
-                    return cont.nome == nome; 
-                }); 
+                } else if(resposta == "CANCELADO"){  
  
-                if(conteudo){ 
-                    $('#editarIdCont').val(conteudo.id); 
-                } 
+                    $('#solicitarConexao').html("Conectar");  
  
-                return nome; 
+                }  
  
-            } 
+            })  
+            .catch(function(erro){  
+                console.log(erro);  
+            });  
  
-        }); 
+        });  
  
+    }  
  
-        $('#editarCont').on('input', function(){ 
-            $('#editarIdCont').val(''); 
-        }); 
  
+    if($('#editarMaterial').length > 0){  
  
-        $('#abrirEditarDisci').click(function(){ 
+        $('#editarMaterial').click(function(){  
  
-            $('#novaEditarDisci').val(''); 
+            let idMaterial = $(this).data('id');  
  
-            $('#modalEditarDisci')[0].showModal(); 
+            $('#editarIdMaterial').val(idMaterial);  
  
-        }); 
+            $('#mensagemEditarMaterial').html(  
+                "<p>Carregando...</p>"  
+            );  
  
+            $('#modalEditarMaterial')[0].showModal();  
  
-        $('#fecharEditarDisci').click(function(){ 
-            $('#modalEditarDisci')[0].close(); 
-        }); 
+            fetch("../php/buscarMaterialEdicao.php", {  
+                method: "POST",  
+                headers: {  
+                    "Content-Type": "application/x-www-form-urlencoded"  
+                },  
+                body: "id_material=" + encodeURIComponent(idMaterial)  
+            })  
+            .then(response => response.json())  
+            .then(material => {  
  
+                if(material.erro){  
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Não foi possível carregar o material.</p>"  
+                    );  
+                    return;  
+                }  
  
-        $('#formEditarDisci').submit(function(event){ 
+                $('#editarTitulo').val(material.titulo);  
  
-            event.preventDefault(); 
+                $('#editarDisci').val(material.disci);  
+                $('#editarIdDisci').val(material.id_disci);  
  
-            let nome = $('#novaEditarDisci').val().trim(); 
+                $('#editarCont').val(material.cont);  
+                $('#editarIdCont').val(material.id_cont);  
  
-            if(nome == ''){ 
-                return; 
-            } 
+                $('#editarNivel').val(material.nivel);  
  
-            fetch("../php/criarDisci.php", { 
-                method: "POST", 
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                }, 
-                body: "nome=" + encodeURIComponent(nome) 
-            }) 
-            .then(response => response.text()) 
-            .then(retorno => { 
+                $('input[name="editarStatus"][value="' + material.status + '"]').prop(  
+                    "checked",  
+                    true  
+                );  
  
-                let resposta = retorno.trim(); 
+                $('#editarDescricao').val(material.descricao);  
  
-                if(resposta == "OK!"){ 
+                $('#mensagemEditarMaterial').html("");  
  
-                    fetch("../php/buscarDisci.php", { 
-                        method: "POST", 
-                        headers: { 
-                            "Content-Type": "application/x-www-form-urlencoded" 
-                        }, 
-                        body: "nome=" + encodeURIComponent(nome) 
-                    }) 
-                    .then(response => response.json()) 
-                    .then(dados => { 
+            })  
+            .catch(function(erro){  
  
-                        let disciplina = dados.find(function(disci){ 
-                            return disci.nome == nome; 
-                        }); 
+                console.log(erro);  
  
-                        if(disciplina){ 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Erro ao carregar o material.</p>"  
+                );  
  
-                            $('#editarDisci').val( 
-                                disciplina.nome 
-                            ); 
+            });  
  
-                            $('#editarIdDisci').val( 
-                                disciplina.id 
-                            ); 
+        });  
  
-                            $('#editarCont').val(''); 
-                            $('#editarIdCont').val(''); 
  
-                        } 
+        $('#fecharEditarMaterial').click(function(){  
+            $('#modalEditarMaterial')[0].close();  
+        });  
  
-                    }); 
  
-                    $('#novaEditarDisci').val(''); 
+        $('#cancelarEditarMaterial').click(function(){  
+            $('#modalEditarMaterial')[0].close();  
+        });  
  
-                    $('#modalEditarDisci')[0].close(); 
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Disciplina criada com sucesso!</p>" 
-                    ); 
+        $('#editarDisci').typeahead({  
  
-                } else if(resposta == "EXISTE"){ 
+            source: function(query, process){  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Essa disciplina já existe.</p>" 
-                    ); 
+                fetch("../php/buscarDisci.php", {  
+                    method: "POST",  
+                    headers: {  
+                        "Content-Type": "application/x-www-form-urlencoded"  
+                    },  
+                    body: "nome=" + encodeURIComponent(query)  
+                })  
+                .then(response => response.json())  
+                .then(dados => {  
  
-                } else { 
+                    process(dados.map(function(disci){  
+                        return disci.nome;  
+                    }));  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Não foi possível criar a disciplina.</p>" 
-                    ); 
+                    $('#editarDisci').data(  
+                        'disciplinas',  
+                        dados  
+                    );  
  
-                } 
+                })  
+                .catch(function(erro){  
+                    console.log(erro);  
+                });  
  
-            }) 
-            .catch(function(erro){ 
+            },  
  
-                console.log(erro); 
+            minLength: 1,  
+            items: 8,  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Erro ao conectar.</p>" 
-                ); 
+            updater: function(nome){  
  
-            }); 
+                let disciplinas =  
+                    $('#editarDisci').data('disciplinas') || [];  
  
-        }); 
+                let disciplina = disciplinas.find(function(disci){  
+                    return disci.nome == nome;  
+                });  
  
+                if(disciplina){  
  
-        $('#abrirEditarCont').click(function(){ 
+                    $('#editarIdDisci').val(disciplina.id);  
  
-            if($('#editarIdDisci').val() == ''){ 
+                    $('#editarCont').val('');  
+                    $('#editarIdCont').val('');  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Selecione uma disciplina primeiro.</p>" 
-                ); 
+                }  
  
-                return; 
+                return nome;  
  
-            } 
+            }  
  
-            $('#novoEditarCont').val(''); 
+        });  
  
-            $('#modalEditarCont')[0].showModal(); 
  
-        }); 
+        $('#editarDisci').on('input', function(){  
  
+            $('#editarIdDisci').val('');  
  
-        $('#fecharEditarCont').click(function(){ 
-            $('#modalEditarCont')[0].close(); 
-        }); 
+            $('#editarCont').val('');  
+            $('#editarIdCont').val('');  
  
+        });  
  
-        $('#formEditarCont').submit(function(event){ 
  
-            event.preventDefault(); 
+        $('#editarCont').typeahead({  
  
-            let nome = $('#novoEditarCont').val().trim(); 
-            let disci = $('#editarIdDisci').val(); 
+            source: function(query, process){  
  
-            if(nome == ''){ 
-                return; 
-            } 
+                let disci = $('#editarIdDisci').val();  
  
-            if(disci == ''){ 
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Selecione uma disciplina válida.</p>" 
-                ); 
-                return; 
-            } 
+                if(disci == ''){  
+                    return;  
+                }  
  
-            fetch("../php/criarCont.php", { 
-                method: "POST", 
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                }, 
-                body: 
-                    "nome=" + encodeURIComponent(nome) + 
-                    "&disci=" + encodeURIComponent(disci) 
-            }) 
-            .then(response => response.text()) 
-            .then(retorno => { 
+                fetch("../php/buscarCont.php", {  
+                    method: "POST",  
+                    headers: {  
+                        "Content-Type": "application/x-www-form-urlencoded"  
+                    },  
+                    body:  
+                        "nome=" + encodeURIComponent(query) +  
+                        "&disci=" + encodeURIComponent(disci)  
+                })  
+                .then(response => response.json())  
+                .then(dados => {  
  
-                let resposta = retorno.trim(); 
+                    process(dados.map(function(cont){  
+                        return cont.nome;  
+                    }));  
  
-                if(resposta == "OK!"){ 
+                    $('#editarCont').data(  
+                        'conteudos',  
+                        dados  
+                    );  
  
-                    fetch("../php/buscarCont.php", { 
-                        method: "POST", 
-                        headers: { 
-                            "Content-Type": "application/x-www-form-urlencoded" 
-                        }, 
-                        body: 
-                            "nome=" + encodeURIComponent(nome) + 
-                            "&disci=" + encodeURIComponent(disci) 
-                    }) 
-                    .then(response => response.json()) 
-                    .then(dados => { 
+                })  
+                .catch(function(erro){  
+                    console.log(erro);  
+                });  
  
-                        let conteudo = dados.find(function(cont){ 
-                            return cont.nome == nome; 
-                        }); 
+            },  
  
-                        if(conteudo){ 
+            minLength: 1,  
+            items: 8,  
  
-                            $('#editarCont').val( 
-                                conteudo.nome 
-                            ); 
+            updater: function(nome){  
  
-                            $('#editarIdCont').val( 
-                                conteudo.id 
-                            ); 
+                let conteudos =  
+                    $('#editarCont').data('conteudos') || [];  
  
-                        } 
+                let conteudo = conteudos.find(function(cont){  
+                    return cont.nome == nome;  
+                });  
  
-                    }); 
+                if(conteudo){  
+                    $('#editarIdCont').val(conteudo.id);  
+                }  
  
-                    $('#novoEditarCont').val(''); 
+                return nome;  
  
-                    $('#modalEditarCont')[0].close(); 
+            }  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Conteúdo criado com sucesso!</p>" 
-                    ); 
+        });  
  
-                } else if(resposta == "EXISTE"){ 
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Esse conteúdo já existe.</p>" 
-                    ); 
+        $('#editarCont').on('input', function(){  
+            $('#editarIdCont').val('');  
+        });  
  
-                } else { 
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Não foi possível criar o conteúdo.</p>" 
-                    ); 
+        $('#abrirEditarDisci').click(function(){  
  
-                } 
+            $('#novaEditarDisci').val('');  
  
-            }) 
-            .catch(function(erro){ 
+            $('#modalEditarDisci')[0].showModal();  
  
-                console.log(erro); 
+        });  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Erro ao conectar.</p>" 
-                ); 
  
-            }); 
+        $('#fecharEditarDisci').click(function(){  
+            $('#modalEditarDisci')[0].close();  
+        });  
  
-        }); 
  
+        $('#formEditarDisci').submit(function(event){  
  
-        $('#formEditarMaterial').submit(function(event){ 
+            event.preventDefault();  
  
-            event.preventDefault(); 
+            let nome = $('#novaEditarDisci').val().trim();  
  
-            let idMaterial = $('#editarIdMaterial').val(); 
-            let titulo = $('#editarTitulo').val().trim(); 
-            let idDisci = $('#editarIdDisci').val(); 
-            let idCont = $('#editarIdCont').val(); 
-            let nivel = $('#editarNivel').val(); 
-            let status = $('input[name="editarStatus"]:checked').val(); 
-            let descricao = $('#editarDescricao').val().trim(); 
-            let arquivo = $('#editarArquivo')[0].files[0]; 
+            if(nome == ''){  
+                return;  
+            }  
  
-            if(titulo == ''){ 
+            fetch("../php/criarDisci.php", {  
+                method: "POST",  
+                headers: {  
+                    "Content-Type": "application/x-www-form-urlencoded"  
+                },  
+                body: "nome=" + encodeURIComponent(nome)  
+            })  
+            .then(response => response.text())  
+            .then(retorno => {  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Digite o título do material.</p>" 
-                ); 
+                let resposta = retorno.trim();  
  
-                return; 
+                if(resposta == "OK!"){  
  
-            } 
+                    fetch("../php/buscarDisci.php", {  
+                        method: "POST",  
+                        headers: {  
+                            "Content-Type": "application/x-www-form-urlencoded"  
+                        },  
+                        body: "nome=" + encodeURIComponent(nome)  
+                    })  
+                    .then(response => response.json())  
+                    .then(dados => {  
  
-            if(idDisci == ''){ 
+                        let disciplina = dados.find(function(disci){  
+                            return disci.nome == nome;  
+                        });  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Selecione uma disciplina.</p>" 
-                ); 
+                        if(disciplina){  
  
-                return; 
+                            $('#editarDisci').val(  
+                                disciplina.nome  
+                            );  
  
-            } 
+                            $('#editarIdDisci').val(  
+                                disciplina.id  
+                            );  
  
-            if(idCont == ''){ 
+                            $('#editarCont').val('');  
+                            $('#editarIdCont').val('');  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Selecione um conteúdo.</p>" 
-                ); 
+                        }  
  
-                return; 
+                    });  
  
-            } 
+                    $('#novaEditarDisci').val('');  
  
-            if(nivel == ''){ 
+                    $('#modalEditarDisci')[0].close();  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Selecione o nível de ensino.</p>" 
-                ); 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Disciplina criada com sucesso!</p>"  
+                    );  
  
-                return; 
+                } else if(resposta == "EXISTE"){  
  
-            } 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Essa disciplina já existe.</p>"  
+                    );  
  
-            if(!status){ 
+                } else {  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Selecione o status do material.</p>" 
-                ); 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Não foi possível criar a disciplina.</p>"  
+                    );  
  
-                return; 
+                }  
  
-            } 
+            })  
+            .catch(function(erro){  
  
+                console.log(erro);  
  
-            let dados = new FormData(); 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Erro ao conectar.</p>"  
+                );  
  
-            dados.append("id_material", idMaterial); 
-            dados.append("titulo", titulo); 
-            dados.append("id_disci", idDisci); 
-            dados.append("id_cont", idCont); 
-            dados.append("nivel", nivel); 
-            dados.append("status", status); 
-            dados.append("descricao", descricao); 
+            });  
  
+        });  
  
-            if(arquivo){ 
  
-                dados.append("arquivo", arquivo); 
+        $('#abrirEditarCont').click(function(){  
  
-            } 
+            if($('#editarIdDisci').val() == ''){  
  
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Selecione uma disciplina primeiro.</p>"  
+                );  
  
-            $('#mensagemEditarMaterial').html( 
-                "<p>Salvando alterações...</p>" 
-            ); 
+                return;  
  
+            }  
  
-            fetch("../php/edtMaterial.php", { 
-                method: "POST", 
-                body: dados 
-            }) 
-            .then(response => response.text()) 
-            .then(retorno => { 
+            $('#novoEditarCont').val('');  
  
-                let resposta = retorno.trim(); 
+            $('#modalEditarCont')[0].showModal();  
  
-                if(resposta == "OK!"){ 
+        });  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Material atualizado com sucesso!</p>" 
-                    ); 
  
-                    setTimeout(function(){ 
+        $('#fecharEditarCont').click(function(){  
+            $('#modalEditarCont')[0].close();  
+        });  
  
-                        $('#modalEditarMaterial')[0].close(); 
  
-                        location.reload(); 
+        $('#formEditarCont').submit(function(event){  
  
-                    }, 800); 
+            event.preventDefault();  
  
-                } else if(resposta == "campos_vazios"){ 
+            let nome = $('#novoEditarCont').val().trim();  
+            let disci = $('#editarIdDisci').val();  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Preencha todos os campos obrigatórios.</p>" 
-                    ); 
+            if(nome == ''){  
+                return;  
+            }  
  
-                } else if(resposta == "nao_autorizado"){ 
+            if(disci == ''){  
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Selecione uma disciplina válida.</p>"  
+                );  
+                return;  
+            }  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Você não pode editar este material.</p>" 
-                    ); 
+            fetch("../php/criarCont.php", {  
+                method: "POST",  
+                headers: {  
+                    "Content-Type": "application/x-www-form-urlencoded"  
+                },  
+                body:  
+                    "nome=" + encodeURIComponent(nome) +  
+                    "&disci=" + encodeURIComponent(disci)  
+            })  
+            .then(response => response.text())  
+            .then(retorno => {  
  
-                } else if(resposta == "conteudo_invalido"){ 
+                let resposta = retorno.trim();  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>O conteúdo selecionado não pertence à disciplina.</p>" 
-                    ); 
+                if(resposta == "OK!"){  
  
-                } else if(resposta == "erro_tamanho"){ 
+                    fetch("../php/buscarCont.php", {  
+                        method: "POST",  
+                        headers: {  
+                            "Content-Type": "application/x-www-form-urlencoded"  
+                        },  
+                        body:  
+                            "nome=" + encodeURIComponent(nome) +  
+                            "&disci=" + encodeURIComponent(disci)  
+                    })  
+                    .then(response => response.json())  
+                    .then(dados => {  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>O arquivo deve ter no máximo 10 MB.</p>" 
-                    ); 
+                        let conteudo = dados.find(function(cont){  
+                            return cont.nome == nome;  
+                        });  
  
-                } else if(resposta == "erro_extensao"){ 
+                        if(conteudo){  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Tipo de arquivo não permitido.</p>" 
-                    ); 
+                            $('#editarCont').val(  
+                                conteudo.nome  
+                            );  
  
-                } else if(resposta == "erro_upload"){ 
+                            $('#editarIdCont').val(  
+                                conteudo.id  
+                            );  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Não foi possível enviar o arquivo.</p>" 
-                    ); 
+                        }  
  
-                } else if(resposta == "erro_arquivo"){ 
+                    });  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Erro ao selecionar o arquivo.</p>" 
-                    ); 
+                    $('#novoEditarCont').val('');  
  
-                } else { 
+                    $('#modalEditarCont')[0].close();  
  
-                    console.log(resposta); 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Conteúdo criado com sucesso!</p>"  
+                    );  
  
-                    $('#mensagemEditarMaterial').html( 
-                        "<p>Erro ao editar o material.</p>" 
-                    ); 
+                } else if(resposta == "EXISTE"){  
  
-                } 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Esse conteúdo já existe.</p>"  
+                    );  
  
-            }) 
-            .catch(function(erro){ 
+                } else {  
  
-                console.log(erro); 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Não foi possível criar o conteúdo.</p>"  
+                    );  
  
-                $('#mensagemEditarMaterial').html( 
-                    "<p>Erro ao editar o material.</p>" 
-                ); 
+                }  
  
-            }); 
+            })  
+            .catch(function(erro){  
  
-        }); 
+                console.log(erro);  
  
-    } 
-
-
-    if($('#excluirMaterial').length > 0){ 
-
-        $('#excluirMaterial').click(function(){ 
-
-            $('#mensagemExcluirMaterial').html(""); 
-
-            $('#modalExcluirMaterial')[0].showModal(); 
-
-        }); 
-
-
-        $('#fecharExcluirMaterial').click(function(){ 
-
-            $('#modalExcluirMaterial')[0].close(); 
-
-        }); 
-
-
-        $('#cancelarExcluirMaterial').click(function(){ 
-
-            $('#modalExcluirMaterial')[0].close(); 
-
-        }); 
-
-
-        $('#confirmarExcluirMaterial').click(function(){ 
-
-            let idMaterial = $('#excluirMaterial').data('id'); 
-
-            $('#mensagemExcluirMaterial').html( 
-                "<p>Excluindo material...</p>" 
-            ); 
-
-            fetch("../php/excMaterial.php", { 
-                method: "POST", 
-                headers: { 
-                    "Content-Type": "application/x-www-form-urlencoded" 
-                }, 
-                body: "id_material=" + encodeURIComponent(idMaterial) 
-            }) 
-            .then(response => response.text()) 
-            .then(retorno => { 
-
-                let resposta = retorno.trim(); 
-
-                if(resposta == "OK!"){ 
-
-                    $('#mensagemExcluirMaterial').html( 
-                        "<p>Material excluído com sucesso!</p>" 
-                    ); 
-
-                    setTimeout(function(){ 
-
-                        history.back(); 
-
-                    }, 800); 
-
-                } else if(resposta == "nao_autorizado"){ 
-
-                    $('#mensagemExcluirMaterial').html( 
-                        "<p>Você não pode excluir este material.</p>" 
-                    ); 
-
-                } else if(resposta == "id_invalido"){ 
-
-                    $('#mensagemExcluirMaterial').html( 
-                        "<p>Material inválido.</p>" 
-                    ); 
-
-                } else if(resposta == "erro_banco"){ 
-
-                    $('#mensagemExcluirMaterial').html( 
-                        "<p>Não foi possível excluir o material.</p>" 
-                    ); 
-
-                } else { 
-
-                    console.log(resposta); 
-
-                    $('#mensagemExcluirMaterial').html( 
-                        "<p>Erro ao excluir o material.</p>" 
-                    ); 
-
-                } 
-
-            }) 
-            .catch(function(erro){ 
-
-                console.log(erro); 
-
-                $('#mensagemExcluirMaterial').html( 
-                    "<p>Erro ao excluir o material.</p>" 
-                ); 
-
-            }); 
-
-        }); 
-
-    } 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Erro ao conectar.</p>"  
+                );  
  
+            });  
  
-    verificarMaterialSalvo(); 
+        });  
+ 
+ 
+        $('#formEditarMaterial').submit(function(event){  
+ 
+            event.preventDefault();  
+ 
+            let idMaterial = $('#editarIdMaterial').val();  
+            let titulo = $('#editarTitulo').val().trim();  
+            let idDisci = $('#editarIdDisci').val();  
+            let idCont = $('#editarIdCont').val();  
+            let nivel = $('#editarNivel').val();  
+            let status = $('input[name="editarStatus"]:checked').val();  
+            let descricao = $('#editarDescricao').val().trim();  
+            let arquivo = $('#editarArquivo')[0].files[0];  
+ 
+            if(titulo == ''){  
+ 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Digite o título do material.</p>"  
+                );  
+ 
+                return;  
+ 
+            }  
+ 
+            if(idDisci == ''){  
+ 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Selecione uma disciplina.</p>"  
+                );  
+ 
+                return;  
+ 
+            }  
+ 
+            if(idCont == ''){  
+ 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Selecione um conteúdo.</p>"  
+                );  
+ 
+                return;  
+ 
+            }  
+ 
+            if(nivel == ''){  
+ 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Selecione o nível de ensino.</p>"  
+                );  
+ 
+                return;  
+ 
+            }  
+ 
+            if(!status){  
+ 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Selecione o status do material.</p>"  
+                );  
+ 
+                return;  
+ 
+            }  
+ 
+ 
+            let dados = new FormData();  
+ 
+            dados.append("id_material", idMaterial);  
+            dados.append("titulo", titulo);  
+            dados.append("id_disci", idDisci);  
+            dados.append("id_cont", idCont);  
+            dados.append("nivel", nivel);  
+            dados.append("status", status);  
+            dados.append("descricao", descricao);  
+ 
+ 
+            if(arquivo){  
+ 
+                dados.append("arquivo", arquivo);  
+ 
+            }  
+ 
+ 
+            $('#mensagemEditarMaterial').html(  
+                "<p>Salvando alterações...</p>"  
+            );  
+ 
+ 
+            fetch("../php/edtMaterial.php", {  
+                method: "POST",  
+                body: dados  
+            })  
+            .then(response => response.text())  
+            .then(retorno => {  
+ 
+                let resposta = retorno.trim();  
+ 
+                if(resposta == "OK!"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Material atualizado com sucesso!</p>"  
+                    );  
+ 
+                    setTimeout(function(){  
+ 
+                        $('#modalEditarMaterial')[0].close();  
+ 
+                        location.reload();  
+ 
+                    }, 800);  
+ 
+                } else if(resposta == "campos_vazios"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Preencha todos os campos obrigatórios.</p>"  
+                    );  
+ 
+                } else if(resposta == "nao_autorizado"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Você não pode editar este material.</p>"  
+                    );  
+ 
+                } else if(resposta == "conteudo_invalido"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>O conteúdo selecionado não pertence à disciplina.</p>"  
+                    );  
+ 
+                } else if(resposta == "erro_tamanho"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>O arquivo deve ter no máximo 10 MB.</p>"  
+                    );  
+ 
+                } else if(resposta == "erro_extensao"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Tipo de arquivo não permitido.</p>"  
+                    );  
+ 
+                } else if(resposta == "erro_upload"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Não foi possível enviar o arquivo.</p>"  
+                    );  
+ 
+                } else if(resposta == "erro_arquivo"){  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Erro ao selecionar o arquivo.</p>"  
+                    );  
+ 
+                } else {  
+ 
+                    console.log(resposta);  
+ 
+                    $('#mensagemEditarMaterial').html(  
+                        "<p>Erro ao editar o material.</p>"  
+                    );  
+ 
+                }  
+ 
+            })  
+            .catch(function(erro){  
+ 
+                console.log(erro);  
+ 
+                $('#mensagemEditarMaterial').html(  
+                    "<p>Erro ao editar o material.</p>"  
+                );  
+ 
+            });  
+ 
+        });  
+ 
+    }  
+ 
+ 
+    if($('#excluirMaterial').length > 0){  
+ 
+        $('#excluirMaterial').click(function(){  
+ 
+            $('#mensagemExcluirMaterial').html("");  
+ 
+            $('#modalExcluirMaterial')[0].showModal();  
+ 
+        });  
+ 
+ 
+        $('#fecharExcluirMaterial').click(function(){  
+ 
+            $('#modalExcluirMaterial')[0].close();  
+ 
+        });  
+ 
+ 
+        $('#cancelarExcluirMaterial').click(function(){  
+ 
+            $('#modalExcluirMaterial')[0].close();  
+ 
+        });  
+ 
+ 
+        $('#confirmarExcluirMaterial').click(function(){  
+ 
+            let idMaterial = $('#excluirMaterial').data('id');  
+ 
+            $('#mensagemExcluirMaterial').html(  
+                "<p>Excluindo material...</p>"  
+            );  
+ 
+            fetch("../php/excMaterial.php", {  
+                method: "POST",  
+                headers: {  
+                    "Content-Type": "application/x-www-form-urlencoded"  
+                },  
+                body: "id_material=" + encodeURIComponent(idMaterial)  
+            })  
+            .then(response => response.text())  
+            .then(retorno => {  
+ 
+                let resposta = retorno.trim();  
+ 
+                if(resposta == "OK!"){  
+ 
+                    $('#mensagemExcluirMaterial').html(  
+                        "<p>Material excluído com sucesso!</p>"  
+                    );  
+ 
+                    setTimeout(function(){  
+ 
+                        history.back();  
+ 
+                    }, 800);  
+ 
+                } else if(resposta == "nao_autorizado"){  
+ 
+                    $('#mensagemExcluirMaterial').html(  
+                        "<p>Você não pode excluir este material.</p>"  
+                    );  
+ 
+                } else if(resposta == "id_invalido"){  
+ 
+                    $('#mensagemExcluirMaterial').html(  
+                        "<p>Material inválido.</p>"  
+                    );  
+ 
+                } else if(resposta == "erro_banco"){  
+ 
+                    $('#mensagemExcluirMaterial').html(  
+                        "<p>Não foi possível excluir o material.</p>"  
+                    );  
+ 
+                } else {  
+ 
+                    console.log(resposta);  
+ 
+                    $('#mensagemExcluirMaterial').html(  
+                        "<p>Erro ao excluir o material.</p>"  
+                    );  
+ 
+                }  
+ 
+            })  
+            .catch(function(erro){  
+ 
+                console.log(erro);  
+ 
+                $('#mensagemExcluirMaterial').html(  
+                    "<p>Erro ao excluir o material.</p>"  
+                );  
+ 
+            });  
+ 
+        });  
+ 
+    }  
+ 
+ 
+    verificarMaterialSalvo();  
  
 });
